@@ -1,7 +1,7 @@
-/* =========================================================================
-   ATISTAT — main stylesheet
-   Palette from brief: green #538135, ink #30372c, cream paper.
-   ========================================================================= */
+/*
+ * main.css: Shared responsive theme and component styles for the ATISTAT site.
+ * Sections: foundations, navigation, content, timeline, services, gallery, and footer.
+ */
 
 @font-face {
 	font-family: "Bookman Cyr";
@@ -164,6 +164,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	display: grid; grid-template-columns: minmax(min-content, 0.6fr) minmax(0, 1.4fr); align-items: center; gap: clamp(12px, 1.6vw, 26px);
 	min-height: min(78vh, 760px);
 }
+.at-hero__text { min-width: 0; }
 .at-hero__title { font-size: clamp(2.5rem, 3.5vw, 4rem); font-weight: 400; letter-spacing: .005em; }
 .at-hero__title span { display: block; }
 .at-hero__title .at-accent { color: var(--green); }
@@ -433,8 +434,11 @@ a.at-contact__val:hover { color: var(--green); }
 /* =========================================================================
    fade-in on scroll
    ========================================================================= */
-.at-fade { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-.at-fade.is-in { opacity: 1; transform: none; }
+/* Content remains visible when JavaScript is unavailable or cannot initialize. */
+.at-fade { opacity: 1; transform: none; }
+/* JavaScript-enabled reveal starts offset; 700ms keeps the editorial motion unhurried. */
+.has-js .at-fade { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.has-js .at-fade.is-in { opacity: 1; transform: none; }
 
 /* =========================================================================
    RESPONSIVE
@@ -500,14 +504,424 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-header__inner { min-height: 76px; }
 	.at-logo svg, .at-logo__image { height: 40px; }
 	.at-nav { inset: 76px 0 auto 0; }
+	/* Fit long Bulgarian hero words within the narrow viewport without clipping. */
+	.at-hero__title { font-size: clamp(1.8rem, 9vw, 2.2rem); overflow-wrap: anywhere; }
 	.at-tlcard { grid-template-columns: 1fr; gap: 14px; padding: 16px; }
 	.at-tlcard__img { height: 220px; }
 	.at-footer__inner { justify-content: center; text-align: center; }
 }
 
+/* =========================================================================
+   LANGUAGE SWITCHER — accessible tap target and active-state chip
+   ========================================================================= */
+
+/* Minimum 44×44 CSS pixel tap target for WCAG 2.5.5 (AAA) pointer target size */
+.at-lang__opt {
+	display: inline-flex;
+	min-width: 44px;
+	min-height: 44px;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Green background chip as non-color-only active indicator; overrides the
+   inherited muted color so white text provides sufficient contrast on green */
+.at-lang__opt.is-active {
+	background: var(--green); /* Primary brand green #538135 */
+	color: #fff;
+	border-radius: 4px;
+	padding: 4px 8px;
+	font-weight: 700;
+}
+
+/* =========================================================================
+   SKETCH CAPTIONS — three-span vertical stack
+   ========================================================================= */
+
+/* Override the inherited block display to stack the three child spans vertically */
+.at-sketch__cap {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Prevent caption text overflow on narrow screens (≤375 px) */
+@media (max-width: 375px) {
+	.at-sketch__cap {
+		font-size: .8rem;
+		max-width: 100%;
+		overflow-wrap: break-word;
+	}
+}
+
+/* =========================================================================
+   CONTACT CTA — full-width green call-to-action section after Services
+   ========================================================================= */
+
+/* Green background with white text; positioned immediately after section#services */
+.at-contact-cta {
+	background: var(--green); /* Primary brand green #538135 */
+	color: #fff;
+	text-align: center;
+	padding: clamp(40px, 6vw, 80px) var(--gutter);
+}
+
+.at-contact-cta h2,
+.at-contact-cta__sub {
+	color: #fff; /* White on green — sufficient contrast */
+	margin: 0 0 .5em;
+}
+
+.at-contact-cta h2 {
+	font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.at-contact-cta__sub {
+	font-size: 1rem;
+	opacity: .9;
+	margin-bottom: 1.5em;
+}
+
+/* Four circular icon link buttons arranged in a flex row */
+.at-contact-cta__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 48px circular icon buttons; translucent white overlay provides hover affordance on green */
+.at-contact-cta__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: rgba(255,255,255,.2); /* Translucent white overlay for contrast on green */
+	color: #fff;
+	text-decoration: none;
+	transition: background .2s var(--ease);
+}
+
+.at-contact-cta__btn:hover,
+.at-contact-cta__btn:focus-visible {
+	background: rgba(255,255,255,.35);
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+
+.at-contact-cta__btn svg {
+	width: 24px;
+	height: 24px;
+}
+
+/* =========================================================================
+   PARTNERS — partner logo/wordmark section
+   ========================================================================= */
+
+.at-partners {
+	padding: clamp(32px, 5vw, 64px) var(--gutter);
+	background: var(--cream); /* Light cream page background */
+}
+
+.at-partners h2 {
+	text-align: center;
+	margin-bottom: 1.5em;
+}
+
+/* Flex row of partner logo items with wrapping for small screens */
+.at-partners__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	justify-content: center;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.at-partner__link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	transition: opacity .2s var(--ease);
+}
+
+.at-partner__link:hover,
+.at-partner__link:focus-visible {
+	opacity: .75;
+}
+
+/* Constrain all partner logos to max 52px height, preserving aspect ratio */
+.at-partner__link img {
+	max-height: 52px;
+	width: auto;
+	object-fit: contain;
+}
+
+/* Adreo text partner: styled wordmark in lieu of a logo image */
+.at-partner__wordmark {
+	font-size: 1.4rem;
+	font-weight: 700;
+	color: var(--ink); /* Dark ink color */
+}
+
+/* =========================================================================
+   SELECTED PROJECTS TRIGGER — secondary button to open gallery dialog
+   ========================================================================= */
+
+.at-selected-projects__trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 24px;
+	background: transparent;
+	color: var(--green); /* Primary brand green */
+	border: 2px solid var(--green);
+	border-radius: 8px;
+	font-family: var(--serif);
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background .2s var(--ease), color .2s var(--ease);
+	margin-top: 1.5em;
+}
+
+.at-selected-projects__trigger:hover,
+.at-selected-projects__trigger:focus-visible {
+	background: var(--green);
+	color: #fff;
+}
+
+/* =========================================================================
+   SELECTED PROJECTS DIALOG — native <dialog> modal with sticky header
+   ========================================================================= */
+
+/* max 960px wide, 90vh tall, flex column for sticky-header + scrollable-body */
+dialog.at-selected-projects {
+	max-width: min(960px, 92vw);
+	max-height: 90vh;
+	width: 92vw;
+	padding: 0;
+	border: none;
+	border-radius: 12px;
+	overflow: hidden;
+	flex-direction: column;
+	box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+/* Preserve native closed-dialog behavior while using flex layout in the top layer. */
+dialog.at-selected-projects:not([open]) {
+	display: none;
+}
+
+dialog.at-selected-projects[open] {
+	display: flex;
+}
+
+/* Frosted-glass overlay behind the dialog (Q004 decision) */
+dialog.at-selected-projects::backdrop {
+	backdrop-filter: blur(4px);
+	background: rgba(0,0,0,.45); /* Semi-opaque black */
+}
+
+/* Sticky header band pinned at the top of the dialog regardless of scroll */
+.at-dialog__header {
+	position: sticky;
+	top: 0;
+	z-index: 10; /* Above the scrollable gallery content */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 24px;
+	background: var(--paper); /* Light paper background */
+	border-bottom: 1px solid var(--line);
+	flex-shrink: 0;
+}
+
+.at-dialog__header h2 {
+	margin: 0;
+	font-size: 1.2rem;
+}
+
+/* Circular close button (Q003 sticky close button decision) */
+.at-dialog__close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: none;
+	border-radius: 50%;
+	background: var(--cream); /* Light cream */
+	cursor: pointer;
+	font-size: 1.2rem;
+	line-height: 1;
+	transition: background .2s var(--ease);
+}
+
+.at-dialog__close:hover,
+.at-dialog__close:focus-visible {
+	background: var(--pill);
+}
+
+/* Scrollable content area; flex: 1 ensures it fills remaining dialog height */
+.at-dialog__body {
+	overflow-y: auto;
+	padding: 24px;
+	flex: 1;
+}
+
+.at-dialog__body h3 {
+	margin: 1.5em 0 .75em;
+	font-size: 1.05rem;
+}
+
+.at-dialog__body h3:first-child {
+	margin-top: 0;
+}
+
+/* =========================================================================
+   GALLERY GRID — auto-fill responsive image grid inside the dialog
+   ========================================================================= */
+
+/* auto-fill with 220px minimum column width (Q020 decision); object-fit: contain
+   preserves aspect ratios without cropping portrait and landscape images */
+.at-gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 12px;
+}
+
+.at-gallery-grid img {
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+	border-radius: 6px;
+	display: block;
+}
+
+/* =========================================================================
+   SERVICE FEATURES — green checkmark bullet list before numbered steps
+   ========================================================================= */
+
+/* Reset list style; bottom margin separates the feature list from step list */
+.at-svc__features {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1em 0;
+}
+
+/* Green check mark provides visual affordance; color only supplemented by ✓ symbol */
+.at-svc__features li::before {
+	content: "✓";
+	color: var(--green); /* Primary brand green #538135 */
+	margin-right: .5em;
+}
+
+/* =========================================================================
+   VIBER FAB — fixed floating action button (replaces WhatsApp FAB)
+   ========================================================================= */
+
+/* Fixed bottom-right position; z-index 900 keeps it above content but below modals */
+.at-viber-fab {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 900;
+}
+
+.at-viber-fab a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: var(--green); /* Primary brand green #538135 */
+	color: #fff;
+	text-decoration: none;
+	box-shadow: 0 4px 16px rgba(83,129,53,.45); /* 83,129,53 = #538135 green */
+	transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+.at-viber-fab a:hover,
+.at-viber-fab a:focus-visible {
+	transform: scale(1.08);
+	box-shadow: 0 6px 24px rgba(83,129,53,.6);
+}
+
+.at-viber-fab svg {
+	width: 28px;
+	height: 28px;
+}
+
+/* =========================================================================
+   RESPONSIVE — new components at reduced viewport widths
+   ========================================================================= */
+
+/* Tablet portrait and below (max 768px): tighten gaps, reduce gallery columns */
+@media (max-width: 768px) {
+	.at-contact-cta__actions {
+		gap: 12px;
+	}
+	.at-gallery-grid {
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	}
+}
+
+/* Mobile (max 480px): prevent horizontal overflow for CTA, partners, dialog */
+@media (max-width: 480px) {
+	.at-contact-cta {
+		padding: 32px 16px;
+	}
+	.at-partners__list {
+		gap: 20px;
+	}
+	.at-gallery-grid {
+		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+		gap: 8px;
+	}
+	dialog.at-selected-projects {
+		max-width: 100vw;
+		border-radius: 0;
+		/* dynamic viewport height accounts for mobile browser chrome */
+		max-height: 100dvh;
+	}
+}
+
+/* Small mobile (max 375px): compact trigger button, tighter CTA spacing */
+@media (max-width: 375px) {
+	.at-contact-cta__actions {
+		gap: 8px;
+	}
+	.at-selected-projects__trigger {
+		font-size: .9rem;
+		padding: 10px 18px;
+	}
+}
+
+/* Minimum supported width (320px): no horizontal overflow */
+@media (max-width: 320px) {
+	.at-contact-cta__btn {
+		/* Reduce to minimum tap target size at smallest supported width */
+		width: 44px;
+		height: 44px;
+	}
+	.at-gallery-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.at-dialog__body {
+		padding: 16px 12px;
+	}
+}
+
 /* reduced motion */
 @media (prefers-reduced-motion: reduce) {
 	* { scroll-behavior: auto !important; }
-	.at-fade { opacity: 1; transform: none; transition: none; }
+	/* Reduced-motion users receive visible content without reveal transitions. */
+	.has-js .at-fade { opacity: 1; transform: none; transition: none; }
 	.at-sketch__img { transition: none !important; animation: none !important; }
 }

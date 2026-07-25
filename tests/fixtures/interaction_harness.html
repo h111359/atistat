@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+  interaction_harness.html: Browser fixture for ATISTAT shared interaction behavior.
+  Component: Regression Harness — exercises navigation, timeline, and gallery controls.
+-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ATISTAT interaction regression harness</title>
+</head>
+<body>
+	<!-- Navigation fixture: native buttons and links support Enter/Space activation. -->
+	<button class="at-navtoggle" type="button" aria-expanded="false" aria-controls="at-nav">
+		Menu
+	</button>
+	<nav id="at-nav" aria-label="Test navigation">
+		<a class="at-nav__link" href="#target">Target</a>
+	</nav>
+
+	<!-- Timeline fixture: tab controls support pointer focus and horizontal arrow keys. -->
+	<section data-timeline aria-label="Test timeline">
+		<div role="tablist" aria-label="Test years">
+			<button class="at-tlb is-active" type="button" role="tab" data-index="0" aria-selected="true">
+				2024
+			</button>
+			<button class="at-tlb" type="button" role="tab" data-index="1" aria-selected="false">
+				2025
+			</button>
+		</div>
+		<article class="at-tlpanel is-active" role="tabpanel" data-panel="0" aria-hidden="false">
+			First
+		</article>
+		<article class="at-tlpanel" role="tabpanel" data-panel="1" aria-hidden="true">
+			Second
+		</article>
+	</section>
+
+	<!-- Gallery fixture: native modal opens from the trigger and closes from its labelled button. -->
+	<button
+		class="at-selected-projects__trigger"
+		type="button"
+		aria-haspopup="dialog"
+		aria-controls="selected-projects-dialog"
+	>
+		Open gallery
+	</button>
+	<dialog id="selected-projects-dialog" aria-label="Test gallery" aria-modal="true">
+		<button class="at-dialog__close" type="button" aria-label="Close gallery">Close</button>
+	</dialog>
+
+	<div id="target">Navigation target</div>
+	<output id="test-result" aria-live="polite">pending</output>
+
+	<script src="../../wp-content/themes/atistat/assets/js/main.js"></script>
+	<script>
+		/* Executes interaction assertions after the production script has initialized. */
+		(function () {
+			"use strict";
+
+			const failures = [];
+			const result = document.getElementById("test-result");
+
+			/**
+			 * Records a failed browser interaction assertion.
+			 *
+			 * @param {boolean} condition - Whether the expected state is present.
+			 * @param {string} message - The diagnostic to record when the state is absent.
+			 * @returns {void}
+			 */
+			function verify(condition, message) {
+				if (!condition) {
+					failures.push(message);
+				}
+			}
+
+			const navigationToggle = document.querySelector(".at-navtoggle");
+			const navigation = document.getElementById("at-nav");
+			const navigationLink = document.querySelector(".at-nav__link");
+			navigationToggle.click();
+			verify(navigation.classList.contains("is-open"), "navigation did not open");
+			verify(navigationToggle.getAttribute("aria-expanded") === "true", "navigation state was not exposed");
+			navigationLink.click();
+			verify(!navigation.classList.contains("is-open"), "navigation did not close after link activation");
+
+			const timelineButtons = document.querySelectorAll(".at-tlb");
+			const timelinePanels = document.querySelectorAll(".at-tlpanel");
+			timelineButtons[1].click();
+			verify(timelinePanels[1].getAttribute("aria-hidden") === "false", "timeline panel did not activate");
+			timelineButtons[1].dispatchEvent(new KeyboardEvent("keydown", {key: "ArrowLeft", bubbles: true}));
+			verify(document.activeElement === timelineButtons[0], "timeline arrow key did not move focus");
+			verify(timelinePanels[0].getAttribute("aria-hidden") === "false", "timeline arrow key did not activate panel");
+
+			const galleryTrigger = document.querySelector(".at-selected-projects__trigger");
+			const gallery = document.getElementById("selected-projects-dialog");
+			const galleryClose = document.querySelector(".at-dialog__close");
+			galleryTrigger.click();
+			verify(gallery.open, "gallery did not open");
+			verify(document.activeElement === galleryClose, "gallery close control did not receive focus");
+
+			// Register after production code so its close listener restores focus first.
+			gallery.addEventListener("close", function finishInteractionChecks() {
+				verify(!gallery.open, "gallery did not close");
+				verify(document.activeElement === galleryTrigger, "gallery trigger did not regain focus");
+				result.dataset.status = failures.length ? "failed" : "passed";
+				result.textContent = failures.join("; ") || "passed";
+			}, {once: true});
+			galleryClose.click();
+		}());
+	</script>
+</body>
+</html>

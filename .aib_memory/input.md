@@ -4,9 +4,9 @@ state:
   title: ~
   status: idle
   input_verification_result: null
-  context_verification_result: valid
+  context_verification_result: null
 options:
-  minimum_questions: 5
+  minimum_questions: 33
   input_verification_enabled: true
   context_verification_enabled: true
 ---
