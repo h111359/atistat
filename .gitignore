@@ -15,4 +15,4 @@ venv.bak/
 
 # AIB
 .aib_brain
-.aib_memory/
+workdir/
