@@ -17,7 +17,7 @@ from collections.abc import Iterator, Sequence
 from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 
 
 WORKSPACE_ROOT = Path(__file__).resolve().parents[1]
@@ -40,12 +40,24 @@ SHARED_ASSET_PAIRS = (
         WORKSPACE_ROOT / "wp-content/themes/atistat/assets/css/main.css?ver=1784544801.css",
     ),
 )
-REPRESENTATIVE_ROUTES = (
-    "index.html",
-    "index-en.html",
-    "opit/index.html",
-    "proekti/matrix/index.html",
+TIMELINE_ROUTES = {
+    "index.html": ("bg", ""),
+    "index-bg.html": ("bg", ""),
+    "index-en.html": ("en", ""),
+    "index.html?lang=bg.html": ("bg", ""),
+    "index.html?lang=en.html": ("en", ""),
+    "opit/index.html": ("en", "../"),
+}
+TIMELINE_CONTROL_LABELS = {
+    "bg": ("Предишен етап", "Следващ етап"),
+    "en": ("Previous milestone", "Next milestone"),
+}
+TIMELINE_COMPANY_DESTINATIONS = (
+    "https://correctproject.com",
+    "https://engsys.bg",
 )
+TIMELINE_MILESTONE_COUNT = 13
+REPRESENTATIVE_ROUTES = (*TIMELINE_ROUTES, "proekti/matrix/index.html")
 INTERACTION_HARNESS_ROUTE = "tests/fixtures/interaction_harness.html"
 CSS_URL_PATTERN = re.compile(r"url\(\s*([\"']?)(.*?)\1\s*\)", re.IGNORECASE)
 JAVASCRIPT_ERROR_MARKERS = (
@@ -68,6 +80,11 @@ class StaticDocumentParser(HTMLParser):
         self.references: list[str] = []
         self.script_types: list[str] = []
         self.language: str | None = None
+        self.timeline_tabs: list[dict[str, str | None]] = []
+        self.timeline_panels: list[dict[str, str | None]] = []
+        self.timeline_controls: list[dict[str, str | None]] = []
+        self.timeline_panel_links: list[dict[str, str | None]] = []
+        self.timeline_mobile_links: list[dict[str, str | None]] = []
 
     def handle_starttag(
         self,
@@ -85,6 +102,7 @@ class StaticDocumentParser(HTMLParser):
             None; collected values are stored on this parser instance.
         """
         attributes = dict(attrs)
+        classes = set(attributes.get("class", "").split())
         identifier = attributes.get("id")
         if identifier:
             if identifier in self.identifiers:
@@ -94,6 +112,19 @@ class StaticDocumentParser(HTMLParser):
             self.language = attributes.get("lang")
         if tag == "script":
             self.script_types.append(attributes.get("type", "").lower())
+        if tag == "button" and attributes.get("role") == "tab":
+            self.timeline_tabs.append(attributes)
+        if attributes.get("role") == "tabpanel":
+            self.timeline_panels.append(attributes)
+        if tag == "button" and (
+            "data-timeline-previous" in attributes
+            or "data-timeline-next" in attributes
+        ):
+            self.timeline_controls.append(attributes)
+        if tag == "a" and "at-tlpanel__copy--link" in classes:
+            self.timeline_panel_links.append(attributes)
+        if tag == "a" and "at-tlcard__link" in classes:
+            self.timeline_mobile_links.append(attributes)
 
         for attribute in RESOURCE_ATTRIBUTES.get(tag, ()):
             value = attributes.get(attribute)
@@ -211,6 +242,7 @@ def _run_chrome(url: str) -> tuple[str, str]:
                 f"--user-data-dir={profile_directory}",
                 "--enable-logging=stderr",
                 "--v=0",
+                "--window-size=1280,900",
                 "--virtual-time-budget=1500",
                 "--dump-dom",
                 url,
@@ -323,6 +355,101 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             with self.subTest(asset=canonical.name):
                 self.assertEqual(canonical.read_bytes(), versioned.read_bytes())
 
+    def test_timeline_documents_have_complete_automatic_tab_relationships(self) -> None:
+        """Require all six timelines to expose one complete 13-item tab model."""
+        for route in TIMELINE_ROUTES:
+            with self.subTest(route=route):
+                parser = _parse_document(WORKSPACE_ROOT / route)
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(parser.timeline_tabs))
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(parser.timeline_panels))
+
+                tab_ids = [tab.get("id") for tab in parser.timeline_tabs]
+                panel_ids = [panel.get("id") for panel in parser.timeline_panels]
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(set(tab_ids)))
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(set(panel_ids)))
+                panels_by_id = {
+                    panel["id"]: panel
+                    for panel in parser.timeline_panels
+                    if panel.get("id")
+                }
+                for tab in parser.timeline_tabs:
+                    panel = panels_by_id.get(tab.get("aria-controls"))
+                    self.assertIsNotNone(panel)
+                    self.assertEqual(tab.get("id"), panel.get("aria-labelledby"))
+
+                selected_tabs = [
+                    tab for tab in parser.timeline_tabs
+                    if tab.get("aria-selected") == "true"
+                ]
+                self.assertEqual(1, len(selected_tabs))
+                self.assertEqual("0", selected_tabs[0].get("tabindex"))
+                self.assertEqual(
+                    TIMELINE_MILESTONE_COUNT - 1,
+                    sum(tab.get("tabindex") == "-1" for tab in parser.timeline_tabs),
+                )
+
+    def test_timeline_controls_company_links_and_arcadia_assets_are_consistent(self) -> None:
+        """Require localized controls, native company links, and Arcadia WebP parity."""
+        for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                document = WORKSPACE_ROOT / route
+                content = document.read_text(encoding="utf-8")
+                parser = _parse_document(document)
+                controls_by_direction = {
+                    "previous" if "data-timeline-previous" in control else "next": control
+                    for control in parser.timeline_controls
+                }
+                expected_previous, expected_next = TIMELINE_CONTROL_LABELS[language]
+                self.assertEqual(expected_previous, controls_by_direction["previous"].get("aria-label"))
+                self.assertEqual(expected_next, controls_by_direction["next"].get("aria-label"))
+
+                internal_destination = f"{asset_prefix or '/'}"
+                expected_destinations = {
+                    *TIMELINE_COMPANY_DESTINATIONS,
+                    internal_destination,
+                }
+                self.assertEqual(
+                    expected_destinations,
+                    {link.get("href") for link in parser.timeline_panel_links},
+                )
+                self.assertEqual(
+                    expected_destinations,
+                    {link.get("href") for link in parser.timeline_mobile_links},
+                )
+                self.assertNotIn("data-href=", content)
+                self.assertEqual(
+                    2,
+                    content.count(
+                        f'src="{asset_prefix}wp-content/uploads/2026/07/'
+                        'arcadia-timeline.webp"'
+                    ),
+                )
+                arcadia_tabs = [
+                    tab for tab in parser.timeline_tabs
+                    if tab.get("data-project") == "arcadia"
+                ]
+                self.assertEqual(1, len(arcadia_tabs))
+
+    def test_timeline_css_and_javascript_preserve_progressive_interaction(self) -> None:
+        """Require five-item snapping, fallback scrolling, containment, and reduced motion."""
+        stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
+        javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
+        self.assertIn("--timeline-control-width: calc(20% - .8rem);", stylesheet)
+        self.assertIn("scroll-snap-type: x proximity;", stylesheet)
+        self.assertIn("scroll-snap-align: center;", stylesheet)
+        self.assertIn("touch-action: pan-x pan-y;", stylesheet)
+        self.assertIn("overflow-x: auto;", stylesheet)
+        self.assertIn(".is-timeline-enhanced .at-tl-buildings", stylesheet)
+        self.assertIn("min-width: 44px; min-height: 44px;", stylesheet)
+        self.assertIn('.at-tlb[data-project="arcadia"] .at-tlb__img', stylesheet)
+        self.assertIn("filter: grayscale(1);", stylesheet)
+        self.assertNotIn("scale(2.15)", stylesheet)
+        self.assertNotIn("max-width: none; height:", stylesheet)
+        self.assertIn("REDUCED_MOTION_QUERY", javascript)
+        self.assertIn('(position - 1 + tabCount) % tabCount', javascript)
+        self.assertIn('(position + 1) % tabCount', javascript)
+        self.assertNotIn('addEventListener("mouseenter"', javascript)
+
     def test_progressive_enhancement_and_dialog_fallbacks_exist(self) -> None:
         """Keep reveal content visible without JavaScript and closed dialogs out of layout."""
         stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
@@ -347,11 +474,16 @@ class BrowserSmokeTests(unittest.TestCase):
         with _serve_workspace() as base_url:
             for route in REPRESENTATIVE_ROUTES:
                 with self.subTest(route=route):
-                    rendered_html, diagnostics = _run_chrome(f"{base_url}/{route}")
+                    encoded_route = quote(route, safe="/")
+                    rendered_html, diagnostics = _run_chrome(
+                        f"{base_url}/{encoded_route}"
+                    )
                     self.assertRegex(
                         rendered_html,
                         r"<html[^>]*class=\"[^\"]*\bhas-js\b",
                     )
+                    if route in TIMELINE_ROUTES:
+                        self.assertIn("is-timeline-enhanced", rendered_html)
                     self.assertEqual([], _first_party_console_errors(diagnostics))
 
     def test_file_url_homepage_has_no_origin_or_javascript_errors(self) -> None:

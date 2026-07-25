@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>ATISTAT interaction regression harness</title>
+	<link rel="stylesheet" href="../../wp-content/themes/atistat/assets/css/main.css">
 </head>
 <body>
 	<!-- Navigation fixture: native buttons and links support Enter/Space activation. -->
@@ -18,44 +19,131 @@
 		<a class="at-nav__link" href="#target">Target</a>
 	</nav>
 
-	<!-- Timeline fixture: tab controls support pointer focus and horizontal arrow keys. -->
-	<section data-timeline aria-label="Test timeline">
-		<div role="tablist" aria-label="Test years">
-			<button class="at-tlb is-active" type="button" role="tab" data-index="0" aria-selected="true">
-				2024
-			</button>
-			<button class="at-tlb" type="button" role="tab" data-index="1" aria-selected="false">
-				2025
-			</button>
+	<!--
+	  Timeline fixture
+	  Design intent: force 13 milestones through a five-item desktop viewport.
+	  Accessibility: automatic tabs use Arrow keys/Home/End; labelled buttons move one milestone.
+	-->
+	<section class="at-home-timeline" data-timeline aria-label="Test timeline">
+		<div class="at-tl-desktop">
+			<div class="at-tl-stage">
+				<div class="at-tl-year at-tl-year--start">
+					<strong>2006</strong>
+					<small>first</small>
+				</div>
+				<div class="at-tl-rail-shell">
+					<span class="at-tl-edge at-tl-edge--previous" data-timeline-edge="previous" aria-hidden="true"></span>
+					<span class="at-tl-edge at-tl-edge--next" data-timeline-edge="next" aria-hidden="true"></span>
+					<div class="at-tl-buildings" data-timeline-rail role="tablist" aria-label="Test years">
+						<span class="at-tl-line" aria-hidden="true"></span>
+						<span class="at-tl-progress" aria-hidden="true"></span>
+						<button class="at-tlb at-tlb--logo" id="fixture-tab-0" type="button" role="tab" data-index="0" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-0">
+							<span class="at-tlb__year">2006</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-1" type="button" role="tab" data-index="1" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-1">
+							<span class="at-tlb__year">2007</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb at-tlb--logo" id="fixture-tab-2" type="button" role="tab" data-index="2" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-2">
+							<span class="at-tlb__year">2008</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb is-active" id="fixture-tab-3" type="button" role="tab" data-index="3" aria-selected="true" tabindex="0" aria-controls="fixture-panel-3">
+							<span class="at-tlb__year">2011</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-4" type="button" role="tab" data-index="4" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-4">
+							<span class="at-tlb__year">2015</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-5" type="button" role="tab" data-index="5" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-5">
+							<span class="at-tlb__year">2021</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-6" type="button" role="tab" data-index="6" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-6">
+							<span class="at-tlb__year">2024</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb at-tlb--logo" id="fixture-tab-7" type="button" role="tab" data-index="7" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-7">
+							<span class="at-tlb__year">2024</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-8" type="button" role="tab" data-index="8" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-8">
+							<span class="at-tlb__year">2025</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-9" type="button" role="tab" data-index="9" data-project="arcadia" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-9">
+							<span class="at-tlb__img">
+								<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect width='10' height='10' fill='%23538135'/%3E%3C/svg%3E" alt="Arcadia">
+							</span>
+							<span class="at-tlb__year">2025</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-10" type="button" role="tab" data-index="10" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-10">
+							<span class="at-tlb__year">2025</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-11" type="button" role="tab" data-index="11" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-11">
+							<span class="at-tlb__year">2025</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+						<button class="at-tlb" id="fixture-tab-12" type="button" role="tab" data-index="12" aria-selected="false" tabindex="-1" aria-controls="fixture-panel-12">
+							<span class="at-tlb__year">2026</span><span class="at-tlb__dot" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+				<div class="at-tl-year at-tl-year--end">
+					<strong>2026</strong>
+					<small>last</small>
+				</div>
+			</div>
+			<!-- Previous/Next buttons expose native disabled states at the selected boundaries. -->
+			<div class="at-tl-controls" aria-label="Timeline navigation">
+				<button class="at-tl-control" type="button" data-timeline-previous aria-label="Previous milestone">Previous</button>
+				<button class="at-tl-control" type="button" data-timeline-next aria-label="Next milestone">Next</button>
+			</div>
+			<div class="at-tl-panels" aria-live="polite">
+				<article class="at-tlpanel" id="fixture-panel-0" role="tabpanel" aria-labelledby="fixture-tab-0" data-panel="0" aria-hidden="true">
+					<a class="at-tlpanel__copy at-tlpanel__copy--link" href="https://example.com">Company destination</a>
+				</article>
+				<article class="at-tlpanel" id="fixture-panel-1" role="tabpanel" aria-labelledby="fixture-tab-1" data-panel="1" aria-hidden="true">Milestone 1</article>
+				<article class="at-tlpanel" id="fixture-panel-2" role="tabpanel" aria-labelledby="fixture-tab-2" data-panel="2" aria-hidden="true">Milestone 2</article>
+				<article class="at-tlpanel is-active" id="fixture-panel-3" role="tabpanel" aria-labelledby="fixture-tab-3" data-panel="3" aria-hidden="false">Milestone 3</article>
+				<article class="at-tlpanel" id="fixture-panel-4" role="tabpanel" aria-labelledby="fixture-tab-4" data-panel="4" aria-hidden="true">Milestone 4</article>
+				<article class="at-tlpanel" id="fixture-panel-5" role="tabpanel" aria-labelledby="fixture-tab-5" data-panel="5" aria-hidden="true">Milestone 5</article>
+				<article class="at-tlpanel" id="fixture-panel-6" role="tabpanel" aria-labelledby="fixture-tab-6" data-panel="6" aria-hidden="true">Milestone 6</article>
+				<article class="at-tlpanel" id="fixture-panel-7" role="tabpanel" aria-labelledby="fixture-tab-7" data-panel="7" aria-hidden="true">Milestone 7</article>
+				<article class="at-tlpanel" id="fixture-panel-8" role="tabpanel" aria-labelledby="fixture-tab-8" data-panel="8" aria-hidden="true">Milestone 8</article>
+				<article class="at-tlpanel" id="fixture-panel-9" role="tabpanel" aria-labelledby="fixture-tab-9" data-panel="9" aria-hidden="true">Arcadia</article>
+				<article class="at-tlpanel" id="fixture-panel-10" role="tabpanel" aria-labelledby="fixture-tab-10" data-panel="10" aria-hidden="true">Milestone 10</article>
+				<article class="at-tlpanel" id="fixture-panel-11" role="tabpanel" aria-labelledby="fixture-tab-11" data-panel="11" aria-hidden="true">Milestone 11</article>
+				<article class="at-tlpanel" id="fixture-panel-12" role="tabpanel" aria-labelledby="fixture-tab-12" data-panel="12" aria-hidden="true">Milestone 12</article>
+			</div>
 		</div>
-		<article class="at-tlpanel is-active" role="tabpanel" data-panel="0" aria-hidden="false">
-			First
-		</article>
-		<article class="at-tlpanel" role="tabpanel" data-panel="1" aria-hidden="true">
-			Second
-		</article>
 	</section>
 
-	<!-- Gallery fixture: native modal opens from the trigger and closes from its labelled button. -->
-	<button
-		class="at-selected-projects__trigger"
-		type="button"
-		aria-haspopup="dialog"
-		aria-controls="selected-projects-dialog"
-	>
+	<!-- Gallery fixture: native modal opens from a project launcher and restores focus on close. -->
+	<button class="at-gallery-mosaic" type="button" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
 		Open gallery
 	</button>
 	<dialog id="selected-projects-dialog" aria-label="Test gallery" aria-modal="true">
 		<button class="at-dialog__close" type="button" aria-label="Close gallery">Close</button>
+		<div data-project="fixture"><h3>Fixture gallery</h3></div>
 	</dialog>
 
 	<div id="target">Navigation target</div>
 	<output id="test-result" aria-live="polite">pending</output>
 
+	<script>
+		/* Test-only media override lets the production timeline take its instant reduced-motion branch. */
+		window.fixtureReducedMotion = false;
+		window.fixtureNativeMatchMedia = window.matchMedia.bind(window);
+		window.matchMedia = function matchFixtureMedia(query) {
+			if (query === "(prefers-reduced-motion: reduce)") {
+				return {
+					matches: window.fixtureReducedMotion,
+					media: query,
+					onchange: null,
+					addEventListener: function addEventListener() {},
+					removeEventListener: function removeEventListener() {}
+				};
+			}
+			return window.fixtureNativeMatchMedia(query);
+		};
+	</script>
 	<script src="../../wp-content/themes/atistat/assets/js/main.js"></script>
 	<script>
 		/* Executes interaction assertions after the production script has initialized. */
-		(function () {
+		(async function runInteractionChecks() {
 			"use strict";
 
 			const failures = [];
@@ -74,6 +162,17 @@
 				}
 			}
 
+			/**
+			 * Waits for pending scroll and animation-frame state synchronization.
+			 *
+			 * @returns {Promise<void>} A promise resolved after the browser can paint.
+			 */
+			function waitForRendering() {
+				return new Promise(function resolveAfterRendering(resolve) {
+					window.setTimeout(resolve, 50);
+				});
+			}
+
 			const navigationToggle = document.querySelector(".at-navtoggle");
 			const navigation = document.getElementById("at-nav");
 			const navigationLink = document.querySelector(".at-nav__link");
@@ -83,30 +182,99 @@
 			navigationLink.click();
 			verify(!navigation.classList.contains("is-open"), "navigation did not close after link activation");
 
-			const timelineButtons = document.querySelectorAll(".at-tlb");
-			const timelinePanels = document.querySelectorAll(".at-tlpanel");
-			timelineButtons[1].click();
-			verify(timelinePanels[1].getAttribute("aria-hidden") === "false", "timeline panel did not activate");
-			timelineButtons[1].dispatchEvent(new KeyboardEvent("keydown", {key: "ArrowLeft", bubbles: true}));
-			verify(document.activeElement === timelineButtons[0], "timeline arrow key did not move focus");
-			verify(timelinePanels[0].getAttribute("aria-hidden") === "false", "timeline arrow key did not activate panel");
+			const timeline = document.querySelector("[data-timeline]");
+			const rail = document.querySelector("[data-timeline-rail]");
+			const timelineTabs = Array.from(document.querySelectorAll(".at-tlb"));
+			const timelinePanels = Array.from(document.querySelectorAll(".at-tlpanel"));
+			const previousControl = document.querySelector("[data-timeline-previous]");
+			const nextControl = document.querySelector("[data-timeline-next]");
+			const arcadiaTab = timelineTabs[9];
+			const arcadiaImage = arcadiaTab.querySelector(".at-tlb__img");
+			verify(timeline.classList.contains("is-timeline-enhanced"), "timeline enhancement was not confirmed");
+			verify(rail.scrollWidth > rail.clientWidth, "timeline fixture does not overflow");
+			verify(getComputedStyle(arcadiaImage).filter === "grayscale(1)", "Arcadia rest state is not grayscale");
 
-			const galleryTrigger = document.querySelector(".at-selected-projects__trigger");
+			const initialSelection = timelineTabs.findIndex(
+				function findInitiallySelectedTab(tab) {
+					return tab.getAttribute("aria-selected") === "true";
+				}
+			);
+			timelineTabs[5].dispatchEvent(new MouseEvent("mouseenter", { bubbles: true }));
+			verify(
+				timelineTabs[initialSelection].getAttribute("aria-selected") === "true",
+				"pointer hover changed timeline selection"
+			);
+
+			timelineTabs[5].click();
+			verify(timelinePanels[5].getAttribute("aria-hidden") === "false", "click did not activate its panel");
+			timelineTabs[6].focus({ preventScroll: true });
+			verify(timelinePanels[6].getAttribute("aria-hidden") === "false", "focus did not activate its panel");
+
+			window.fixtureReducedMotion = true;
+			timelineTabs[6].dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
+			await waitForRendering();
+			verify(timelineTabs[0].getAttribute("aria-selected") === "true", "Home did not select the first tab");
+			verify(previousControl.disabled, "Previous was not disabled at the first boundary");
+			verify(rail.scrollLeft <= 2, "first tab did not settle at the rail start");
+			verify(!timeline.classList.contains("has-timeline-previous"), "previous edge fade remained at the start");
+
+			timelineTabs[0].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true }));
+			await waitForRendering();
+			verify(document.activeElement === timelineTabs[12], "ArrowLeft did not wrap to the last tab");
+			verify(nextControl.disabled, "Next was not disabled at the last boundary");
+			verify(!timeline.classList.contains("has-timeline-next"), "next edge fade remained at the end");
+
+			timelineTabs[12].dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+			verify(document.activeElement === timelineTabs[0], "ArrowRight did not wrap to the first tab");
+			nextControl.click();
+			verify(document.activeElement === timelineTabs[1], "Next did not move by one milestone");
+			timelineTabs[1].dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
+			verify(document.activeElement === timelineTabs[12], "End did not focus the last tab");
+			previousControl.click();
+			verify(document.activeElement === timelineTabs[11], "Previous did not move by one milestone");
+
+			timelineTabs[6].focus({ preventScroll: true });
+			const visibleCenter = rail.scrollLeft + (rail.clientWidth / 2);
+			const selectedCenter = timelineTabs[6].offsetLeft + (timelineTabs[6].offsetWidth / 2);
+			verify(Math.abs(visibleCenter - selectedCenter) <= 2, "reduced-motion centering was not instant");
+			await waitForRendering();
+			verify(
+				timeline.classList.contains("has-timeline-previous")
+					&& timeline.classList.contains("has-timeline-next"),
+				"middle selection did not expose both directional edges"
+			);
+
 			const gallery = document.getElementById("selected-projects-dialog");
+			arcadiaTab.click();
+			arcadiaImage.getAnimations().forEach(function finishArcadiaColorTransition(animation) {
+				animation.finish();
+			});
+			const arcadiaActiveFilter = getComputedStyle(arcadiaImage).filter;
+			verify(
+				arcadiaActiveFilter === "none" || arcadiaActiveFilter === "grayscale(0)",
+				"Arcadia active state did not restore color"
+			);
+			verify(!gallery.open, "Arcadia tab was treated as a gallery launcher");
+
+			const galleryTrigger = document.querySelector(".at-gallery-mosaic[data-project='fixture']");
 			const galleryClose = document.querySelector(".at-dialog__close");
 			galleryTrigger.click();
 			verify(gallery.open, "gallery did not open");
 			verify(document.activeElement === galleryClose, "gallery close control did not receive focus");
-
-			// Register after production code so its close listener restores focus first.
-			gallery.addEventListener("close", function finishInteractionChecks() {
-				verify(!gallery.open, "gallery did not close");
-				verify(document.activeElement === galleryTrigger, "gallery trigger did not regain focus");
-				result.dataset.status = failures.length ? "failed" : "passed";
-				result.textContent = failures.join("; ") || "passed";
-			}, {once: true});
 			galleryClose.click();
-		}());
+			await new Promise(function waitForFocusRestoration(resolve) {
+				window.setTimeout(resolve, 10);
+			});
+			verify(!gallery.open, "gallery did not close");
+			verify(document.activeElement === galleryTrigger, "gallery trigger did not regain focus");
+
+			result.dataset.status = failures.length ? "failed" : "passed";
+			result.textContent = failures.join("; ") || "passed";
+		}()).catch(function reportHarnessFailure(error) {
+			const result = document.getElementById("test-result");
+			result.dataset.status = "failed";
+			result.textContent = error instanceof Error ? error.message : String(error);
+		});
 	</script>
 </body>
 </html>

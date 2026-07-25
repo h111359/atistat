@@ -1,6 +1,6 @@
 /**
  * main.js: Dependency-free interactions shared by every ATISTAT static page.
- * Provides navigation, reveal, timeline, partner-card, sketch, and gallery behavior.
+ * Provides navigation, reveal, accessible timeline, sketch, and gallery behavior.
  */
 (function () {
 	"use strict";
@@ -9,7 +9,9 @@
 		threshold: 0.12,
 		rootMargin: "0px 0px -8% 0px"
 	};
-	const TIMELINE_PROGRESS_PERCENT = 100;
+	const TIMELINE_MILESTONE_COUNT = 13;
+	const TIMELINE_SCROLL_EDGE_TOLERANCE = 2;
+	const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 	const TOUCH_POINTER_QUERY = "(hover: none)";
 	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -67,35 +69,154 @@
 	}
 
 	/**
-	 * Activates a timeline panel and synchronizes its accessible tab state.
+	 * Reports the position of the currently selected timeline tab.
 	 *
-	 * @param {HTMLElement} timeline - The timeline component being updated.
-	 * @param {NodeListOf<Element>} buttons - The timeline tab controls.
-	 * @param {NodeListOf<Element>} panels - The timeline tab panels.
-	 * @param {string} index - The data index of the panel to activate.
+	 * @param {HTMLElement[]} tabs - The ordered timeline tab controls.
+	 * @returns {number} The zero-based selected position, or zero as a safe fallback.
+	 */
+	function getSelectedTimelinePosition(tabs) {
+		const selectedPosition = tabs.findIndex(
+			function findSelectedTimelineTab(tab) {
+				return tab.getAttribute("aria-selected") === "true";
+			}
+		);
+		return selectedPosition >= 0 ? selectedPosition : 0;
+	}
+
+	/**
+	 * Synchronizes the visual track length and selected progress endpoint.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
 	 * @returns {void}
 	 */
-	function activateTimelinePanel(timeline, buttons, panels, index) {
-		buttons.forEach(function updateTimelineButton(button) {
-			const isActive = button.getAttribute("data-index") === index;
-			button.classList.toggle("is-active", isActive);
-			button.setAttribute("aria-selected", isActive ? "true" : "false");
+	function updateTimelineGeometry(state) {
+		const selectedTab = state.tabs[getSelectedTimelinePosition(state.tabs)];
+		const progressWidth = selectedTab.offsetLeft + (selectedTab.offsetWidth / 2);
+		state.timeline.style.setProperty("--timeline-track-width", `${state.rail.scrollWidth}px`);
+		state.timeline.style.setProperty("--timeline-progress-width", `${progressWidth}px`);
+	}
+
+	/**
+	 * Exposes whether additional milestones exist beyond either visible rail edge.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
+	 * @returns {void}
+	 */
+	function updateTimelineEdges(state) {
+		const maximumScroll = Math.max(0, state.rail.scrollWidth - state.rail.clientWidth);
+		const hasPrevious = state.rail.scrollLeft > TIMELINE_SCROLL_EDGE_TOLERANCE;
+		const hasNext = state.rail.scrollLeft
+			< maximumScroll - TIMELINE_SCROLL_EDGE_TOLERANCE;
+		state.timeline.classList.toggle("has-timeline-previous", hasPrevious);
+		state.timeline.classList.toggle("has-timeline-next", hasNext);
+	}
+
+	/**
+	 * Defers repeated scroll-edge calculations to one animation frame.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
+	 * @returns {void}
+	 */
+	function scheduleTimelineEdgeUpdate(state) {
+		if (state.edgeUpdateFrame !== null) {
+			return;
+		}
+		state.edgeUpdateFrame = window.requestAnimationFrame(
+			function applyScheduledTimelineEdgeUpdate() {
+				state.edgeUpdateFrame = null;
+				updateTimelineEdges(state);
+			}
+		);
+	}
+
+	/**
+	 * Centers one tab unless the beginning or end of the rail prevents centering.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
+	 * @param {HTMLElement} tab - The marker that should become visually centered.
+	 * @returns {void}
+	 */
+	function centerTimelineTab(state, tab) {
+		const maximumScroll = Math.max(0, state.rail.scrollWidth - state.rail.clientWidth);
+		const desiredScroll = tab.offsetLeft - ((state.rail.clientWidth - tab.offsetWidth) / 2);
+		const boundedScroll = Math.max(0, Math.min(maximumScroll, desiredScroll));
+		const prefersReducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+		const behavior = prefersReducedMotion ? "instant" : "smooth";
+		state.rail.scrollTo({ left: boundedScroll, behavior });
+		if (prefersReducedMotion) {
+			updateTimelineEdges(state);
+		} else {
+			scheduleTimelineEdgeUpdate(state);
+		}
+	}
+
+	/**
+	 * Selects one timeline tab, its reciprocal panel, and its roving focus position.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
+	 * @param {number} position - The zero-based tab position to activate.
+	 * @param {boolean} shouldCenter - Whether the selected marker should be centered.
+	 * @returns {void}
+	 */
+	function activateTimelineTab(state, position, shouldCenter) {
+		state.tabs.forEach(function updateTimelineTab(tab, tabPosition) {
+			const isActive = tabPosition === position;
+			tab.classList.toggle("is-active", isActive);
+			tab.setAttribute("aria-selected", isActive ? "true" : "false");
+			tab.setAttribute("tabindex", isActive ? "0" : "-1");
 		});
-		panels.forEach(function updateTimelinePanel(panel) {
-			const isActive = panel.getAttribute("data-panel") === index;
+		state.panels.forEach(function updateTimelinePanel(panel, panelPosition) {
+			const isActive = panelPosition === position;
 			panel.classList.toggle("is-active", isActive);
 			panel.setAttribute("aria-hidden", isActive ? "false" : "true");
 		});
 
-		const progress = buttons.length > 1
-			? (Number(index) / (buttons.length - 1)) * TIMELINE_PROGRESS_PERCENT
-			: 0;
-		timeline.style.setProperty("--active-progress", `${progress}%`);
-		timeline.classList.add("is-touched");
+		state.previousControl.disabled = position === 0;
+		state.nextControl.disabled = position === state.tabs.length - 1;
+		state.timeline.classList.add("is-touched");
+		updateTimelineGeometry(state);
+		if (shouldCenter) {
+			centerTimelineTab(state, state.tabs[position]);
+		}
 	}
 
 	/**
-	 * Initializes pointer and keyboard navigation for the homepage timeline.
+	 * Moves focus to a tab without allowing the browser to perform competing page scroll.
+	 *
+	 * @param {Object} state - The initialized timeline elements and behavior state.
+	 * @param {number} position - The zero-based tab position that should receive focus.
+	 * @returns {void}
+	 */
+	function focusTimelineTab(state, position) {
+		state.tabs[position].focus({ preventScroll: true });
+	}
+
+	/**
+	 * Resolves Arrow, Home, and End keys to automatic-activation tab positions.
+	 *
+	 * @param {KeyboardEvent} event - The keyboard event raised by a timeline tab.
+	 * @param {number} position - The zero-based position of the event's tab.
+	 * @param {number} tabCount - The number of tabs in the timeline.
+	 * @returns {number|null} The target tab position, or null for an unrelated key.
+	 */
+	function resolveTimelineKeyPosition(event, position, tabCount) {
+		if (event.key === "Home") {
+			return 0;
+		}
+		if (event.key === "End") {
+			return tabCount - 1;
+		}
+		if (event.key === "ArrowLeft") {
+			return (position - 1 + tabCount) % tabCount;
+		}
+		if (event.key === "ArrowRight") {
+			return (position + 1) % tabCount;
+		}
+		return null;
+	}
+
+	/**
+	 * Validates and initializes the continuous homepage timeline rail.
 	 *
 	 * @returns {void}
 	 */
@@ -105,51 +226,83 @@
 			return;
 		}
 
-		const buttons = timeline.querySelectorAll(".at-tlb");
-		const panels = timeline.querySelectorAll(".at-tlpanel");
-		buttons.forEach(function registerTimelineButton(button, position) {
-			const index = button.getAttribute("data-index");
-			const activateButtonPanel = function activateButtonPanel() {
-				activateTimelinePanel(timeline, buttons, panels, index);
-			};
+		const rail = timeline.querySelector("[data-timeline-rail]");
+		const previousControl = timeline.querySelector("button[data-timeline-previous][aria-label]");
+		const nextControl = timeline.querySelector("button[data-timeline-next][aria-label]");
+		const previousEdge = timeline.querySelector('[data-timeline-edge="previous"]');
+		const nextEdge = timeline.querySelector('[data-timeline-edge="next"]');
+		const tabs = Array.from(timeline.querySelectorAll('button.at-tlb[role="tab"]'));
+		const panels = tabs.map(function resolveTimelinePanel(tab) {
+			const controlledId = tab.getAttribute("aria-controls");
+			return controlledId ? document.getElementById(controlledId) : null;
+		});
+		const selectedTabs = tabs.filter(function findSelectedTab(tab) {
+			return tab.getAttribute("aria-selected") === "true";
+		});
+		const hasCompleteRelationships = panels.every(function validateTimelinePanel(panel, position) {
+			return panel instanceof HTMLElement
+				&& timeline.contains(panel)
+				&& panel.getAttribute("role") === "tabpanel"
+				&& panel.getAttribute("aria-labelledby") === tabs[position].id;
+		});
+		if (
+			!(rail instanceof HTMLElement)
+			|| !(previousControl instanceof HTMLButtonElement)
+			|| !(nextControl instanceof HTMLButtonElement)
+			|| !(previousEdge instanceof HTMLElement)
+			|| !(nextEdge instanceof HTMLElement)
+			|| tabs.length !== TIMELINE_MILESTONE_COUNT
+			|| selectedTabs.length !== 1
+			|| !hasCompleteRelationships
+		) {
+			return;
+		}
 
-			button.addEventListener("mouseenter", activateButtonPanel);
-			button.addEventListener("focus", activateButtonPanel);
-			button.addEventListener("click", activateButtonPanel);
-			button.addEventListener("keydown", function navigateTimeline(event) {
-				if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+		const state = {
+			timeline,
+			rail,
+			tabs,
+			panels,
+			previousControl,
+			nextControl,
+			edgeUpdateFrame: null
+		};
+		tabs.forEach(function registerTimelineTab(tab, position) {
+			tab.addEventListener("focus", function activateFocusedTimelineTab() {
+				activateTimelineTab(state, position, true);
+			});
+			tab.addEventListener("click", function activateClickedTimelineTab() {
+				activateTimelineTab(state, position, true);
+			});
+			tab.addEventListener("keydown", function navigateTimelineTabs(event) {
+				const nextPosition = resolveTimelineKeyPosition(event, position, tabs.length);
+				if (nextPosition === null) {
 					return;
 				}
-
 				event.preventDefault();
-				const direction = event.key === "ArrowRight" ? 1 : -1;
-				const nextPosition = Math.max(
-					0,
-					Math.min(buttons.length - 1, position + direction)
-				);
-				const nextButton = buttons[nextPosition];
-				nextButton.focus();
-				activateTimelinePanel(
-					timeline,
-					buttons,
-					panels,
-					nextButton.getAttribute("data-index")
-				);
+				focusTimelineTab(state, nextPosition);
 			});
 		});
-	}
+		previousControl.addEventListener("click", function selectPreviousTimelineTab() {
+			const position = getSelectedTimelinePosition(tabs);
+			focusTimelineTab(state, Math.max(0, position - 1));
+		});
+		nextControl.addEventListener("click", function selectNextTimelineTab() {
+			const position = getSelectedTimelinePosition(tabs);
+			focusTimelineTab(state, Math.min(tabs.length - 1, position + 1));
+		});
+		rail.addEventListener("scroll", function synchronizeTimelineEdges() {
+			scheduleTimelineEdgeUpdate(state);
+		}, { passive: true });
+		window.addEventListener("resize", function recenterTimelineAfterResize() {
+			updateTimelineGeometry(state);
+			centerTimelineTab(state, tabs[getSelectedTimelinePosition(tabs)]);
+		});
 
-	/**
-	 * Makes timeline cards with data-href open their partner destinations.
-	 *
-	 * @returns {void}
-	 */
-	function initializeOutboundCards() {
-		document.querySelectorAll("[data-href]").forEach(function registerOutboundCard(element) {
-			element.addEventListener("click", function openOutboundDestination() {
-				window.open(element.getAttribute("data-href"), "_blank", "noopener");
-			});
-		});
+		// Controls and free-scrolling listeners are operational before the native scrollbar is hidden.
+		activateTimelineTab(state, getSelectedTimelinePosition(tabs), true);
+		timeline.classList.add("is-timeline-enhanced");
+		updateTimelineEdges(state);
 	}
 
 	/**
@@ -180,7 +333,8 @@
 			return null;
 		}
 
-		return event.target.closest("button[data-project]");
+		// Timeline tabs may identify a project for styling but are never gallery launchers.
+		return event.target.closest("button[data-project]:not(.at-tlb)");
 	}
 
 	/**
@@ -274,7 +428,6 @@
 	initializeMobileNavigation();
 	initializeScrollReveal();
 	initializeTimeline();
-	initializeOutboundCards();
 	initializeTouchSketches();
 	initializeSelectedProjectsDialog();
 }());

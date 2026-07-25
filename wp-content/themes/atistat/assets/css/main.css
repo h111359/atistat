@@ -214,7 +214,13 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 }
 .at-opit__headcopy .at-lead { margin-bottom: 0; font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
 
-.at-home-timeline { --active-progress: 50%; position: relative; }
+.at-home-timeline {
+	/* Timeline geometry is refreshed by JavaScript after initialization and resize. */
+	--active-progress: 50%;
+	--timeline-track-width: 100%;
+	--timeline-progress-width: var(--active-progress);
+	position: relative;
+}
 .at-tl-mobile { display: none; }
 .at-tl-hint {
 	margin: 0 10px 14px; color: var(--muted); font-size: .84rem; font-style: italic;
@@ -243,33 +249,48 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	font-size: .66rem; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase;
 }
 
+.at-tl-rail-shell { position: relative; min-width: 0; }
 .at-tl-buildings {
-	/* Responsive desktop milestone width — retains the pre-expansion visual scale. */
-	--timeline-control-width: clamp(72px, 8vw, 110px);
-	position: relative; display: flex; align-items: flex-end; justify-content: space-between;
-	gap: clamp(6px, 1vw, 14px); min-height: clamp(230px, 22vw, 310px); padding-bottom: 43px;
-	/* Keep the full milestone rail available without shrinking the desktop viewport. */
-	overflow-x: auto;
+	/* Five allocations plus four 1rem gaps fill the viewport while all 13 tabs remain scrollable. */
+	--timeline-control-width: calc(20% - .8rem);
+	position: relative; display: flex; align-items: flex-end;
+	gap: 1rem; min-height: clamp(230px, 22vw, 310px); padding: 14px 0 43px;
+	overflow-x: auto; overflow-y: hidden;
 	scroll-behavior: smooth;
+	scroll-snap-type: x proximity;
+	touch-action: pan-x pan-y;
+	overscroll-behavior-inline: contain;
+	scrollbar-color: var(--green) transparent;
 }
-/* Focus within the scrollable rail keeps keyboard location visible. */
-.at-tl-buildings:focus-within { outline: 2px solid currentColor; outline-offset: 4px; }
-/* Thirteen controls preserve their prior visual width and create real scroll overflow. */
+/* Safari/iOS momentum scrolling keeps free swipe panning responsive on wide touch layouts. */
+.at-tl-buildings { -webkit-overflow-scrolling: touch; }
+/* Scrollbars disappear only after JavaScript validates the rail, controls, tabs, and panels. */
+.at-home-timeline.is-timeline-enhanced .at-tl-buildings { scrollbar-width: none; }
+/* Chromium and Safari scrollbar hiding mirrors the enhancement-gated Firefox rule above. */
+.at-home-timeline.is-timeline-enhanced .at-tl-buildings::-webkit-scrollbar {
+	display: none;
+}
+/* Thirteen controls retain equal allocations and settle at proximity snap positions. */
 .at-tl-buildings > .at-tlb {
 	flex: 0 0 var(--timeline-control-width);
 	min-width: var(--timeline-control-width);
+	scroll-snap-align: center;
+	scroll-snap-stop: normal;
 }
 .at-tl-line,
 .at-tl-progress { position: absolute; left: 0; bottom: 43px; height: 2px; pointer-events: none; }
-.at-tl-line { right: 0; background: repeating-linear-gradient(90deg, var(--line) 0 9px, transparent 9px 17px); }
+.at-tl-line {
+	width: var(--timeline-track-width);
+	background: repeating-linear-gradient(90deg, var(--line) 0 9px, transparent 9px 17px);
+}
 .at-tl-progress {
-	z-index: 1; width: var(--active-progress); max-width: 100%; background: var(--green);
+	z-index: 1; width: var(--timeline-progress-width); max-width: var(--timeline-track-width); background: var(--green);
 	box-shadow: 0 0 0 1px rgba(83, 129, 53, .08); transition: width .55s var(--ease);
 }
 .at-tlb {
-	position: relative; z-index: 2; flex: 1 1 0; min-width: 0; align-self: stretch;
+	position: relative; z-index: 2; min-width: 0; align-self: stretch;
 	display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px;
-	padding: 0 2px; color: var(--muted); background: none; border: 0;
+	padding: 8px 6px 0; color: var(--muted); background: none; border: 0; border-radius: 8px;
 }
 .at-tlb__img {
 	width: 100%; height: clamp(170px, 17vw, 245px); display: flex; align-items: flex-end; justify-content: center;
@@ -306,29 +327,32 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	content: ""; position: absolute; bottom: 0; left: 50%; width: 1px; height: 21px;
 	transform: translateX(-50%); background: var(--line);
 }
-.at-tlb:hover, .at-tlb:focus-visible { z-index: 5; }
-.at-tlb.is-active { z-index: 6; }
-/* Focused sketches grow to a uniform HEIGHT (not a uniform scale) so wide
-   buildings (e.g. obb) pop as large as tall ones; the mask is dropped and the
-   extra width simply overflows the column, overlapping neighbours like the logos. */
+/* Hover, focus, and selection clarify emphasis without escaping the tab allocation. */
 .at-tlb:hover .at-tlb__img,
 .at-tlb:focus-visible .at-tlb__img,
 .at-tlb.is-active .at-tlb__img {
 	filter: grayscale(0); opacity: 1;
 	-webkit-mask-image: none; mask-image: none;
 }
+/* Subtle contained lift preserves adjacent pointer and focus targets. */
 .at-tlb:hover .at-tlb__img,
-.at-tlb:focus-visible .at-tlb__img { transform: translateY(-14px); }
-.at-tlb.is-active .at-tlb__img { transform: translateY(-20px); }
-.at-tlb:not(.at-tlb--logo):hover .at-tlb__img img,
-.at-tlb:not(.at-tlb--logo):focus-visible .at-tlb__img img { max-width: none; height: clamp(130px, 13vw, 158px); }
-.at-tlb:not(.at-tlb--logo).is-active .at-tlb__img img { max-width: none; height: clamp(145px, 14.5vw, 175px); }
-.at-tlb:focus-visible { outline: 2px solid var(--green); outline-offset: 7px; border-radius: 4px; }
+.at-tlb:focus-visible .at-tlb__img { transform: translateY(-6px) scale(1.03); }
+/* Active selection receives slightly stronger emphasis within the same allocation. */
+.at-tlb.is-active .at-tlb__img { transform: translateY(-8px) scale(1.045); }
+/* Keyboard focus surrounds the complete marker without relying on color alone. */
+.at-tlb:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .at-tlb.is-active .at-tlb__year,
 .at-tlb:hover .at-tlb__year { color: var(--green); }
 .at-tlb.is-active .at-tlb__dot { background: var(--green); transform: translate(-50%, 50%) scale(1.22); }
 
-/* --- Partner logo markers: colour brand logos that link out --- */
+/* Arcadia is fully grayscale only in the desktop marker rest state. */
+.at-tlb[data-project="arcadia"] .at-tlb__img { filter: grayscale(1); }
+/* Arcadia color returns for every interactive desktop state. */
+.at-tlb[data-project="arcadia"]:hover .at-tlb__img,
+.at-tlb[data-project="arcadia"]:focus-visible .at-tlb__img,
+.at-tlb[data-project="arcadia"].is-active .at-tlb__img { filter: grayscale(0); }
+
+/* --- Partner logo markers: tabs reveal panels that contain destination links --- */
 .at-tlb--logo { text-decoration: none; }
 .at-tlb--logo .at-tlb__img {
 	align-items: flex-end;
@@ -341,11 +365,45 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	width: 100%; height: auto; max-height: 74px;
 	object-fit: contain; object-position: center bottom; mix-blend-mode: normal;
 }
-.at-tlb--logo:hover, .at-tlb--logo:focus-visible { z-index: 5; }
-.at-tlb--logo.is-active { z-index: 6; }
+/* Logo hover and focus use the same contained emphasis as project markers. */
 .at-tlb--logo:hover .at-tlb__img,
-.at-tlb--logo:focus-visible .at-tlb__img { filter: none; opacity: 1; transform: translateY(-12px) scale(2.15); }
-.at-tlb--logo.is-active .at-tlb__img { filter: none; opacity: 1; transform: translateY(-16px) scale(2.5); }
+.at-tlb--logo:focus-visible .at-tlb__img { filter: none; opacity: 1; transform: translateY(-6px) scale(1.03); }
+/* Selected company tabs remain visually prominent without overlapping neighbors. */
+.at-tlb--logo.is-active .at-tlb__img { filter: none; opacity: 1; transform: translateY(-8px) scale(1.045); }
+
+/* Directional fades are state-driven and never intercept pointer or touch input. */
+.at-tl-edge {
+	position: absolute; z-index: 7; top: 0; bottom: 43px; width: 52px;
+	pointer-events: none; opacity: 0; transition: opacity .2s var(--ease);
+}
+.at-tl-edge--previous {
+	left: 0;
+	background: linear-gradient(90deg, var(--paper), transparent);
+}
+.at-tl-edge--next {
+	right: 0;
+	background: linear-gradient(270deg, var(--paper), transparent);
+}
+/* Each fade appears only when more rail content exists in its direction. */
+.at-home-timeline.has-timeline-previous .at-tl-edge--previous,
+.at-home-timeline.has-timeline-next .at-tl-edge--next { opacity: .92; }
+
+/* Labelled replacement controls remain visible for mouse, keyboard, and wide-touch users. */
+.at-tl-controls {
+	display: flex; justify-content: center; gap: 12px; margin-top: 14px;
+}
+.at-tl-control {
+	display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+	min-width: 44px; min-height: 44px; padding: 8px 14px;
+	color: var(--green); background: var(--paper); border: 1px solid var(--green); border-radius: 999px;
+	transition: color .2s var(--ease), background .2s var(--ease), opacity .2s var(--ease);
+}
+/* Hover gives enabled controls a filled brand treatment. */
+.at-tl-control:not(:disabled):hover { color: var(--paper); background: var(--green); }
+/* Keyboard focus uses a high-visibility outer ring. */
+.at-tl-control:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+/* Disabled boundary state remains visible while clearly unavailable. */
+.at-tl-control:disabled { opacity: .38; cursor: not-allowed; }
 
 /* Linked info panel (partner entries) */
 .at-tlpanel__copy--link { text-decoration: none; color: inherit; display: block; }
@@ -354,6 +412,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-tlpanel__copy--link:hover .at-tlpanel__go { transform: translateX(5px); }
 .at-tlcard--logo .at-tlcard__img { background: transparent; }
 .at-tlcard--logo .at-tlcard__img img { object-fit: contain; padding: 14px; }
+.at-tlcard__link { color: inherit; text-decoration: none; }
 
 .at-tl-panels { position: relative; min-height: 176px; max-width: 900px; margin: clamp(20px, 3vw, 34px) auto 0; }
 .at-tlpanel {
@@ -455,10 +514,12 @@ a.at-contact__val:hover { color: var(--green); }
 /* =========================================================================
    RESPONSIVE
    ========================================================================= */
+/* Compact desktop (max 1024px): allow the hero to follow its content height. */
 @media (max-width: 1024px) {
 	.at-hero__inner { min-height: 0; }
 }
 
+/* Tablet and mobile (max 860px): replace the desktop timeline with stacked cards. */
 @media (max-width: 860px) {
 	.at-navtoggle { display: inline-flex; }
 	.at-nav {
@@ -495,6 +556,13 @@ a.at-contact__val:hover { color: var(--green); }
 		display: grid; grid-template-columns: minmax(150px, 38%) minmax(0, 1fr) auto; gap: 22px; align-items: center;
 		padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream);
 	}
+	.at-tlcard--logo .at-tlcard__link {
+		display: grid; grid-column: 1 / -1;
+		grid-template-columns: minmax(150px, 38%) minmax(0, 1fr);
+		gap: 22px; align-items: center;
+	}
+	/* Native company-card links receive the same visible keyboard focus treatment as tabs. */
+	.at-tlcard__link:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 8px; }
 	.at-tlcard__img { height: 180px; display: flex; align-items: flex-end; justify-content: center; background: var(--cream); }
 	.at-tlcard__img img {
 		width: 100%; height: 100%; object-fit: contain; object-position: center bottom; mix-blend-mode: multiply;
@@ -512,6 +580,7 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-tlcard .at-tlpanel__desc { font-size: .92rem; }
 }
 
+/* Mobile (max 480px): collapse company links and all project cards to one column. */
 @media (max-width: 480px) {
 	.at-header__inner { min-height: 76px; }
 	.at-logo svg, .at-logo__image { height: 40px; }
@@ -519,6 +588,7 @@ a.at-contact__val:hover { color: var(--green); }
 	/* Fit long Bulgarian hero words within the narrow viewport without clipping. */
 	.at-hero__title { font-size: clamp(1.8rem, 9vw, 2.2rem); overflow-wrap: anywhere; }
 	.at-tlcard { grid-template-columns: 1fr; gap: 14px; padding: 16px; }
+	.at-tlcard--logo .at-tlcard__link { grid-template-columns: 1fr; gap: 14px; }
 	.at-tlcard__img { height: 220px; }
 	.at-footer__inner { justify-content: center; text-align: center; }
 }
@@ -1053,13 +1123,21 @@ dialog.at-selected-projects::backdrop {
 	}
 }
 
-/* reduced motion */
+/* Reduced motion: keep all timeline access and state changes while removing animated movement. */
 @media (prefers-reduced-motion: reduce) {
 	* { scroll-behavior: auto !important; }
 	/* Reduced-motion users receive visible content without reveal transitions. */
 	.has-js .at-fade { opacity: 1; transform: none; transition: none; }
 	.at-sketch__img { transition: none !important; animation: none !important; }
 	.at-tl-buildings { scroll-behavior: auto; }
+	.at-tl-edge,
+	.at-tlb__img,
+	.at-tlb__img img,
+	.at-tlb__year,
+	.at-tlb__dot,
+	.at-tl-progress,
+	.at-tl-control,
+	.at-tlpanel { transition: none !important; }
 	.at-faq__item summary::after,
 	.at-viber-fab a {
 		transition: none;

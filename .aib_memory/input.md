@@ -13,3 +13,4 @@ options:
 
 ## Input
 
+In "Партньори" for Adreo use the image `wp-content/uploads/2026/07/adreo.png` as the partner image like for the other partners. For BG and EN pages

@@ -209,7 +209,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 		<div class="at-home-timeline at-fade" data-fade data-timeline style="--active-progress: 25%">
 			<div class="at-tl-desktop">
-				<p class="at-tl-hint" data-hint>Посочете сграда, за да видите детайли</p>
+				<p class="at-tl-hint" data-hint>Изберете етап, за да видите детайли</p>
 
 				<div class="at-tl-stage">
 					<div class="at-tl-year at-tl-year--start">
@@ -217,74 +217,80 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						<small>началото</small>
 					</div>
 
-					<div class="at-tl-buildings" role="tablist" aria-label="НАШИЯТ ПЪТ">
+					<!-- Desktop timeline: automatic tabs support Arrow keys, Home, End, click, and labelled rail controls. -->
+					<div class="at-tl-rail-shell">
+						<span class="at-tl-edge at-tl-edge--previous" data-timeline-edge="previous" aria-hidden="true"></span>
+						<span class="at-tl-edge at-tl-edge--next" data-timeline-edge="next" aria-hidden="true"></span>
+						<div class="at-tl-buildings" data-timeline-rail role="tablist" aria-label="НАШИЯТ ПЪТ">
 						<span class="at-tl-line" aria-hidden="true"></span>
 						<span class="at-tl-progress" aria-hidden="true"></span>
-																				<a class="at-tlb at-tlb--logo" href="https://correctproject.com" target="_blank" rel="noopener" aria-controls="timeline-panel-0" data-index="0" id="timeline-correct-project">
+																				<button type="button" class="at-tlb at-tlb--logo" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-0" data-index="0" id="timeline-correct-project">
 															<span class="at-tlb__img"><img src="wp-content/themes/atistat/assets/images/correctproject.png" alt="Корект Проект" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2006</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
-							</a>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-1" data-index="1" id="project-10">
+							</button>
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-1" data-index="1" id="project-10">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/matrix-1-799x900.webp" alt="ЕОС Матрикс" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2007</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<a class="at-tlb at-tlb--logo" href="https://engsys.bg" target="_blank" rel="noopener" aria-controls="timeline-panel-2" data-index="2" id="timeline-engsys">
+							<button type="button" class="at-tlb at-tlb--logo" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-2" data-index="2" id="timeline-engsys">
 															<span class="at-tlb__img"><img src="wp-content/themes/atistat/assets/images/engsys.png" alt="Инженерни Системи" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2008</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
-							</a>
-							<button type="button" class="at-tlb is-active" role="tab" aria-selected="true" aria-controls="timeline-panel-3" data-index="3" id="project-8">
+							</button>
+							<button type="button" class="at-tlb is-active" role="tab" aria-selected="true" tabindex="0" aria-controls="timeline-panel-3" data-index="3" id="project-8">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/montekanal-1-1100x825.webp" alt="Монтеканал" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2011</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-4" data-index="4" id="project-24">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-4" data-index="4" id="project-24">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/ema-1-1100x733.webp" alt="ЕМА" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2015</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-5" data-index="5" id="project-6">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-5" data-index="5" id="project-6">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/elemag-1-1100x851.webp" alt="Елемаг" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2021</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-6" data-index="6" id="project-louisayer-btn">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-6" data-index="6" id="project-louisayer-btn">
 								<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/louis-ayer-timeline.webp" alt="ап. Луи Айер" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2024</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<a class="at-tlb at-tlb--logo" href="/" aria-controls="timeline-panel-7" data-index="7" id="timeline-atistat">
+							<button type="button" class="at-tlb at-tlb--logo" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-7" data-index="7" id="timeline-atistat">
 								<span class="at-tlb__img"><img src="wp-content/themes/atistat/assets/images/atistat-logo.png" alt="ATISTAT" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2024</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
-							</a>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-8" data-index="8" id="project-12">
+							</button>
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-8" data-index="8" id="project-12">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/obb-1-1100x665.webp" alt="ОББ Интерлийз" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2025</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-9" data-index="9" id="project-arcadia-btn">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-9" data-index="9" data-project="arcadia" id="project-arcadia-btn">
 								<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/arcadia-timeline.webp" alt="ап. Аркадия" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2025</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-10" data-index="10" id="project-bebelan-btn">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-10" data-index="10" id="project-bebelan-btn">
 								<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/bebelan-timeline.webp" alt="Бебелан" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2025</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-11" data-index="11" id="project-pp-btn">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-11" data-index="11" id="project-pp-btn">
 								<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/power-properties-timeline.webp" alt="Пауър Пропъртис" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2025</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
 							</button>
-							<button type="button" class="at-tlb" role="tab" aria-selected="false" aria-controls="timeline-panel-12" data-index="12" id="project-14">
+							<button type="button" class="at-tlb" role="tab" aria-selected="false" tabindex="-1" aria-controls="timeline-panel-12" data-index="12" id="project-14">
 															<span class="at-tlb__img"><img src="wp-content/uploads/2026/07/bss-1-1100x619.webp" alt="Британско училище в София" loading="lazy" decoding="async"></span>
 								<span class="at-tlb__year">2026</span>
 								<span class="at-tlb__dot" aria-hidden="true"></span>
-							</button>											</div>
+							</button>
+						</div>
+					</div>
 
 					<div class="at-tl-year at-tl-year--end">
 						<strong>2026</strong>
@@ -292,24 +298,34 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</div>
 				</div>
 
+				<!-- Previous and Next are native buttons; disabled states expose the selected rail boundaries. -->
+				<div class="at-tl-controls" aria-label="Навигация по времевата линия">
+					<button type="button" class="at-tl-control at-tl-control--previous" data-timeline-previous aria-label="Предишен етап">
+						<span aria-hidden="true">←</span><span>Предишен</span>
+					</button>
+					<button type="button" class="at-tl-control at-tl-control--next" data-timeline-next aria-label="Следващ етап">
+						<span>Следващ</span><span aria-hidden="true">→</span>
+					</button>
+				</div>
+
 				<div class="at-tl-panels" aria-live="polite">
-																	<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-0" role="tabpanel" data-panel="0" aria-hidden="true">
+																	<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-0" aria-labelledby="timeline-correct-project" role="tabpanel" data-panel="0" aria-hidden="true">
 							<span class="at-tlpanel__year">2006</span>
 														<a class="at-tlpanel__copy at-tlpanel__copy--link" href="https://correctproject.com" target="_blank" rel="noopener">
 															<h3 class="at-tlpanel__name">Корект Проект</h3>
 								<span class="at-tlpanel__type">Project Management компания</span>								<p class="at-tlpanel__desc">correctproject.com</p>							</a>						</article>
-							<article class="at-tlpanel" id="timeline-panel-1" role="tabpanel" data-panel="1" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-1" aria-labelledby="project-10" role="tabpanel" data-panel="1" aria-hidden="true">
 							<span class="at-tlpanel__year">2007</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">ЕОС Матрикс</h3>
 								<span class="at-tlpanel__type">Офис сграда</span>								<p class="at-tlpanel__desc">Управление и контрол на строително-инвестиционен проект</p>
 								<p class="at-tlpanel__desc">Опит с Корект Проект</p>							</div>						</article>
-							<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-2" role="tabpanel" data-panel="2" aria-hidden="true">
+							<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-2" aria-labelledby="timeline-engsys" role="tabpanel" data-panel="2" aria-hidden="true">
 							<span class="at-tlpanel__year">2008</span>
 														<a class="at-tlpanel__copy at-tlpanel__copy--link" href="https://engsys.bg" target="_blank" rel="noopener">
 															<h3 class="at-tlpanel__name">Инженерни Системи</h3>
 								<span class="at-tlpanel__type">Строителна компания</span>								<p class="at-tlpanel__desc">engsys.bg</p>							</a>						</article>
-							<article class="at-tlpanel is-active" id="timeline-panel-3" data-project="montekanal" role="tabpanel" data-panel="3" aria-hidden="false">
+							<article class="at-tlpanel is-active" id="timeline-panel-3" aria-labelledby="project-8" data-project="montekanal" role="tabpanel" data-panel="3" aria-hidden="false">
 							<span class="at-tlpanel__year">2011</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Монтеканал</h3>
@@ -322,13 +338,13 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2CIMG_6321%20-%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BE%20%D0%B7%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1448" height="1086">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-4" role="tabpanel" data-panel="4" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-4" aria-labelledby="project-24" role="tabpanel" data-panel="4" aria-hidden="true">
 							<span class="at-tlpanel__year">2015</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">ЕМА</h3>
 								<span class="at-tlpanel__type">Логистична сграда</span>								<p class="at-tlpanel__desc">Строителство</p>
 								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>							</div>						</article>
-							<article class="at-tlpanel" id="timeline-panel-5" data-project="elemag" role="tabpanel" data-panel="5" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-5" aria-labelledby="project-6" data-project="elemag" role="tabpanel" data-panel="5" aria-hidden="true">
 							<span class="at-tlpanel__year">2021</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Елемаг</h3>
@@ -341,7 +357,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%BE%20%D0%95%D0%BB%D0%B5%D0%BC%D0%B0%D0%B3.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1086" height="1448">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-6" data-project="louis-ayer" role="tabpanel" data-panel="6" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-6" aria-labelledby="project-louisayer-btn" data-project="louis-ayer" role="tabpanel" data-panel="6" aria-hidden="true">
 							<span class="at-tlpanel__year">2024</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">ап. Луи Айер</h3>
@@ -356,14 +372,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1448" height="1086">
 								</button>
 						</article>
-							<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-7" role="tabpanel" data-panel="7" aria-hidden="true">
+							<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-7" aria-labelledby="timeline-atistat" role="tabpanel" data-panel="7" aria-hidden="true">
 							<span class="at-tlpanel__year">2024</span>
 							<a class="at-tlpanel__copy at-tlpanel__copy--link" href="/">
 								<h3 class="at-tlpanel__name">ATISTAT</h3>
 								<span class="at-tlpanel__type">Строително-инвестиционна компания</span>
 							</a>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-8" data-project="ubb-interlease" role="tabpanel" data-panel="8" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-8" aria-labelledby="project-12" data-project="ubb-interlease" role="tabpanel" data-panel="8" aria-hidden="true">
 							<span class="at-tlpanel__year">2025</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">ОББ Интерлийз</h3>
@@ -376,7 +392,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9E%D0%91%D0%91%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BB%D0%B8%D0%B9%D0%B7.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1800" height="1200">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-9" data-project="arcadia" role="tabpanel" data-panel="9" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-9" aria-labelledby="project-arcadia-btn" data-project="arcadia" role="tabpanel" data-panel="9" aria-hidden="true">
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">ап. Аркадия</h3>
@@ -391,7 +407,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D1%8F.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1086" height="1448">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-10" data-project="bebelan" role="tabpanel" data-panel="10" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-10" aria-labelledby="project-bebelan-btn" data-project="bebelan" role="tabpanel" data-panel="10" aria-hidden="true">
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Бебелан</h3>
@@ -406,7 +422,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%91%D0%B5%D0%B1%D0%B5%D0%BB%D0%B0%D0%BD.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1800" height="1351">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-11" data-project="power-properties" role="tabpanel" data-panel="11" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-11" aria-labelledby="project-pp-btn" data-project="power-properties" role="tabpanel" data-panel="11" aria-hidden="true">
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Пауър Пропъртис</h3>
@@ -421,7 +437,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9F%D0%B0%D1%83%D1%8A%D1%80%20%D0%9F.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1086" height="1448">
 								</button>
 						</article>
-							<article class="at-tlpanel" id="timeline-panel-12" role="tabpanel" data-panel="12" aria-hidden="true">
+							<article class="at-tlpanel" id="timeline-panel-12" aria-labelledby="project-14" role="tabpanel" data-panel="12" aria-hidden="true">
 							<span class="at-tlpanel__year">2026</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Британско училище в София</h3>
@@ -430,14 +446,17 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</div>
 			</div>
 
+			<!-- Mobile timeline: stacked cards remain visible at 860px and below; company cards use native links. -->
 			<ul class="at-tl-mobile">
-					<li class="at-tlcard at-tlcard--logo" data-href="https://correctproject.com" style="cursor:pointer">
+					<li class="at-tlcard at-tlcard--logo">
+					<a class="at-tlcard__link" href="https://correctproject.com" target="_blank" rel="noopener" aria-label="Корект Проект — отваря външен сайт">
 						<div class="at-tlcard__img"><img src="wp-content/themes/atistat/assets/images/correctproject.png" alt="Корект Проект" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2006</span>
 							<h3 class="at-tlpanel__name">Корект Проект</h3>
 							<span class="at-tlpanel__type">Project Management компания</span>							<p class="at-tlpanel__desc">correctproject.com</p>						</div>
-					</li>
+					</a>
+				</li>
 							<li class="at-tlcard">
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/matrix-1-799x900.webp" alt="ЕОС Матрикс" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
@@ -445,13 +464,15 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 							<h3 class="at-tlpanel__name">ЕОС Матрикс</h3>
 							<span class="at-tlpanel__type">Офис сграда</span>							<p class="at-tlpanel__desc">Управление и контрол на строително-инвестиционен проект</p>						</div>
 					</li>
-							<li class="at-tlcard at-tlcard--logo" data-href="https://engsys.bg" style="cursor:pointer">
+							<li class="at-tlcard at-tlcard--logo">
+					<a class="at-tlcard__link" href="https://engsys.bg" target="_blank" rel="noopener" aria-label="Инженерни Системи — отваря външен сайт">
 						<div class="at-tlcard__img"><img src="wp-content/themes/atistat/assets/images/engsys.png" alt="Инженерни Системи" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2008</span>
 							<h3 class="at-tlpanel__name">Инженерни Системи</h3>
 							<span class="at-tlpanel__type">Строителна компания</span>							<p class="at-tlpanel__desc">engsys.bg</p>						</div>
-					</li>
+					</a>
+				</li>
 							<li class="at-tlcard" data-project="montekanal">
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/montekanal-1-1100x825.webp" alt="Монтеканал" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
@@ -503,14 +524,16 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%204%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1448" height="1086">
 							</button>
 						</li>
-							<li class="at-tlcard at-tlcard--logo" data-href="/" style="cursor:pointer">
+							<li class="at-tlcard at-tlcard--logo">
+					<a class="at-tlcard__link" href="/" aria-label="ATISTAT">
 						<div class="at-tlcard__img"><img src="wp-content/themes/atistat/assets/images/atistat-logo.png" alt="ATISTAT" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2024</span>
 							<h3 class="at-tlpanel__name">ATISTAT</h3>
 							<span class="at-tlpanel__type">Строително-инвестиционна компания</span>
 						</div>
-					</li>
+					</a>
+				</li>
 							<li class="at-tlcard" data-project="ubb-interlease">
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/obb-1-1100x665.webp" alt="ОББ Интерлийз" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
