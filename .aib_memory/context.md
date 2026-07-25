@@ -16,7 +16,7 @@
 - Localization model uses Bulgarian and English static page variants linked by visible BG and EN controls. 
 - Homepage trust model uses experience duration, project count, project portfolio evidence, ЗАЩО АТИСТАТ differentiation, service process steps, and FAQ responses.
 - Direct-contact model offers phone, email, office map, WhatsApp, Viber, and Facebook/LinkedIn footer links without an on-site submission form.
-- Portfolio timeline combines three company milestones (Корект Проект 2006, Инженерни Системи 2008, ATISTAT 2024) with six delivered project records: EOS Matrix, Montekanal, EMA, Elemag, UBB Interlease, and British School of Sofia.
+- Portfolio timeline merges thirteen milestones: three company records (Корект Проект 2006, Инженерни Системи 2008, ATISTAT 2024) and ten projects (EOS Matrix 2007, Montekanal 2011, EMA 2015, Elemag 2021, Apartment Louis Ayer 2024, UBB Interlease 2025, Apartment Arcadia 2025, Bebelan 2025, Power Properties 2025, and British School of Sofia 2026).
 
 ## Requirements
 
@@ -40,16 +40,20 @@
 - External services are limited to a Google Maps iframe and outbound WhatsApp, Facebook, LinkedIn, Correct Project, and Engineering Systems destinations.
 - Workspace has no README, automated tests, scripts directory, dependency manifest, or build configuration.
 - Primary Bulgarian homepage extends the shared theme with document-local CSS for hero actions, differentiation cards, FAQ, a selected-projects gallery dialog, a CTA contact block, and a floating Viber action.
-- Selected-projects gallery opens as a native dialog modal triggered from the Experience section and displays all 7 submitted project image sets as a photo gallery without dedicated project routes.
 - A partners section with Инженерни Системи, Корект Проект, and Адрео logo-links appears between the Services and Why sections on all BG and EN homepage copies.
 - Homepage timeline includes an ATISTAT entry at 2024 using atistat-logo.png from wp-content/themes/atistat/assets/images/ linked to the site root.
-- Homepage timeline renders accessible desktop tabs and alternate stacked mobile cards from the same nine company and project milestones.
 - Experience attribution secondary lines appear in the desktop panels and mobile cards of four timeline project entries (EOS Matrix, Montekanal, Elemag, and UBB Interlease) identifying the associated partner company.
 - Service feature bullet lists with green checkmark style appear before the numbered process steps in each of the four service article elements across all five homepage documents.
 - All five homepage documents carry meta description, Open Graph, Twitter Card, and JSON-LD Organization structured-data blocks with language-appropriate values and per-document canonical og:url.
 - Language switcher option controls meet 44x44 CSS pixel tap target size and mark the active language with aria-current=page and a non-color-only green background chip indicator.
 - Elemag hero sketch and Montekanal about sketch captions each use a three-span vertical structure (label, project name, service classification) with an aria-label on the parent anchor element.
 - Main site navigation includes a Partners section anchor link across all five homepage documents.
+- Gallery-eligible projects (Elemag, Montekanal, UBB Interlease, Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) expose a four-image mosaic launcher in the active desktop panel and eligible mobile card; launchers open a single reusable filtered native dialog showing only the invoked project's image set; focus is restored to the invoker on close.
+- Homepage timeline renders accessible desktop tabs and alternate stacked mobile cards from the same thirteen company and project milestones in a horizontally scrollable single rail on desktop.
+- Gallery-only projects (Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) use lightweight line-art WebP timeline assets generated from their first submitted photograph and stored in wp-content/uploads/2026/07/ with ASCII filenames.
+- Official white Viber icon is stored locally as viber-icon.png in wp-content/themes/atistat/assets/images/ and served on ATISTAT green controls without alteration across all five root homepage documents.
+- English Why/FAQ sections are faithful translations of the Bulgarian source-of-truth sections and inherit CSS rules defined in main.css; Why/FAQ document-local styles in index.html are promoted to the shared stylesheet.
+- opit/index.html is synchronized with the English homepage timeline and gallery content, including thirteen milestones, project metadata, and project-scoped gallery launchers.
 
 ## File Structure
 
@@ -91,3 +95,5 @@ Summary: Defines current public-facing Bulgarian company narrative, conversion s
 - index-bg.html diverges from index.html by approximately 400 lines because index.html carries an inline CSS block and additional sections not replicated in index-bg.html; each implementation pass widens this divergence further. Source: diff between index.html and index-bg.html.
 - Viber viber:// URI scheme produces no action on desktop browsers where Viber is not installed; all Viber link elements must include a descriptive title or aria-label to inform desktop users. Source: Viber URI scheme behavior.
 - Gallery image payload is approximately 52.5 MiB across 32 unoptimized PNG and JPEG files; images are lazy-loaded but users who open the Selected Projects modal on slow connections will experience significant download time; image optimization is deferred per stakeholder constraints.
+- Homepage timeline tablist mixes button[role='tab'] project controls with company milestone links that have no role='tab'; panels lack aria-labelledby; arrow key navigation clamps at rail ends instead of wrapping; these accessibility gaps predate R-20260725-1900 and are not fixed by it. Source: main.js tab-key handling and index.html tablist markup.
+- Mobile project and company cards use clickable li[data-href] elements without native keyboard interactivity; gallery launcher buttons must use the native button element to avoid repeating this pattern. Source: index.html mobile timeline card markup.

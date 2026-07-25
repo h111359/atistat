@@ -11,6 +11,7 @@
 	};
 	const TIMELINE_PROGRESS_PERCENT = 100;
 	const TOUCH_POINTER_QUERY = "(hover: none)";
+	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 	/**
 	 * Initializes the mobile navigation toggle and closes the menu after navigation.
@@ -169,32 +170,103 @@
 	}
 
 	/**
-	 * Wires the Selected Projects trigger to the native gallery dialog.
+	 * Resolves the project gallery launcher associated with a click.
+	 *
+	 * @param {Event} event - The delegated document click event.
+	 * @returns {HTMLElement|null} The native launcher button, when one was clicked.
+	 */
+	function resolveGalleryLauncher(event) {
+		if (!(event.target instanceof Element)) {
+			return null;
+		}
+
+		return event.target.closest("button[data-project]");
+	}
+
+	/**
+	 * Filters and opens the native dialog for one project.
+	 *
+	 * @param {HTMLDialogElement} dialog - The shared project gallery dialog.
+	 * @param {HTMLElement|null} closeButton - The dialog close button.
+	 * @param {HTMLElement} launcher - The project launcher that was activated.
+	 * @param {string} defaultLabel - The fallback dialog label.
+	 * @returns {void}
+	 */
+	function openGalleryProject(dialog, closeButton, launcher, defaultLabel) {
+		const projectId = launcher.dataset.project;
+		// Programmatic and pointer activation both establish the native return target.
+		launcher.focus({ preventScroll: true });
+		const projectContainers = dialog.querySelectorAll("[data-project]");
+		projectContainers.forEach(function hideGalleryProject(container) {
+			container.hidden = true;
+		});
+		const activeContainer = Array.from(projectContainers).find(
+			function matchGalleryProject(container) {
+				return container.dataset.project === projectId;
+			}
+		);
+		if (!activeContainer) {
+			console.warn("Gallery project not found: " + projectId);
+			closeButton?.removeAttribute("hidden");
+			dialog.setAttribute("aria-label", defaultLabel);
+			dialog.showModal();
+			closeButton?.focus();
+			return;
+		}
+
+		activeContainer.hidden = false;
+		const projectHeading = activeContainer.querySelector("h3");
+		const projectName = projectHeading?.textContent.trim() || defaultLabel;
+		const dialogTitle = dialog.querySelector(".at-dialog__header h2");
+		dialog.setAttribute("aria-label", projectName);
+		if (dialogTitle) {
+			dialogTitle.textContent = projectName;
+		}
+		activeContainer.scrollTop = 0;
+		dialog.showModal();
+		const firstFocusable = activeContainer.querySelector(FOCUSABLE_SELECTOR);
+		(firstFocusable || closeButton)?.focus();
+	}
+
+	/**
+	 * Wires all project launchers to the filtered native gallery dialog.
 	 *
 	 * @returns {void}
 	 */
 	function initializeSelectedProjectsDialog() {
-		const trigger = document.querySelector(".at-selected-projects__trigger");
 		const dialog = document.getElementById("selected-projects-dialog");
 		if (
-			!trigger
-			|| typeof HTMLDialogElement === "undefined"
+			typeof HTMLDialogElement === "undefined"
 			|| !(dialog instanceof HTMLDialogElement)
 		) {
 			return;
 		}
 
 		const closeButton = dialog.querySelector(".at-dialog__close");
-		trigger.addEventListener("click", function openSelectedProjects() {
-			dialog.showModal();
-			closeButton?.focus();
-		});
+		const defaultLabel = dialog.getAttribute("aria-label") || "Selected projects";
+		let lastGalleryLauncher = null;
+		document.addEventListener("click", function openSelectedProject(event) {
+			const launcher = resolveGalleryLauncher(event);
+			if (!launcher) {
+				return;
+			}
 
+			lastGalleryLauncher = launcher;
+			openGalleryProject(dialog, closeButton, launcher, defaultLabel);
+		});
 		closeButton?.addEventListener("click", function closeSelectedProjects() {
 			dialog.close();
 		});
 		dialog.addEventListener("close", function restoreSelectedProjectsFocus() {
-			trigger.focus();
+			const launcherToRestore = lastGalleryLauncher;
+			if (launcherToRestore && document.contains(launcherToRestore)) {
+				// Native dialog focus restoration completes after the close event.
+				window.setTimeout(function focusGalleryLauncher() {
+					if (document.contains(launcherToRestore)) {
+						launcherToRestore.focus();
+					}
+				}, 0);
+			}
 		});
 	}
 

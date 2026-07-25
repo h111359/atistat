@@ -244,8 +244,20 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 }
 
 .at-tl-buildings {
+	/* Responsive desktop milestone width — retains the pre-expansion visual scale. */
+	--timeline-control-width: clamp(72px, 8vw, 110px);
 	position: relative; display: flex; align-items: flex-end; justify-content: space-between;
 	gap: clamp(6px, 1vw, 14px); min-height: clamp(230px, 22vw, 310px); padding-bottom: 43px;
+	/* Keep the full milestone rail available without shrinking the desktop viewport. */
+	overflow-x: auto;
+	scroll-behavior: smooth;
+}
+/* Focus within the scrollable rail keeps keyboard location visible. */
+.at-tl-buildings:focus-within { outline: 2px solid currentColor; outline-offset: 4px; }
+/* Thirteen controls preserve their prior visual width and create real scroll overflow. */
+.at-tl-buildings > .at-tlb {
+	flex: 0 0 var(--timeline-control-width);
+	min-width: var(--timeline-control-width);
 }
 .at-tl-line,
 .at-tl-progress { position: absolute; left: 0; bottom: 43px; height: 2px; pointer-events: none; }
@@ -345,7 +357,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 
 .at-tl-panels { position: relative; min-height: 176px; max-width: 900px; margin: clamp(20px, 3vw, 34px) auto 0; }
 .at-tlpanel {
-	position: absolute; inset: 0; display: grid; grid-template-columns: clamp(92px, 10vw, 132px) 1fr;
+	position: absolute; inset: 0; display: grid; grid-template-columns: clamp(92px, 10vw, 132px) minmax(0, 1fr) auto;
 	gap: clamp(20px, 3vw, 36px); align-items: center; padding: clamp(22px, 3vw, 34px);
 	border: 1px solid var(--line); border-radius: 16px; background: rgba(244, 241, 233, .72);
 	opacity: 0; transform: translateY(2px); pointer-events: none;
@@ -480,7 +492,7 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-tl-desktop { display: none; }
 	.at-tl-mobile { display: grid; gap: 20px; list-style: none; margin: 0; padding: 0; }
 	.at-tlcard {
-		display: grid; grid-template-columns: minmax(150px, 38%) 1fr; gap: 22px; align-items: center;
+		display: grid; grid-template-columns: minmax(150px, 38%) minmax(0, 1fr) auto; gap: 22px; align-items: center;
 		padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream);
 	}
 	.at-tlcard__img { height: 180px; display: flex; align-items: flex-end; justify-content: center; background: var(--cream); }
@@ -670,29 +682,113 @@ a.at-contact__val:hover { color: var(--green); }
 }
 
 /* =========================================================================
-   SELECTED PROJECTS TRIGGER — secondary button to open gallery dialog
+   HOMEPAGE MARKETING — hero actions, Why ATISTAT, and FAQ
    ========================================================================= */
 
-.at-selected-projects__trigger {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	padding: 12px 24px;
-	background: transparent;
-	color: var(--green); /* Primary brand green */
-	border: 2px solid var(--green);
-	border-radius: 8px;
-	font-family: var(--serif);
-	font-size: 1rem;
-	cursor: pointer;
-	transition: background .2s var(--ease), color .2s var(--ease);
-	margin-top: 1.5em;
+.at-hero__sub {
+	margin: 1em 0 1.4em;
+	font-size: clamp(.95rem, 1.4vw, 1.05rem);
+	line-height: 1.6;
+	color: var(--ink);
+	max-width: 48ch;
+	opacity: .82;
 }
 
-.at-selected-projects__trigger:hover,
-.at-selected-projects__trigger:focus-visible {
-	background: var(--green);
-	color: #fff;
+.at-hero__ctas {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+}
+
+.at-why { background: var(--paper); }
+
+.at-why__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: clamp(14px, 2vw, 24px);
+	margin-top: clamp(20px, 3vw, 36px);
+}
+
+.at-why__card {
+	border-left: 3px solid var(--green);
+	padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2vw, 22px);
+	background: var(--cream);
+	border-radius: 0 8px 8px 0;
+}
+
+.at-why__card h3 {
+	color: var(--green);
+	font-size: .98rem;
+	font-weight: 700;
+	margin: 0 0 .5em;
+}
+
+.at-why__card p {
+	margin: 0;
+	font-size: .93em;
+	line-height: 1.62;
+	color: var(--ink);
+}
+
+.at-faq__list {
+	list-style: none;
+	padding: 0;
+	margin: clamp(20px, 3vw, 36px) 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	max-width: 72ch;
+}
+
+.at-faq__item {
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.at-faq__item summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	padding: clamp(12px, 1.6vw, 18px) clamp(14px, 2vw, 22px);
+	font-weight: 700;
+	color: var(--ink);
+	cursor: pointer;
+	list-style: none;
+	/* Safari needs the prefixed declaration to suppress selection on disclosure toggles. */
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.at-faq__item summary::-webkit-details-marker { display: none; }
+
+.at-faq__item summary::after {
+	content: "+";
+	flex-shrink: 0;
+	font-size: 1.35em;
+	color: var(--green);
+	/* 220ms gives immediate disclosure feedback without distracting from reading. */
+	transition: transform .22s ease;
+}
+
+/* Open state rotates the plus sign into a close affordance. */
+.at-faq__item[open] > summary::after { transform: rotate(45deg); }
+
+/* Hover and keyboard focus share the same visible interactive state. */
+.at-faq__item summary:hover,
+.at-faq__item summary:focus-visible { color: var(--green); }
+
+.at-faq__item summary:focus-visible {
+	outline: 2px solid var(--green);
+	outline-offset: -2px;
+}
+
+.at-faq__answer {
+	padding: 0 clamp(14px, 2vw, 22px) clamp(12px, 1.6vw, 18px);
+	line-height: 1.65;
+	color: var(--ink);
 }
 
 /* =========================================================================
@@ -804,6 +900,40 @@ dialog.at-selected-projects::backdrop {
 }
 
 /* =========================================================================
+   PROJECT GALLERY LAUNCHER — four-image preview for one project
+   ========================================================================= */
+
+.at-gallery-mosaic {
+	display: grid;
+	grid-template-columns: repeat(2, 56px);
+	gap: 4px;
+	align-self: center;
+	justify-self: center;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.at-gallery-mosaic img {
+	width: 56px;
+	height: 56px;
+	object-fit: cover;
+	display: block;
+	border-radius: 2px;
+}
+
+/* Keyboard focus uses the brand color around the complete four-image control. */
+.at-gallery-mosaic:focus-visible {
+	outline: 2px solid var(--green);
+	outline-offset: 4px;
+}
+
+/* Explicitly preserve native hidden behavior if other gallery display rules evolve. */
+.at-gallery-project[hidden] { display: none; }
+
+/* =========================================================================
    SERVICE FEATURES — green checkmark bullet list before numbered steps
    ========================================================================= */
 
@@ -858,6 +988,15 @@ dialog.at-selected-projects::backdrop {
 	height: 28px;
 }
 
+/* Official white Viber bitmap stays unmodified inside both contact controls. */
+.at-contact-cta__btn img,
+.at-viber-fab img {
+	width: 28px;
+	height: 28px;
+	display: block;
+	pointer-events: none;
+}
+
 /* =========================================================================
    RESPONSIVE — new components at reduced viewport widths
    ========================================================================= */
@@ -892,14 +1031,10 @@ dialog.at-selected-projects::backdrop {
 	}
 }
 
-/* Small mobile (max 375px): compact trigger button, tighter CTA spacing */
+/* Small mobile (max 375px): tighten CTA spacing */
 @media (max-width: 375px) {
 	.at-contact-cta__actions {
 		gap: 8px;
-	}
-	.at-selected-projects__trigger {
-		font-size: .9rem;
-		padding: 10px 18px;
 	}
 }
 
@@ -924,4 +1059,10 @@ dialog.at-selected-projects::backdrop {
 	/* Reduced-motion users receive visible content without reveal transitions. */
 	.has-js .at-fade { opacity: 1; transform: none; transition: none; }
 	.at-sketch__img { transition: none !important; animation: none !important; }
+	.at-tl-buildings { scroll-behavior: auto; }
+	.at-faq__item summary::after,
+	.at-viber-fab a {
+		transition: none;
+		animation: none;
+	}
 }
