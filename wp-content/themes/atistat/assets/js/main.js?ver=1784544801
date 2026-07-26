@@ -1,6 +1,6 @@
 /**
  * main.js: Dependency-free interactions shared by every ATISTAT static page.
- * Provides navigation, reveal, accessible timeline, sketch, and gallery behavior.
+ * Provides navigation, reveal, accessible timeline, selected-project links, gallery, and large-image behavior.
  */
 (function () {
 	"use strict";
@@ -14,6 +14,7 @@
 	const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 	const TOUCH_POINTER_QUERY = "(hover: none)";
 	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+	const SELECTED_PROJECT_LINK_SELECTOR = 'a[data-selected-project-link][href^="#selected-project-"]';
 
 	/**
 	 * Initializes the mobile navigation toggle and closes the menu after navigation.
@@ -521,6 +522,35 @@
 	}
 
 	/**
+	 * Scrolls selected-project links to their exact cards and transfers keyboard focus.
+	 *
+	 * @returns {void}
+	 */
+	function initializeSelectedProjectLinks() {
+		document.querySelectorAll(SELECTED_PROJECT_LINK_SELECTOR).forEach(
+			function registerSelectedProjectLink(link) {
+				link.addEventListener("click", function focusSelectedProject(event) {
+					const destinationId = link.getAttribute("href")?.slice(1);
+					const destination = destinationId
+						? document.getElementById(destinationId)
+						: null;
+					if (!(destination instanceof HTMLElement)) {
+						return;
+					}
+
+					event.preventDefault();
+					const prefersReducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+					const behavior = prefersReducedMotion ? "auto" : "smooth";
+					window.history.pushState(null, "", `#${destinationId}`);
+					destination.scrollIntoView({ behavior, block: "center" });
+					// preventScroll preserves the single reduced-motion-aware scroll requested above.
+					destination.focus({ preventScroll: true });
+				});
+			}
+		);
+	}
+
+	/**
 	 * Resolves the project gallery launcher associated with a click.
 	 *
 	 * @param {Event} event - The delegated document click event.
@@ -541,17 +571,15 @@
 	/**
 	 * Filters and opens the native dialog for one project.
 	 *
-	 * @param {HTMLDialogElement} dialog - The shared project gallery dialog.
-	 * @param {HTMLElement|null} closeButton - The dialog close button.
+	 * @param {Object} state - The initialized project dialog and focus state.
 	 * @param {HTMLElement} launcher - The project launcher that was activated.
-	 * @param {string} defaultLabel - The fallback dialog label.
 	 * @returns {void}
 	 */
-	function openGalleryProject(dialog, closeButton, launcher, defaultLabel) {
+	function openGalleryProject(state, launcher) {
 		const projectId = launcher.dataset.project;
 		// Programmatic and pointer activation both establish the native return target.
 		launcher.focus({ preventScroll: true });
-		const projectContainers = dialog.querySelectorAll("[data-project]");
+		const projectContainers = state.dialog.querySelectorAll(".at-gallery-project[data-project]");
 		projectContainers.forEach(function hideGalleryProject(container) {
 			container.hidden = true;
 		});
@@ -562,24 +590,136 @@
 		);
 		if (!activeContainer) {
 			console.warn("Gallery project not found: " + projectId);
-			closeButton?.removeAttribute("hidden");
-			dialog.setAttribute("aria-label", defaultLabel);
-			dialog.showModal();
-			closeButton?.focus();
+			state.dialog.setAttribute("aria-label", state.defaultLabel);
+			state.dialog.showModal();
+			state.dialogCloseButton.focus();
 			return;
 		}
 
 		activeContainer.hidden = false;
-		const projectName = activeContainer.dataset.name?.trim() || defaultLabel;
-		const dialogTitle = dialog.querySelector(".at-dialog__header h2");
-		dialog.setAttribute("aria-label", projectName);
-		if (dialogTitle) {
-			dialogTitle.textContent = projectName;
-		}
+		const projectName = activeContainer.dataset.name?.trim() || state.defaultLabel;
+		state.dialog.setAttribute("aria-label", projectName);
+		state.dialogTitle.textContent = projectName;
 		activeContainer.scrollTop = 0;
-		dialog.showModal();
+		state.dialog.showModal();
 		const firstFocusable = activeContainer.querySelector(FOCUSABLE_SELECTOR);
-		(firstFocusable || closeButton)?.focus();
+		(firstFocusable || state.dialogCloseButton).focus();
+	}
+
+	/**
+	 * Updates the viewport-filling image and its localized position announcement.
+	 *
+	 * @param {Object} state - The initialized project dialog and large-image state.
+	 * @returns {void}
+	 */
+	function renderLargeImage(state) {
+		const sourceImage = state.projectImages[state.imagePosition];
+		state.largeImage.src = sourceImage.currentSrc || sourceImage.src;
+		state.largeImage.alt = sourceImage.alt;
+		state.largeImageCaption.textContent = (
+			`${state.counterLabel} ${state.imagePosition + 1} / ${state.projectImages.length}`
+		);
+	}
+
+	/**
+	 * Opens one image within the active project's scoped large-image sequence.
+	 *
+	 * @param {Object} state - The initialized project dialog and large-image state.
+	 * @param {HTMLImageElement} sourceImage - The gallery image selected by the visitor.
+	 * @returns {void}
+	 */
+	function openLargeImage(state, sourceImage) {
+		const projectContainer = sourceImage.closest(".at-gallery-project");
+		if (!(projectContainer instanceof HTMLElement) || projectContainer.hidden) {
+			return;
+		}
+
+		state.projectImages = Array.from(projectContainer.querySelectorAll(".at-gallery-grid img"));
+		state.imagePosition = state.projectImages.indexOf(sourceImage);
+		state.sourceImage = sourceImage;
+		if (state.imagePosition < 0 || state.projectImages.length === 0) {
+			return;
+		}
+
+		renderLargeImage(state);
+		state.dialog.dataset.lightboxOpen = "true";
+		state.dialogHeader.setAttribute("aria-hidden", "true");
+		state.dialogBody.setAttribute("aria-hidden", "true");
+		state.lightbox.hidden = false;
+		state.lightbox.setAttribute("aria-hidden", "false");
+		state.largeImageCloseButton.focus();
+	}
+
+	/**
+	 * Moves to the adjacent image while remaining inside the active project.
+	 *
+	 * @param {Object} state - The initialized project dialog and large-image state.
+	 * @param {number} direction - Minus one for previous or plus one for next.
+	 * @returns {void}
+	 */
+	function moveLargeImage(state, direction) {
+		const imageCount = state.projectImages.length;
+		if (state.lightbox.hidden || imageCount === 0) {
+			return;
+		}
+		state.imagePosition = (state.imagePosition + direction + imageCount) % imageCount;
+		renderLargeImage(state);
+	}
+
+	/**
+	 * Closes the large-image layer while optionally restoring focus to its source image.
+	 *
+	 * @param {Object} state - The initialized project dialog and large-image state.
+	 * @param {boolean} shouldRestoreFocus - Whether the selected gallery image should regain focus.
+	 * @returns {void}
+	 */
+	function closeLargeImage(state, shouldRestoreFocus) {
+		if (state.lightbox.hidden) {
+			return;
+		}
+
+		const imageToRestore = state.sourceImage;
+		state.lightbox.hidden = true;
+		state.lightbox.setAttribute("aria-hidden", "true");
+		state.dialog.removeAttribute("data-lightbox-open");
+		state.dialogHeader.removeAttribute("aria-hidden");
+		state.dialogBody.removeAttribute("aria-hidden");
+		state.largeImage.removeAttribute("src");
+		state.largeImage.alt = "";
+		state.projectImages = [];
+		state.imagePosition = 0;
+		state.sourceImage = null;
+		if (shouldRestoreFocus && imageToRestore && document.contains(imageToRestore)) {
+			imageToRestore.focus({ preventScroll: true });
+		}
+	}
+
+	/**
+	 * Enhances gallery images with button semantics and keyboard large-view activation.
+	 *
+	 * @param {Object} state - The initialized project dialog and large-image state.
+	 * @returns {void}
+	 */
+	function enhanceGalleryImages(state) {
+		state.dialog.querySelectorAll(".at-gallery-grid img").forEach(
+			function enhanceGalleryImage(image) {
+				image.setAttribute("role", "button");
+				image.setAttribute("tabindex", "0");
+				image.setAttribute("aria-haspopup", "dialog");
+				image.setAttribute("aria-controls", state.lightbox.id);
+				image.setAttribute("aria-label", `${state.imageActionLabel}: ${image.alt}`);
+				image.addEventListener("click", function openClickedLargeImage() {
+					openLargeImage(state, image);
+				});
+				image.addEventListener("keydown", function openKeyedLargeImage(event) {
+					if (event.key !== "Enter" && event.key !== " ") {
+						return;
+					}
+					event.preventDefault();
+					openLargeImage(state, image);
+				});
+			}
+		);
 	}
 
 	/**
@@ -597,22 +737,96 @@
 		}
 
 		const closeButton = dialog.querySelector(".at-dialog__close");
+		const dialogHeader = dialog.querySelector(".at-dialog__header");
+		const dialogBody = dialog.querySelector(".at-dialog__body");
+		const dialogTitle = dialog.querySelector(".at-dialog__header h2");
+		const lightbox = dialog.querySelector("[data-lightbox]");
+		const largeImage = lightbox?.querySelector(".at-lightbox__image");
+		const largeImageCaption = lightbox?.querySelector(".at-lightbox__caption");
+		const largeImageCloseButton = lightbox?.querySelector(".at-lightbox__close");
+		const previousImageButton = lightbox?.querySelector("[data-lightbox-previous]");
+		const nextImageButton = lightbox?.querySelector("[data-lightbox-next]");
+		if (
+			!(closeButton instanceof HTMLButtonElement)
+			|| !(dialogHeader instanceof HTMLElement)
+			|| !(dialogBody instanceof HTMLElement)
+			|| !(dialogTitle instanceof HTMLElement)
+			|| !(lightbox instanceof HTMLElement)
+			|| !(largeImage instanceof HTMLImageElement)
+			|| !(largeImageCaption instanceof HTMLElement)
+			|| !(largeImageCloseButton instanceof HTMLButtonElement)
+			|| !(previousImageButton instanceof HTMLButtonElement)
+			|| !(nextImageButton instanceof HTMLButtonElement)
+		) {
+			return;
+		}
+
 		const defaultLabel = dialog.getAttribute("aria-label") || "Selected projects";
-		let lastGalleryLauncher = null;
+		const state = {
+			dialog,
+			dialogHeader,
+			dialogBody,
+			dialogTitle,
+			dialogCloseButton: closeButton,
+			defaultLabel,
+			lightbox,
+			largeImage,
+			largeImageCaption,
+			largeImageCloseButton,
+			previousImageButton,
+			nextImageButton,
+			imageActionLabel: dialog.dataset.imageActionLabel || "Open large view",
+			counterLabel: dialog.dataset.counterLabel || "Image",
+			projectImages: [],
+			imagePosition: 0,
+			sourceImage: null,
+			lastGalleryLauncher: null
+		};
+		enhanceGalleryImages(state);
 		document.addEventListener("click", function openSelectedProject(event) {
 			const launcher = resolveGalleryLauncher(event);
 			if (!launcher) {
 				return;
 			}
 
-			lastGalleryLauncher = launcher;
-			openGalleryProject(dialog, closeButton, launcher, defaultLabel);
+			state.lastGalleryLauncher = launcher;
+			openGalleryProject(state, launcher);
 		});
-		closeButton?.addEventListener("click", function closeSelectedProjects() {
+		closeButton.addEventListener("click", function closeSelectedProjects() {
 			dialog.close();
 		});
+		largeImageCloseButton.addEventListener("click", function closeSelectedLargeImage() {
+			closeLargeImage(state, true);
+		});
+		previousImageButton.addEventListener("click", function showPreviousLargeImage() {
+			moveLargeImage(state, -1);
+		});
+		nextImageButton.addEventListener("click", function showNextLargeImage() {
+			moveLargeImage(state, 1);
+		});
+		lightbox.addEventListener("click", function closeLargeImageBackdrop(event) {
+			if (event.target === lightbox) {
+				closeLargeImage(state, true);
+			}
+		});
+		dialog.addEventListener("keydown", function navigateLargeImages(event) {
+			if (state.lightbox.hidden) {
+				return;
+			}
+			if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+				event.preventDefault();
+				moveLargeImage(state, event.key === "ArrowLeft" ? -1 : 1);
+			}
+		});
+		dialog.addEventListener("cancel", function closeTopmostDialogLayer(event) {
+			if (!state.lightbox.hidden) {
+				event.preventDefault();
+				closeLargeImage(state, true);
+			}
+		});
 		dialog.addEventListener("close", function restoreSelectedProjectsFocus() {
-			const launcherToRestore = lastGalleryLauncher;
+			closeLargeImage(state, false);
+			const launcherToRestore = state.lastGalleryLauncher;
 			if (launcherToRestore && document.contains(launcherToRestore)) {
 				// Native dialog focus restoration completes after the close event.
 				window.setTimeout(function focusGalleryLauncher() {
@@ -630,5 +844,6 @@
 	initializeTimeline();
 	initializeResponsiveTimeline();
 	initializeTouchSketches();
+	initializeSelectedProjectLinks();
 	initializeSelectedProjectsDialog();
 }());

@@ -139,9 +139,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									<li class="at-nav__item">
 						<a class="at-nav__link" href="#contacts">КОНТАКТИ</a>
 					</li>
-												<li class="at-nav__item">
-													<a class="at-nav__link" href="#partners">ПАРТНЬОРИ</a>
-												</li>
 							</ul>
 
 			<div class="at-lang" role="group" aria-label="Език / Language">
@@ -166,34 +163,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				<p class="at-hero__sub">Строително-инвестиционна компания, базирана на 26 години професионален опит. Реализираме проекти с отговорност, качество и дългосрочна визия — от идея до ключ.</p>
 		</div>
 		<div class="at-hero__art at-fade" data-fade>
-			<a class="at-sketch at-sketch--hero" data-sketch href="#opit" aria-label="Проект Елемаг, строителство, опит с Инженерни Системи">  <span class="at-sketch__frame">    <img class="at-sketch__img" src="wp-content/themes/atistat/assets/images/elemag.webp" alt="Елемаг" loading="lazy" decoding="async">  </span>  <span class="at-sketch__cap"><span>Проект Елемаг</span><span>Строителство</span><span>Опит с Инженерни Системи</span></span></a>		</div>
-	</div>
-</section>
-
-<!-- ============================================================
-     Trust Metrics — key indicators that establish credibility immediately after the hero
-     Responsive intent: Four concise values wrap into fewer columns on narrow viewports
-     ============================================================ -->
-<section class="at-stats" id="stats" aria-label="Ключови показатели">
-	<div class="at-container">
-		<ul class="at-stats__list" role="list">
-			<li class="at-stats__item">
-				<strong class="at-stats__num">26</strong>
-				<span class="at-stats__label">години опит</span>
-			</li>
-			<li class="at-stats__item">
-				<strong class="at-stats__num">8+</strong>
-				<span class="at-stats__label">реализирани проекта</span>
-			</li>
-			<li class="at-stats__item">
-				<strong class="at-stats__num">2</strong>
-				<span class="at-stats__label">награди „Сграда на годината“</span>
-			</li>
-			<li class="at-stats__item">
-				<strong class="at-stats__num">3</strong>
-				<span class="at-stats__label">компании в групата</span>
-			</li>
-		</ul>
+			<a class="at-sketch at-sketch--hero" data-sketch href="#selected-project-elemag" data-selected-project-link aria-label="Проект Елемаг, строителство, опит с Инженерни Системи">  <span class="at-sketch__frame">    <img class="at-sketch__img" src="wp-content/themes/atistat/assets/images/elemag.webp" alt="Елемаг" loading="lazy" decoding="async">  </span>  <span class="at-sketch__cap"><span>Проект Елемаг</span><span>Строителство</span><span>Опит с Инженерни Системи</span></span></a>		</div>
 	</div>
 </section>
 
@@ -201,7 +171,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <section class="at-section at-about" id="about">
 	<div class="at-container at-about__inner">
 		<div class="at-about__art at-fade" data-fade>
-			<a class="at-sketch at-sketch--about" data-sketch href="#opit" aria-label="Проект Монтеканал, строителство, опит с Инженерни Системи">  <span class="at-sketch__frame">    <img class="at-sketch__img" src="wp-content/themes/atistat/assets/images/montekanal.webp" alt="Монтеканал" loading="lazy" decoding="async">  </span>  <span class="at-sketch__cap"><span>Проект Монтеканал</span><span>Строителство</span><span>Опит с Инженерни Системи</span></span></a>		</div>
+			<a class="at-sketch at-sketch--about" data-sketch href="#selected-project-montekanal" data-selected-project-link aria-label="Проект Монтеканал, довършителни работи, опит с Инженерни Системи">  <span class="at-sketch__frame">    <img class="at-sketch__img" src="wp-content/themes/atistat/assets/images/montekanal.webp" alt="Монтеканал" loading="lazy" decoding="async">  </span>  <span class="at-sketch__cap"><span>Проект Монтеканал</span><span>Довършителни работи</span><span>Опит с Инженерни Системи</span></span></a>		</div>
 		<div class="at-about__text at-fade" data-fade>
 			<h2 class="at-h2">ЗА НАС</h2>
 			<span class="at-rule" aria-hidden="true"></span>
@@ -233,69 +203,138 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 			</div>
 		</header>
 
-		<!--
-		  Flagship Projects
-		  Design intent: Three equally weighted editorial cards establish the quality benchmark before the full timeline.
-		  Accessibility: Semantic articles label each image; native buttons open the filtered dialog and regain focus after close.
+				<!--
+		  Selected Projects
+		  Design intent: Seven equally attributed cards distinguish ATISTAT work from experience gained with Engineering Systems.
+		  Accessibility: Cards receive programmatic focus from in-page links; native buttons open the project dialog and restore focus.
 		-->
-		<section class="at-flagship at-fade" data-fade aria-labelledby="flagship-projects-title">
-			<h3 class="at-flagship__title" id="flagship-projects-title">ЗНАКОВИ ПРОЕКТИ</h3>
+		<section class="at-flagship" aria-labelledby="selected-projects-heading">
+			<h3 class="at-flagship__title" id="selected-projects-heading">ИЗБРАНИ ПРОЕКТИ</h3>
 			<div class="at-flagship__grid">
-				<article class="at-flagship__card" data-project="elemag" aria-labelledby="flagship-elemag-title">
+				<article class="at-flagship__card" id="selected-project-bebelan" data-project="bebelan" tabindex="-1" aria-labelledby="selected-project-bebelan-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/bebelan.webp" alt="Бебелан — интериор на офисно-складовата сграда" width="1200" height="750" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-bebelan-title">Бебелан</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисно-складова</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Бебелан">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-power-properties" data-project="power-properties" tabindex="-1" aria-labelledby="selected-project-power-properties-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/power-properties-timeline.webp" alt="Пауър Пропъртис — интериор на офисно-складовата сграда" width="675" height="900" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-power-properties-title">Пауър Пропъртис</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисно-складова</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="power-properties" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Пауър Пропъртис">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-montekanal" data-project="montekanal" tabindex="-1" aria-labelledby="selected-project-montekanal-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/montekanal-1-1100x825.webp" alt="Монтеканал — жилищен комплекс" width="1100" height="825" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-montekanal-title">Монтеканал</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Жилищна</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2011</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="montekanal" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Монтеканал">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-elemag" data-project="elemag" tabindex="-1" aria-labelledby="selected-project-elemag-title">
 					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/elemag.webp" alt="Елемаг — екстериор на жилищната сграда" width="1200" height="750" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<h4 class="at-flagship__name" id="flagship-elemag-title">Елемаг</h4>
+						<h4 class="at-flagship__name" id="selected-project-elemag-title">Елемаг</h4>
 						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Жилищна</dd></div>
+							<div><dt>Дейност</dt><dd>Строителство</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
 							<div><dt>Година</dt><dd>2021</dd></div>
-							<div><dt>Тип сграда</dt><dd>Жилищна сграда</dd></div>
-							<div><dt>Услуга</dt><dd>Строителство</dd></div>
-							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
 						</dl>
-						<p class="at-flagship__description">Жилищен проект от 2021 г., който поставя във фокус строителния опит, натрупан с Инженерни Системи.</p>
-						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
-						<button type="button" class="at-flagship__action" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: Елемаг">
-							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Елемаг">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
 						</button>
 					</div>
 				</article>
-				<article class="at-flagship__card" data-project="bebelan" aria-labelledby="flagship-bebelan-title">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/bebelan.webp" alt="Бебелан — интериор на офисната и складова сграда" width="1200" height="750" loading="lazy" decoding="async">
+				<article class="at-flagship__card" id="selected-project-louis-ayer" data-project="louis-ayer" tabindex="-1" aria-labelledby="selected-project-louis-ayer-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/louis-ayer-timeline.webp" alt="Апартамент Луи Айер — интериор" width="900" height="675" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<h4 class="at-flagship__name" id="flagship-bebelan-title">Бебелан</h4>
+						<h4 class="at-flagship__name" id="selected-project-louis-ayer-title">ап. Луи Айер</h4>
 						<dl class="at-flagship__meta">
-							<div><dt>Година</dt><dd>2025</dd></div>
-							<div><dt>Тип сграда</dt><dd>Офисна и складова сграда</dd></div>
-							<div><dt>Услуга</dt><dd>Довършителни работи</dd></div>
-							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+							<div><dt>Вид сграда</dt><dd>Апартамент</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършен</dd></div>
+							<div><dt>Година</dt><dd>2024</dd></div>
+							<div><dt>Опит</dt><dd>с АТИСТАТ</dd></div>
 						</dl>
-						<p class="at-flagship__description">Офисна и складова среда от 2025 г., представяща довършителните работи в опита ни с Инженерни Системи.</p>
-						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
-						<button type="button" class="at-flagship__action" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: Бебелан">
-							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="louis-ayer" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ап. Луи Айер">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
 						</button>
 					</div>
 				</article>
-				<article class="at-flagship__card" data-project="ubb-interlease" aria-labelledby="flagship-ubb-title">
+				<article class="at-flagship__card" id="selected-project-arcadia" data-project="arcadia" tabindex="-1" aria-labelledby="selected-project-arcadia-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/arcadia-timeline.webp" alt="Апартамент Аркадия — интериор" width="900" height="674" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-arcadia-title">ап. Аркадия</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Апартамент</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършен</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с АТИСТАТ</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="arcadia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ап. Аркадия">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-ubb-interlease" data-project="ubb-interlease" tabindex="-1" aria-labelledby="selected-project-ubb-interlease-title">
 					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/ubb-interlease.webp" alt="ОББ Интерлийз — интериор на офисната сграда" width="1200" height="750" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<h4 class="at-flagship__name" id="flagship-ubb-title">ОББ Интерлийз</h4>
+						<h4 class="at-flagship__name" id="selected-project-ubb-interlease-title">ОББ Интерлийз</h4>
 						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисна</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
 							<div><dt>Година</dt><dd>2025</dd></div>
-							<div><dt>Тип сграда</dt><dd>Офисна сграда</dd></div>
-							<div><dt>Услуга</dt><dd>Строителство</dd></div>
-							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
 						</dl>
-						<p class="at-flagship__description">Офисен проект от 2025 г., който представя строителния опит, натрупан с Инженерни Системи.</p>
-						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
-						<button type="button" class="at-flagship__action" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: ОББ Интерлийз">
-							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						<!-- Native button supports Enter/Space, opens the filtered modal and regains focus after close. -->
+						<button type="button" class="at-flagship__action" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ОББ Интерлийз">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
 						</button>
 					</div>
 				</article>
 			</div>
 		</section>
 
-		<!--
+
+<!--
 		  Timeline Heading
 		  Design intent: Distinguishes the complete company-and-project chronology from the preceding flagship project cards.
 		  Accessibility: The level-three heading labels the complete timeline through aria-labelledby.
@@ -325,7 +364,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Монтеканал</h3>
 								<span class="at-tlpanel__type">Жилищна сграда</span>								<p class="at-tlpanel__desc">Довършителни работи</p>
-								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>							</div>
+								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-montekanal">Към избрания проект</a>							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="montekanal" aria-label="Галерия: Монтеканал">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -350,7 +390,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Елемаг</h3>
 								<span class="at-tlpanel__type">Жилищна сграда</span>								<p class="at-tlpanel__desc">Строителство</p>
-								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>							</div>
+								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-elemag">Към избрания проект</a>							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="elemag" aria-label="Галерия: Елемаг">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -371,6 +412,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Апартамент</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с АТИСТАТ</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-louis-ayer">Към избрания проект</a>
 							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="louis-ayer" aria-label="Галерия: ап. Луи Айер">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -396,8 +438,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 							<span class="at-tlpanel__year">2025</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">ОББ Интерлийз</h3>
-								<span class="at-tlpanel__type">Офис сграда</span>								<p class="at-tlpanel__desc">Строителство</p>
-								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>							</div>
+								<span class="at-tlpanel__type">Офис сграда</span>								<p class="at-tlpanel__desc">Довършителни работи</p>
+								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-ubb-interlease">Към избрания проект</a>							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="ubb-interlease" aria-label="Галерия: ОББ Интерлийз">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -418,6 +461,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Апартамент</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с АТИСТАТ</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-arcadia">Към избрания проект</a>
 							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="arcadia" aria-label="Галерия: ап. Аркадия">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -439,6 +483,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Офисно-складова</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-bebelan">Към избрания проект</a>
 							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="bebelan" aria-label="Галерия: Бебелан">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -460,6 +505,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Офисно-складова</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-power-properties">Към избрания проект</a>
 							</div>
 								<button type="button" class="at-gallery-mosaic" data-project="power-properties" aria-label="Галерия: Пауър Пропъртис">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -692,7 +738,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2011</span>
 							<h3 class="at-tlpanel__name">Монтеканал</h3>
-							<span class="at-tlpanel__type">Жилищна сграда</span>							<p class="at-tlpanel__desc">Довършителни работи</p>						</div>
+							<span class="at-tlpanel__type">Жилищна сграда</span>							<p class="at-tlpanel__desc">Довършителни работи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-montekanal">Към избрания проект</a>						</div>
 
 							<button type="button" class="at-gallery-mosaic" data-project="montekanal" aria-label="Галерия: Монтеканал">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -719,7 +766,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2021</span>
 							<h3 class="at-tlpanel__name">Елемаг</h3>
-							<span class="at-tlpanel__type">Жилищна сграда</span>							<p class="at-tlpanel__desc">Строителство</p>						</div>
+							<span class="at-tlpanel__type">Жилищна сграда</span>							<p class="at-tlpanel__desc">Строителство</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-elemag">Към избрания проект</a>						</div>
 
 							<button type="button" class="at-gallery-mosaic" data-project="elemag" aria-label="Галерия: Елемаг">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -742,6 +790,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Апартамент</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с АТИСТАТ</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-louis-ayer">Към избрания проект</a>
 							</div>
 							<button type="button" class="at-gallery-mosaic" data-project="louis-ayer" aria-label="Галерия: ап. Луи Айер">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -771,7 +820,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2025</span>
 							<h3 class="at-tlpanel__name">ОББ Интерлийз</h3>
-							<span class="at-tlpanel__type">Офис сграда</span>							<p class="at-tlpanel__desc">Строителство</p>						</div>
+							<span class="at-tlpanel__type">Офис сграда</span>							<p class="at-tlpanel__desc">Довършителни работи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-ubb-interlease">Към избрания проект</a>						</div>
 
 							<button type="button" class="at-gallery-mosaic" data-project="ubb-interlease" aria-label="Галерия: ОББ Интерлийз">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -794,6 +844,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Апартамент</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с АТИСТАТ</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-arcadia">Към избрания проект</a>
 							</div>
 							<button type="button" class="at-gallery-mosaic" data-project="arcadia" aria-label="Галерия: ап. Аркадия">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -816,6 +867,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Офисно-складова</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-bebelan">Към избрания проект</a>
 							</div>
 							<button type="button" class="at-gallery-mosaic" data-project="bebelan" aria-label="Галерия: Бебелан">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -838,6 +890,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Офисно-складова</span>
 								<p class="at-tlpanel__desc">Довършителни работи</p>
 								<p class="at-tlpanel__desc">Опит с Инженерни Системи</p>
+								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-power-properties">Към избрания проект</a>
 							</div>
 							<button type="button" class="at-gallery-mosaic" data-project="power-properties" aria-label="Галерия: Пауър Пропъртис">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -961,32 +1014,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</div>
 	</div>
 </section>
-<!-- ===================== CTA ===================== -->
-<section class="at-section at-contact-cta" aria-labelledby="contact-cta-title">
-	<div class="at-container">
-		<h2 id="contact-cta-title">Свържете се с нас</h2>
-		<p class="at-contact-cta__sub">+359 884 074 048 · office@atistat.com</p>
-		<div class="at-contact-cta__actions">
-			<a class="at-contact-cta__btn" href="tel:+359884074048" aria-label="Обадете се на АТИСТАТ"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L20 13l1 4v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg></a>
-			<a class="at-contact-cta__btn" href="mailto:office@atistat.com" aria-label="Изпратете имейл на АТИСТАТ"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
-			<a class="at-contact-cta__btn" href="https://wa.me/359884074048" target="_blank" rel="noopener noreferrer" aria-label="Свържете се с АТИСТАТ чрез WhatsApp"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
-			<a class="at-contact-cta__btn" href="viber://chat?number=359884074048" aria-label="Свържете се с АТИСТАТ чрез Viber" title="Свържете се с АТИСТАТ чрез Viber"><img src="wp-content/themes/atistat/assets/images/viber-icon.png" alt="" aria-hidden="true" width="28" height="28"></a>
-		</div>
-	</div>
-</section>
-
-<!-- ===================== ПАРТНЬОРИ ===================== -->
-<section class="at-section at-partners" id="partners">
-	<div class="at-container">
-		<h2 class="at-h2">ПАРТНЬОРИ</h2>
-		<ul class="at-partners__list">
-			<li><a class="at-partner__link" href="https://engsys.bg" target="_blank" rel="noopener" aria-label="Инженерни Системи — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/engsys.png" alt="Инженерни Системи" loading="lazy" decoding="async"></a></li>
-			<li><a class="at-partner__link" href="https://correctproject.com" target="_blank" rel="noopener" aria-label="Корект Проект — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/correctproject.png" alt="Корект Проект" loading="lazy" decoding="async"></a></li>
-			<li><a class="at-partner__link" href="https://www.adreo.bg/" target="_blank" rel="noopener" aria-label="Адрео — отвори сайта на партньора"><img src="wp-content/uploads/2026/07/adreo.png" alt="Адрео" loading="lazy" decoding="async"></a></li>
-		</ul>
-	</div>
-</section>
-
 <!-- ===================== ЗАЩО АТИСТАТ ===================== -->
 <section class="at-section at-why" id="why">
 	<div class="at-container">
@@ -1099,17 +1126,32 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 	</div>
 </section>
 
+<!-- ===================== ПАРТНЬОРИ ===================== -->
+<section class="at-section at-partners" id="partners">
+	<div class="at-container">
+		<h2 class="at-h2">ПАРТНЬОРИ</h2>
+		<ul class="at-partners__list">
+			<li><a class="at-partner__link" href="https://engsys.bg" target="_blank" rel="noopener" aria-label="Инженерни Системи — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/engsys.png" alt="Инженерни Системи" loading="lazy" decoding="async"></a></li>
+			<li><a class="at-partner__link" href="https://correctproject.com" target="_blank" rel="noopener" aria-label="Корект Проект — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/correctproject.png" alt="Корект Проект" loading="lazy" decoding="async"></a></li>
+			<li><a class="at-partner__link" href="https://www.adreo.bg/" target="_blank" rel="noopener" aria-label="Адрео — отвори сайта на партньора"><img src="wp-content/uploads/2026/07/adreo.png" alt="Адрео" loading="lazy" decoding="async"></a></li>
+		</ul>
+	</div>
+</section>
+
+
+
 
 <!-- ============================================================
      Selected Projects Dialog — native <dialog> modal with gallery
      ============================================================ -->
-<dialog id="selected-projects-dialog" class="at-selected-projects" aria-label="Избрани проекти" aria-modal="true">
+<dialog id="selected-projects-dialog" class="at-selected-projects" aria-label="Избрани проекти" aria-modal="true" data-image-action-label="Отвори в голям размер" data-counter-label="Снимка">
 		<div class="at-dialog__header">
 			<h2 id="selected-projects-title">Избрани проекти</h2>
 			<button type="button" class="at-dialog__close" aria-label="Затвори">&#x2715;</button>
 		</div>
 				<div class="at-dialog__body">
 			<div class="at-gallery-project" hidden data-project="arcadia" data-name="Апартамент Аркадия">
+				<p class="at-gallery-project__description">Апартамент „Аркадия“ е модерен тристаен дом в кв. „Манастирски ливади“, изграден около ясна дизайнерска концепция с изчистени форми и естествено излъчване. Дървесните настилки и мебелите по индивидуален проект създават визуална цялост и топлина в интериора. Реализацията следва прецизно заложения дизайн, с внимателна изработка на всеки детайл и безупречно съчетаване на материали, текстури и функционални решения.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D1%8F.png" alt="Апартамент Аркадия — снимка 1" width="1449" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D1%8F.png" alt="Апартамент Аркадия — снимка 2" width="1086" height="1448" loading="lazy" decoding="async">
@@ -1120,6 +1162,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="louis-ayer" data-name="Апартамент Луи Айер">
+				<p class="at-gallery-project__description">Просторният четиристаен апартамент на бул. „Луи Айер“, в близост до Южния парк, е реализиран с цялостни довършителни работи и съвременен интериорен дизайн. Проектът включва подово отопление, мебели по индивидуална поръчка и внимателно съгласувани цветови и материални решения. Прецизната координация между отделните дейности гарантира висококачествено изпълнение, точно пресъздаване на интериорната концепция и завършване в договорения срок.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="Апартамент Луи Айер — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="Апартамент Луи Айер — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">
@@ -1128,6 +1171,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="bebelan" data-name="Обект Бебелан">
+				<p class="at-gallery-project__description">Централната база на BEBELAN в с. Герман е модерен търговско-логистичен комплекс от ново поколение, отличен в Националния конкурс „Сграда на годината 2025“ с „Награда за впечатляващ архитектурен образ в логистичен комплекс“. Прецизно изпълнените довършителни работи, изчистените линии и внимателно подбраните естествени материали оформят съвременен и функционален интериор с представителни пространства, офиси, конферентни зали и зони за отдих, в които личи изключително внимание към всеки детайл.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%91%D0%B5%D0%B1%D0%B5%D0%BB%D0%B0%D0%BD.jpg" alt="Обект Бебелан — снимка 1" width="1800" height="1200" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%91%D0%B5%D0%B1%D0%B5%D0%BB%D0%B0%D0%BD.jpg" alt="Обект Бебелан — снимка 2" width="1800" height="1200" loading="lazy" decoding="async">
@@ -1138,6 +1182,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="elemag" data-name="Елемаг">
+				<p class="at-gallery-project__description">Съвременната жилищна сграда Елемаг е проектирана и изпълнена с мисъл за дълготрайност и комфорт за поколения напред. Отличава се с модерна окачена фасада с ламинирани панели и високоефективна топлоизолация, както и с три подземни нива за гаражи, реализирани със специализирано укрепване по границите на парцела. Прецизната организация на строителните процеси и стриктният контрол на изпълнението осигуряват високо качество и завършване на обекта в определения срок.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%BE%20%D0%95%D0%BB%D0%B5%D0%BC%D0%B0%D0%B3.png" alt="Елемаг — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%BE%20%D0%95%D0%BB%D0%B5%D0%BC%D0%B0%D0%B3.png" alt="Елемаг — снимка 2" width="1086" height="1448" loading="lazy" decoding="async">
@@ -1146,6 +1191,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="montekanal" data-name="Монтеканал">
+				<p class="at-gallery-project__description">Жилищен комплекс, който за времето си въвежда нов модел на затворена и организирана жилищна среда, обединяваща четири сгради, търговски площи и подземно паркиране. Реализацията му демонстрира сериозен опит в координацията на строителните процеси и прецизното изпълнение на довършителните работи в жилищата и общите части, с последователно качество, функционалност и внимание към детайла.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2CIMG_6308%20-%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BE%20%D0%B7%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82.png" alt="Монтеканал — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2CIMG_6307%20-%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BE%20%D0%B7%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82.png" alt="Монтеканал — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">
@@ -1154,6 +1200,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="ubb-interlease" data-name="ОББ Интерлийз">
+				<p class="at-gallery-project__description">„Пърл Център“ е високотехнологичен административен хъб на KBC Group, реализиран чрез цялостно преустройство, конструктивно укрепване и фасадна трансформация на съществуваща сграда. Проектът участва в Националния конкурс „Сграда на годината 2025“ в категория „Офисни сгради“, а работната среда е оценена сред най-добрите офисни пространства в групата. Интериорното изпълнение включва повдигнат двоен под, окачени тавани, стъклени преградни системи и прецизно съчетание на различни материали, осигуряващи гъвкавост, естествена светлина и безпроблемно интегриране на високотехнологичните сградни инсталации.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9E%D0%91%D0%91%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BB%D0%B8%D0%B9%D0%B7.jpg" alt="ОББ Интерлийз — снимка 1" width="1800" height="1200" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9E%D0%91%D0%91%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BB%D0%B8%D0%B9%D0%B7.jpg" alt="ОББ Интерлийз — снимка 2" width="1800" height="1200" loading="lazy" decoding="async">
@@ -1162,6 +1209,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="power-properties" data-name="Пауър Пропъртис">
+				<p class="at-gallery-project__description">Новата многофункционална сграда на KONTRAX Group Campus е корпоративна среда от ново поколение, която обединява офисни, сервизни и складови пространства в обща функционална концепция. Модерният и изчистен интериор следва технологичната визия на клиента, а прецизно изпълнените довършителни работи и вниманието към всеки детайл създават представителна, ефективна и устойчива работна среда, насочена към бъдещото развитие на компанията.</p>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9F%D0%B0%D1%83%D1%8A%D1%80%20%D0%9F.png" alt="Пауър Пропъртис — снимка 1" width="1086" height="1448" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9F%D0%B0%D1%83%D1%8A%D1%80%20%D0%9F.png" alt="Пауър Пропъртис — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">
@@ -1170,6 +1218,24 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 		</div>
+	<!--
+	  Large image view: the parent native dialog retains modal focus; Arrow keys change only this project's images.
+	  Escape closes this layer before the project dialog, and focus returns to the selected gallery image.
+	-->
+	<div class="at-lightbox" id="selected-projects-lightbox" data-lightbox hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Уголемен преглед на снимка">
+		<button type="button" class="at-lightbox__close" aria-label="Затвори уголемения преглед">&#x2715;</button>
+		<button type="button" class="at-lightbox__control at-lightbox__control--previous" data-lightbox-previous aria-label="Предишна снимка">
+			<svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><polyline points="11,1 2,10 11,19" fill="none" stroke="currentColor" stroke-width="2"></polyline></svg>
+		</button>
+		<figure class="at-lightbox__figure">
+			<!-- JavaScript copies the selected source and meaningful alternative text into this viewport image. -->
+			<img class="at-lightbox__image" alt="">
+			<figcaption class="at-lightbox__caption" data-lightbox-caption aria-live="polite"></figcaption>
+		</figure>
+		<button type="button" class="at-lightbox__control at-lightbox__control--next" data-lightbox-next aria-label="Следваща снимка">
+			<svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><polyline points="1,1 10,10 1,19" fill="none" stroke="currentColor" stroke-width="2"></polyline></svg>
+		</button>
+	</div>
 </dialog>
 
 </main><!-- #main -->
@@ -1239,6 +1305,16 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		<a class="at-footer__totop" href="#top" aria-label="Нагоре"><svg class="at-footer__totop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 	</div>
 </footer>
+
+<!--
+  WhatsApp floating action: opens Hristin Haralanov's approved number in a new tab.
+  The native link supports keyboard activation and its aria-label provides the localized accessible name.
+-->
+<div class="at-whatsapp-fab" role="complementary" aria-label="Свържете се с Христин Хараланов чрез WhatsApp">
+	<a href="https://wa.me/359885704911" target="_blank" rel="noopener noreferrer" aria-label="Свържете се с Христин Хараланов чрез WhatsApp">
+		<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+	</a>
+</div>
 
 <script id="atistat-main-js" src="wp-content/themes/atistat/assets/js/main.js"></script>
 </body>

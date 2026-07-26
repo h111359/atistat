@@ -194,12 +194,30 @@
 			</article>
 		</div>
 	</section>
-	<dialog id="selected-projects-dialog" aria-label="Test gallery" aria-modal="true">
+	<dialog id="selected-projects-dialog" class="at-selected-projects" aria-label="Test gallery" aria-modal="true" data-image-action-label="Open large view" data-counter-label="Image">
 		<div class="at-dialog__header">
 			<h2>Test gallery</h2>
 			<button class="at-dialog__close" type="button" aria-label="Close gallery">Close</button>
 		</div>
-		<div class="at-gallery-project" data-project="fixture" data-name="Fixture gallery"></div>
+		<div class="at-dialog__body">
+			<div class="at-gallery-project" data-project="fixture" data-name="Fixture gallery">
+				<p class="at-gallery-project__description">Detailed fixture project narrative.</p>
+				<div class="at-gallery-grid">
+					<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%23538135'/%3E%3C/svg%3E" alt="Fixture gallery image one">
+					<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 8'%3E%3Crect width='5' height='8' fill='%23f4f1e9'/%3E%3C/svg%3E" alt="Fixture gallery image two">
+				</div>
+			</div>
+		</div>
+		<!-- Nested viewer retains parent-dialog focus containment and closes before the project modal. -->
+		<div class="at-lightbox" id="selected-projects-lightbox" data-lightbox hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Large image view">
+			<button type="button" class="at-lightbox__close" aria-label="Close large image view">Close</button>
+			<button type="button" class="at-lightbox__control at-lightbox__control--previous" data-lightbox-previous aria-label="Previous image">Previous</button>
+			<figure class="at-lightbox__figure">
+				<img class="at-lightbox__image" alt="">
+				<figcaption class="at-lightbox__caption" data-lightbox-caption aria-live="polite"></figcaption>
+			</figure>
+			<button type="button" class="at-lightbox__control at-lightbox__control--next" data-lightbox-next aria-label="Next image">Next</button>
+		</div>
 	</dialog>
 
 	<div id="target">Navigation target</div>
@@ -310,6 +328,11 @@
 			const responsiveMarkers = Array.from(document.querySelectorAll("[data-responsive-marker]"));
 			const responsiveCards = Array.from(document.querySelectorAll(".at-tl-mobile > .at-tlcard"));
 			const gallery = document.getElementById("selected-projects-dialog");
+			const galleryImages = Array.from(document.querySelectorAll(".at-gallery-grid img"));
+			const lightbox = document.querySelector("[data-lightbox]");
+			const lightboxImage = document.querySelector(".at-lightbox__image");
+			const lightboxClose = document.querySelector(".at-lightbox__close");
+			const nextImageControl = document.querySelector("[data-lightbox-next]");
 			const flagshipCards = Array.from(document.querySelectorAll(".at-flagship__card"));
 			const flagshipImages = Array.from(document.querySelectorAll(".at-flagship__image"));
 			const flagshipTrigger = document.querySelector(".at-flagship__action[data-project='fixture']");
@@ -619,7 +642,33 @@
 				gallery.querySelector(".at-gallery-project h3") === null,
 				"gallery repeated the project title inside its project container"
 			);
-			verify(document.activeElement === galleryClose, "gallery close control did not receive focus");
+			verify(
+				galleryImages.every(function galleryImageIsEnhanced(image) {
+					return image.getAttribute("role") === "button"
+						&& image.getAttribute("tabindex") === "0"
+						&& image.getAttribute("aria-controls") === lightbox.id;
+				}),
+				"gallery images were not enhanced as named keyboard controls"
+			);
+			verify(document.activeElement === galleryImages[0], "first gallery image did not receive focus");
+			galleryImages[0].dispatchEvent(
+				new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true })
+			);
+			verify(!lightbox.hidden, "large image view did not open");
+			verify(gallery.open, "opening a large image closed the project dialog");
+			verify(document.activeElement === lightboxClose, "large image close did not receive focus");
+			verify(lightboxImage.alt === galleryImages[0].alt, "large image did not preserve alternative text");
+			verify(lightboxImage.src === galleryImages[0].src, "large image did not use selected source");
+			nextImageControl.click();
+			verify(lightboxImage.alt === galleryImages[1].alt, "next image control left the project sequence");
+			gallery.dispatchEvent(
+				new KeyboardEvent("keydown", { key: "ArrowLeft", bubbles: true, cancelable: true })
+			);
+			verify(lightboxImage.alt === galleryImages[0].alt, "ArrowLeft did not show previous project image");
+			gallery.dispatchEvent(new Event("cancel", { cancelable: true }));
+			verify(lightbox.hidden, "Escape-equivalent cancel did not close the large image first");
+			verify(gallery.open, "large image cancel closed the project dialog");
+			verify(document.activeElement === galleryImages[0], "large image source did not regain focus");
 			galleryClose.click();
 			await new Promise(function waitForFocusRestoration(resolve) {
 				window.setTimeout(resolve, 10);

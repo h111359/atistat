@@ -1,6 +1,6 @@
 /*
  * main.css: Shared responsive theme and component styles for the ATISTAT site.
- * Sections: foundations, navigation, content, flagship projects, timeline, services, gallery, and footer.
+ * Sections: foundations, navigation, selected projects, timeline, services, gallery, contacts, and footer.
  */
 
 @font-face {
@@ -142,6 +142,12 @@ p { margin: 0 0 1.1em; }
 .at-sketch__cap {
 	display: block; margin-top: 14px; font-size: .95rem; color: var(--muted); letter-spacing: .01em;
 }
+.at-sketch__cap > span:first-child {
+	color: var(--ink);
+	font-size: 1.2em;
+	font-weight: 700;
+	line-height: 1.35;
+}
 .at-sketch__caplabel { color: var(--green); font-weight: 700; }
 a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 
@@ -184,45 +190,6 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 }
 
 /* =========================================================================
-   TRUST METRICS — compact credibility indicators between Hero and About
-   ========================================================================= */
-.at-stats {
-	background: var(--green);
-	padding-block: clamp(24px, 4vw, 44px);
-}
-.at-stats__list {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: clamp(24px, 4vw, 60px);
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-}
-.at-stats__item {
-	flex: 1 1 160px;
-	max-width: 220px;
-}
-.at-stats__num {
-	display: block;
-	color: var(--paper);
-	font-size: clamp(2rem, 4vw, 2.8rem);
-	font-weight: 700;
-	line-height: 1;
-}
-.at-stats__label {
-	display: block;
-	max-width: 22ch;
-	margin: .6rem auto 0;
-	color: color-mix(in srgb, var(--paper) 82%, transparent);
-	font-size: clamp(.78rem, 1.2vw, .9rem);
-	letter-spacing: .06em;
-	line-height: 1.45;
-	text-transform: uppercase;
-}
-
-/* =========================================================================
    ABOUT
    ========================================================================= */
 .at-about__inner { --split-gap: clamp(12px, 1.6vw, 22px); display: grid; grid-template-columns: calc(50% - var(--split-gap)) 50%; gap: var(--split-gap); align-items: center; }
@@ -254,7 +221,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-opit__headcopy .at-lead { margin-bottom: 0; font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
 
 /* =========================================================================
-   FLAGSHIP PROJECTS — equal editorial evidence before the complete timeline
+   SELECTED PROJECTS — seven attributed project cards before the complete timeline
    ========================================================================= */
 
 .at-flagship {
@@ -292,6 +259,11 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	border-radius: var(--flagship-card-radius);
 	background: var(--cream);
 	box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.at-flagship__card:focus {
+	outline: 3px solid var(--green);
+	outline-offset: 4px;
 }
 
 .at-flagship__image {
@@ -334,7 +306,6 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-flagship__meta > div:last-child { border-bottom: 1px solid var(--line); }
 .at-flagship__meta dt { color: var(--muted); }
 .at-flagship__meta dd { min-width: 0; margin: 0; color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
-.at-flagship__description { flex: 1; margin-bottom: 22px; font-size: .92rem; }
 
 .at-flagship__action {
 	display: inline-flex;
@@ -369,6 +340,25 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-flagship__action:focus-visible {
 	outline: 3px solid var(--green);
 	outline-offset: 3px;
+}
+
+.at-selected-project-link {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	margin-top: 8px;
+	border-bottom: 1px solid currentColor;
+	color: var(--green);
+	font-size: .82rem;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+/* Keyboard focus makes the timeline-to-project destination explicit without relying on color alone. */
+.at-selected-project-link:focus-visible {
+	outline: 3px solid var(--green);
+	outline-offset: 4px;
+	border-bottom-color: transparent;
 }
 
 .at-home-timeline {
@@ -902,69 +892,6 @@ a.at-contact__val:hover { color: var(--green); }
 }
 
 /* =========================================================================
-   CONTACT CTA — full-width green call-to-action section after Services
-   ========================================================================= */
-
-/* Green background with white text; positioned immediately after section#services */
-.at-contact-cta {
-	background: var(--green); /* Primary brand green #538135 */
-	color: #fff;
-	text-align: center;
-	padding: clamp(40px, 6vw, 80px) var(--gutter);
-}
-
-.at-contact-cta h2,
-.at-contact-cta__sub {
-	color: #fff; /* White on green — sufficient contrast */
-	margin: 0 0 .5em;
-}
-
-.at-contact-cta h2 {
-	font-size: clamp(1.4rem, 3vw, 2rem);
-}
-
-.at-contact-cta__sub {
-	font-size: 1rem;
-	opacity: .9;
-	margin-bottom: 1.5em;
-}
-
-/* Four circular icon link buttons arranged in a flex row */
-.at-contact-cta__actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	justify-content: center;
-	align-items: center;
-}
-
-/* 48px circular icon buttons; translucent white overlay provides hover affordance on green */
-.at-contact-cta__btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	background: rgba(255,255,255,.2); /* Translucent white overlay for contrast on green */
-	color: #fff;
-	text-decoration: none;
-	transition: background .2s var(--ease);
-}
-
-.at-contact-cta__btn:hover,
-.at-contact-cta__btn:focus-visible {
-	background: rgba(255,255,255,.35);
-	outline: 2px solid #fff;
-	outline-offset: 2px;
-}
-
-.at-contact-cta__btn svg {
-	width: 24px;
-	height: 24px;
-}
-
-/* =========================================================================
    PARTNERS — partner logo/wordmark section
    ========================================================================= */
 
@@ -1208,8 +1135,15 @@ dialog.at-selected-projects::backdrop {
 	margin-top: 0;
 }
 
+.at-gallery-project__description {
+	max-width: 76ch;
+	margin: 0 0 24px;
+	color: var(--ink);
+	line-height: 1.7;
+}
+
 /* =========================================================================
-   GALLERY GRID — auto-fill responsive image grid inside the dialog
+   GALLERY GRID — responsive project images enhanced as large-view controls
    ========================================================================= */
 
 /* auto-fill with 220px minimum column width (Q020 decision); object-fit: contain
@@ -1226,6 +1160,134 @@ dialog.at-selected-projects::backdrop {
 	object-fit: contain;
 	border-radius: 6px;
 	display: block;
+}
+
+.has-js .at-gallery-grid img[role="button"] {
+	cursor: zoom-in;
+}
+
+/* Pointer feedback adds a structural edge to signal that each gallery image opens. */
+.has-js .at-gallery-grid img[role="button"]:hover {
+	box-shadow: 0 0 0 3px var(--green);
+}
+
+/* Keyboard focus mirrors the image control's pointer affordance. */
+.has-js .at-gallery-grid img[role="button"]:focus-visible {
+	outline: 3px solid var(--green);
+	outline-offset: 3px;
+}
+
+/* =========================================================================
+   LARGE IMAGE VIEW — project-scoped, viewport-filling overlay inside the native dialog
+   ========================================================================= */
+
+dialog.at-selected-projects[data-lightbox-open] {
+	width: 100vw;
+	max-width: 100vw;
+	height: 100dvh;
+	max-height: 100dvh;
+	border-radius: 0;
+	background: var(--ink);
+}
+
+dialog.at-selected-projects[data-lightbox-open] > .at-dialog__header,
+dialog.at-selected-projects[data-lightbox-open] > .at-dialog__body {
+	visibility: hidden;
+}
+
+.at-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 20; /* Above the project dialog header (10) while remaining in its modal top layer. */
+	display: grid;
+	grid-template-columns: minmax(44px, auto) minmax(0, 1fr) minmax(44px, auto);
+	grid-template-rows: 56px minmax(0, 1fr);
+	align-items: center;
+	gap: clamp(8px, 2vw, 24px);
+	width: 100vw;
+	height: 100dvh;
+	padding: clamp(8px, 2vw, 24px);
+	background: color-mix(in srgb, var(--ink) 96%, transparent);
+	color: var(--paper);
+}
+
+.at-lightbox[hidden] {
+	display: none;
+}
+
+.at-lightbox__close,
+.at-lightbox__control {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border: 1px solid color-mix(in srgb, var(--paper) 54%, transparent);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--ink) 72%, transparent);
+	color: var(--paper);
+}
+
+.at-lightbox__close {
+	grid-column: 3;
+	grid-row: 1;
+	justify-self: end;
+	font-size: 1.35rem;
+}
+
+.at-lightbox__control {
+	grid-row: 2;
+}
+
+.at-lightbox__control--previous {
+	grid-column: 1;
+}
+
+.at-lightbox__control--next {
+	grid-column: 3;
+}
+
+.at-lightbox__control svg {
+	width: 16px;
+	height: 24px;
+}
+
+/* Hover and keyboard focus use a visible boundary and fill change on the dark overlay. */
+.at-lightbox__close:hover,
+.at-lightbox__close:focus-visible,
+.at-lightbox__control:hover,
+.at-lightbox__control:focus-visible {
+	outline: 3px solid var(--paper);
+	outline-offset: 3px;
+	background: var(--green);
+}
+
+.at-lightbox__figure {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	align-items: center;
+	justify-items: center;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	margin: 0;
+}
+
+.at-lightbox__image {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	object-fit: contain;
+}
+
+.at-lightbox__caption {
+	min-height: 1.5em;
+	margin-top: 8px;
+	font-size: .85rem;
+	text-align: center;
 }
 
 /* =========================================================================
@@ -1304,18 +1366,18 @@ dialog.at-selected-projects::backdrop {
 }
 
 /* =========================================================================
-   VIBER FAB — fixed floating action button (replaces WhatsApp FAB)
+   WHATSAPP FAB — sole floating messaging action
    ========================================================================= */
 
-/* Fixed bottom-right position; z-index 900 keeps it above content but below modals */
-.at-viber-fab {
+/* Fixed bottom-right position; z-index 900 keeps it above content but below modals. */
+.at-whatsapp-fab {
 	position: fixed;
 	bottom: 24px;
 	right: 24px;
-	z-index: 900;
+	z-index: 900; /* Above page content and below the native modal top layer. */
 }
 
-.at-viber-fab a {
+.at-whatsapp-fab a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1329,24 +1391,15 @@ dialog.at-selected-projects::backdrop {
 	transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
 
-.at-viber-fab a:hover,
-.at-viber-fab a:focus-visible {
+.at-whatsapp-fab a:hover,
+.at-whatsapp-fab a:focus-visible {
 	transform: scale(1.08);
 	box-shadow: 0 6px 24px rgba(83,129,53,.6);
 }
 
-.at-viber-fab svg {
+.at-whatsapp-fab svg {
 	width: 28px;
 	height: 28px;
-}
-
-/* Official white Viber bitmap stays unmodified inside both contact controls. */
-.at-contact-cta__btn img,
-.at-viber-fab img {
-	width: 28px;
-	height: 28px;
-	display: block;
-	pointer-events: none;
 }
 
 /* =========================================================================
@@ -1355,9 +1408,6 @@ dialog.at-selected-projects::backdrop {
 
 /* Tablet portrait and below (max 768px): tighten gaps, reduce gallery columns */
 @media (max-width: 768px) {
-	.at-contact-cta__actions {
-		gap: 12px;
-	}
 	.at-gallery-grid {
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 	}
@@ -1368,11 +1418,8 @@ dialog.at-selected-projects::backdrop {
 	.at-flagship__grid { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* Mobile (max 480px): prevent horizontal overflow for CTA, partners, dialog */
+/* Mobile (max 480px): prevent horizontal overflow for partners and dialogs. */
 @media (max-width: 480px) {
-	.at-contact-cta {
-		padding: 32px 16px;
-	}
 	.at-partners__list {
 		gap: 20px;
 	}
@@ -1386,22 +1433,20 @@ dialog.at-selected-projects::backdrop {
 		/* dynamic viewport height accounts for mobile browser chrome */
 		max-height: 100dvh;
 	}
-}
-
-/* Small mobile (max 375px): tighten CTA spacing */
-@media (max-width: 375px) {
-	.at-contact-cta__actions {
-		gap: 8px;
+	.at-lightbox {
+		grid-template-columns: 44px minmax(0, 1fr) 44px;
+		gap: 6px;
+		padding: 8px;
+	}
+	.at-lightbox__close,
+	.at-lightbox__control {
+		width: 44px;
+		height: 44px;
 	}
 }
 
 /* Minimum supported width (320px): no horizontal overflow */
 @media (max-width: 320px) {
-	.at-contact-cta__btn {
-		/* Reduce to minimum tap target size at smallest supported width */
-		width: 44px;
-		height: 44px;
-	}
 	.at-gallery-grid {
 		grid-template-columns: 1fr 1fr;
 	}
@@ -1429,9 +1474,11 @@ dialog.at-selected-projects::backdrop {
 	.at-tl-control,
 	.at-tlpanel,
 	.at-gallery-mosaic,
-	.at-flagship__action { transition: none !important; }
+	.at-flagship__action,
+	.at-whatsapp-fab a { transition: none !important; }
 	.at-faq__item summary::after,
-	.at-viber-fab a {
+	.at-lightbox__close,
+	.at-lightbox__control {
 		transition: none;
 		animation: none;
 	}
