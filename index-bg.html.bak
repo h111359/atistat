@@ -272,7 +272,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 							<span class="at-tlpanel__year">2006</span>
 														<a class="at-tlpanel__copy at-tlpanel__copy--link" href="https://correctproject.com" target="_blank" rel="noopener">
 															<h3 class="at-tlpanel__name">Корект Проект</h3>
-								<span class="at-tlpanel__type">Project Management компания</span>								<p class="at-tlpanel__desc">correctproject.com</p>							</a>						</article>
+								<span class="at-tlpanel__type">Компания за управление на проекти</span>								<p class="at-tlpanel__desc">correctproject.com</p>							</a>						</article>
 																	<article class="at-tlpanel" id="timeline-panel-1" role="tabpanel" data-panel="1" aria-hidden="true">
 							<span class="at-tlpanel__year">2007</span>
 														<div class="at-tlpanel__copy">
@@ -331,7 +331,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2006</span>
 							<h3 class="at-tlpanel__name">Корект Проект</h3>
-							<span class="at-tlpanel__type">Project Management компания</span>							<p class="at-tlpanel__desc">correctproject.com</p>						</div>
+							<span class="at-tlpanel__type">Компания за управление на проекти</span>							<p class="at-tlpanel__desc">correctproject.com</p>						</div>
 					</li>
 									<li class="at-tlcard">
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/matrix-1-799x900.webp" alt="ЕОС Матрикс" loading="lazy" decoding="async"></div>
