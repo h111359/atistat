@@ -57,6 +57,10 @@ RESPONSIVE_TIMELINE_LABELS = {
     "bg": "Навигация по етапите",
     "en": "Milestone navigation",
 }
+TIMELINE_HEADING_COPY = {
+    "bg": "ХРОНОЛОГИЯ",
+    "en": "TIMELINE",
+}
 GALLERY_OVERLAY_LABELS = {
     "bg": "Виж галерия",
     "en": "View gallery",
@@ -781,6 +785,30 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 self.assertEqual(1, len(current_markers))
                 self.assertEqual("3", current_markers[0].get("data-index"))
 
+    def test_timeline_headings_are_localized_ordered_and_associated(self) -> None:
+        """Require one localized heading to label every timeline after its flagship."""
+        for route, (language, _) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                flagship_position = content.index('<section class="at-flagship')
+                flagship_end_position = (
+                    content.index("</section>", flagship_position) + len("</section>")
+                )
+                heading_markup = (
+                    '<h3 class="at-timeline__title" id="timeline-title">'
+                    f"{TIMELINE_HEADING_COPY[language]}</h3>"
+                )
+                heading_position = content.index(heading_markup)
+                timeline_markup = (
+                    '<div class="at-home-timeline at-fade" data-fade data-timeline '
+                    'aria-labelledby="timeline-title" style="--active-progress: 25%">'
+                )
+                timeline_position = content.index(timeline_markup)
+
+                self.assertEqual(1, content.count(heading_markup))
+                self.assertLess(flagship_end_position, heading_position)
+                self.assertLess(heading_position, timeline_position)
+
     def test_mosaics_use_exact_thumbnails_and_preserve_dialog_sources(self) -> None:
         """Require optimized preview mappings, localized overlays, and original dialogs."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
@@ -957,6 +985,22 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             ".at-flagship__grid { grid-template-columns: minmax(0, 1fr); }",
             stylesheet,
         )
+        shared_heading_rule = re.search(
+            r"\.at-flagship__title,\s*\.at-timeline__title\s*\{([^}]+)\}",
+            stylesheet,
+        )
+        self.assertIsNotNone(shared_heading_rule)
+        heading_declarations = (
+            shared_heading_rule.group(1) if shared_heading_rule else ""
+        )
+        for declaration in (
+            "color: var(--green);",
+            "font-size: clamp(1rem, 1.5vw, 1.2rem);",
+            "letter-spacing: .12em;",
+            "line-height: 1.25;",
+            "text-transform: uppercase;",
+        ):
+            self.assertIn(declaration, heading_declarations)
         self.assertIn(
             '".at-gallery-mosaic[data-project], '
             '.at-flagship__action[data-project]"',

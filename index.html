@@ -300,7 +300,13 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 			</div>
 		</section>
 
-		<div class="at-home-timeline at-fade" data-fade data-timeline style="--active-progress: 25%">
+		<!--
+		  Timeline Heading
+		  Design intent: Distinguishes the complete company-and-project chronology from the preceding flagship project cards.
+		  Accessibility: The level-three heading labels the complete timeline through aria-labelledby.
+		-->
+		<h3 class="at-timeline__title" id="timeline-title">ХРОНОЛОГИЯ</h3>
+		<div class="at-home-timeline at-fade" data-fade data-timeline aria-labelledby="timeline-title" style="--active-progress: 25%">
 			<div class="at-tl-desktop">
 				<div class="at-tl-panels" aria-live="polite">
 																	<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-0" aria-labelledby="timeline-correct-project" role="tabpanel" data-panel="0" aria-hidden="true">

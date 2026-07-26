@@ -13,4 +13,3 @@ options:
 
 ## Input
 
-The timeline below "ЗНАКОВИ ПРОЕКТИ" needs own title with size of the one for ЗНАКОВИ ПРОЕКТИ. Make such

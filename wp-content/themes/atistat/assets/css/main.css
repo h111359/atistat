@@ -266,7 +266,8 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	margin-bottom: clamp(48px, 7vw, 88px);
 }
 
-.at-flagship__title {
+.at-flagship__title,
+.at-timeline__title {
 	margin: 0 0 clamp(22px, 3vw, 34px);
 	color: var(--green);
 	font-size: clamp(1rem, 1.5vw, 1.2rem);
