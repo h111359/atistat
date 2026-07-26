@@ -233,6 +233,67 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 			</div>
 		</header>
 
+		<!--
+		  Flagship Projects
+		  Design intent: Three equally weighted editorial cards establish the quality benchmark before the full timeline.
+		  Accessibility: Semantic articles label each image; native buttons open the filtered dialog and regain focus after close.
+		-->
+		<section class="at-flagship at-fade" data-fade aria-labelledby="flagship-projects-title">
+			<h3 class="at-flagship__title" id="flagship-projects-title">ЗНАКОВИ ПРОЕКТИ</h3>
+			<div class="at-flagship__grid">
+				<article class="at-flagship__card" data-project="elemag" aria-labelledby="flagship-elemag-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/elemag.webp" alt="Елемаг — екстериор на жилищната сграда" width="1200" height="750" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="flagship-elemag-title">Елемаг</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Година</dt><dd>2021</dd></div>
+							<div><dt>Тип сграда</dt><dd>Жилищна сграда</dd></div>
+							<div><dt>Услуга</dt><dd>Строителство</dd></div>
+							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+						</dl>
+						<p class="at-flagship__description">Жилищен проект от 2021 г., който поставя във фокус строителния опит, натрупан с Инженерни Системи.</p>
+						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
+						<button type="button" class="at-flagship__action" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: Елемаг">
+							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" data-project="bebelan" aria-labelledby="flagship-bebelan-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/bebelan.webp" alt="Бебелан — интериор на офисната и складова сграда" width="1200" height="750" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="flagship-bebelan-title">Бебелан</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Тип сграда</dt><dd>Офисна и складова сграда</dd></div>
+							<div><dt>Услуга</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+						</dl>
+						<p class="at-flagship__description">Офисна и складова среда от 2025 г., представяща довършителните работи в опита ни с Инженерни Системи.</p>
+						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
+						<button type="button" class="at-flagship__action" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: Бебелан">
+							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" data-project="ubb-interlease" aria-labelledby="flagship-ubb-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/ubb-interlease.webp" alt="ОББ Интерлийз — интериор на офисната сграда" width="1200" height="750" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="flagship-ubb-title">ОББ Интерлийз</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Тип сграда</dt><dd>Офисна сграда</dd></div>
+							<div><dt>Услуга</dt><dd>Строителство</dd></div>
+							<div><dt>Опит</dt><dd>С Инженерни Системи</dd></div>
+						</dl>
+						<p class="at-flagship__description">Офисен проект от 2025 г., който представя строителния опит, натрупан с Инженерни Системи.</p>
+						<!-- Gallery button: Enter/Space opens the project dialog; closing it restores focus here. -->
+						<button type="button" class="at-flagship__action" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Виж галерия: ОББ Интерлийз">
+							<span>Виж галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+			</div>
+		</section>
 
 		<div class="at-home-timeline at-fade" data-fade data-timeline style="--active-progress: 25%">
 			<div class="at-tl-desktop">

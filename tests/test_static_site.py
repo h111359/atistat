@@ -70,6 +70,103 @@ GALLERY_PROJECTS = (
     "bebelan",
     "power-properties",
 )
+FLAGSHIP_PROJECTS = ("elemag", "bebelan", "ubb-interlease")
+FLAGSHIP_IMAGE_FILES = {
+    "elemag": "elemag.webp",
+    "bebelan": "bebelan.webp",
+    "ubb-interlease": "ubb-interlease.webp",
+}
+FLAGSHIP_ASSET_ROOT = (
+    WORKSPACE_ROOT / "wp-content/uploads/2026/07/flagship-projects"
+)
+FLAGSHIP_COPY = {
+    "bg": {
+        "heading": "ЗНАКОВИ ПРОЕКТИ",
+        "labels": ("Година", "Тип сграда", "Услуга", "Опит"),
+        "action": "Виж галерия",
+        "projects": {
+            "elemag": {
+                "name": "Елемаг",
+                "year": "2021",
+                "building_type": "Жилищна сграда",
+                "service": "Строителство",
+                "experience": "С Инженерни Системи",
+                "description": (
+                    "Жилищен проект от 2021 г., който поставя във фокус "
+                    "строителния опит, натрупан с Инженерни Системи."
+                ),
+                "alt": "Елемаг — екстериор на жилищната сграда",
+            },
+            "bebelan": {
+                "name": "Бебелан",
+                "year": "2025",
+                "building_type": "Офисна и складова сграда",
+                "service": "Довършителни работи",
+                "experience": "С Инженерни Системи",
+                "description": (
+                    "Офисна и складова среда от 2025 г., представяща "
+                    "довършителните работи в опита ни с Инженерни Системи."
+                ),
+                "alt": "Бебелан — интериор на офисната и складова сграда",
+            },
+            "ubb-interlease": {
+                "name": "ОББ Интерлийз",
+                "year": "2025",
+                "building_type": "Офисна сграда",
+                "service": "Строителство",
+                "experience": "С Инженерни Системи",
+                "description": (
+                    "Офисен проект от 2025 г., който представя строителния "
+                    "опит, натрупан с Инженерни Системи."
+                ),
+                "alt": "ОББ Интерлийз — интериор на офисната сграда",
+            },
+        },
+    },
+    "en": {
+        "heading": "FLAGSHIP PROJECTS",
+        "labels": ("Year", "Building type", "Service", "Experience"),
+        "action": "View gallery",
+        "projects": {
+            "elemag": {
+                "name": "Elemag",
+                "year": "2021",
+                "building_type": "Residential building",
+                "service": "Construction",
+                "experience": "With Engineering Systems",
+                "description": (
+                    "A 2021 residential project that brings construction "
+                    "experience developed with Engineering Systems into focus."
+                ),
+                "alt": "Elemag — exterior of the residential building",
+            },
+            "bebelan": {
+                "name": "Bebelan",
+                "year": "2025",
+                "building_type": "Office and warehouse building",
+                "service": "Fit-out works",
+                "experience": "With Engineering Systems",
+                "description": (
+                    "A 2025 office and warehouse project presenting fit-out "
+                    "experience developed with Engineering Systems."
+                ),
+                "alt": "Bebelan — interior of the office and warehouse building",
+            },
+            "ubb-interlease": {
+                "name": "UBB Interlease",
+                "year": "2025",
+                "building_type": "Office building",
+                "service": "Construction",
+                "experience": "With Engineering Systems",
+                "description": (
+                    "A 2025 office project presenting construction experience "
+                    "developed with Engineering Systems."
+                ),
+                "alt": "UBB Interlease — interior of the office building",
+            },
+        },
+    },
+}
 FULL_RESOLUTION_GALLERY_FILES = {
     "arcadia": tuple(
         f"Снимка {sequence} , интериор Аркадия.png"
@@ -386,6 +483,29 @@ def _expected_dialog_sources(asset_prefix: str) -> dict[str, list[str]]:
         project: [f"{source_root}{quote(name)}" for name in file_names]
         for project, file_names in FULL_RESOLUTION_GALLERY_FILES.items()
     }
+
+
+def _extract_flagship_markup(content: str) -> str:
+    """
+    Extract the single flagship-project subsection from one Experience document.
+
+    Args:
+        content: Complete HTML document text.
+
+    Returns:
+        The complete flagship subsection markup.
+
+    Raises:
+        ValueError: If the document does not contain exactly one flagship subsection.
+    """
+    matches = re.findall(
+        r'<section class="at-flagship[^"]*"[^>]*>.*?</section>',
+        content,
+        flags=re.DOTALL,
+    )
+    if len(matches) != 1:
+        raise ValueError(f"Expected one flagship subsection, found {len(matches)}")
+    return matches[0]
 
 
 def _resolve_local_reference(document: Path, reference: str) -> Path | None:
@@ -705,6 +825,145 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     parser.gallery_projects,
                 )
 
+    def test_flagship_projects_are_localized_equal_and_before_timeline(self) -> None:
+        """Require one equal three-card flagship subsection before every full timeline."""
+        for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                experience_position = content.index(
+                    '<section class="at-section at-opit"'
+                )
+                head_position = content.index(
+                    '<header class="at-opit__head',
+                    experience_position,
+                )
+                head_end_position = content.index("</header>", head_position)
+                flagship_position = content.index(
+                    '<section class="at-flagship',
+                    head_end_position,
+                )
+                timeline_position = content.index(
+                    '<div class="at-home-timeline',
+                    flagship_position,
+                )
+                self.assertLess(head_end_position, flagship_position)
+                self.assertLess(flagship_position, timeline_position)
+
+                flagship_markup = _extract_flagship_markup(content)
+                localized_copy = FLAGSHIP_COPY[language]
+                self.assertIn(
+                    f'id="flagship-projects-title">'
+                    f'{localized_copy["heading"]}</h3>',
+                    flagship_markup,
+                )
+                cards = re.findall(
+                    (
+                        r'<article class="at-flagship__card" '
+                        r'data-project="([^"]+)"([^>]*)>(.*?)</article>'
+                    ),
+                    flagship_markup,
+                    flags=re.DOTALL,
+                )
+                self.assertEqual(
+                    list(FLAGSHIP_PROJECTS),
+                    [project for project, _, _ in cards],
+                )
+                self.assertEqual(3, flagship_markup.count('class="at-flagship__card"'))
+                self.assertEqual(3, flagship_markup.count('class="at-flagship__image"'))
+                self.assertEqual(3, flagship_markup.count('class="at-flagship__action"'))
+
+                for project, article_attributes, card_markup in cards:
+                    expected = localized_copy["projects"][project]
+                    label_match = re.search(
+                        r'aria-labelledby="([^"]+)"',
+                        article_attributes,
+                    )
+                    self.assertIsNotNone(label_match)
+                    label_identifier = label_match.group(1) if label_match else ""
+                    self.assertIn(
+                        (
+                            f'class="at-flagship__name" id="{label_identifier}">'
+                            f'{expected["name"]}</h4>'
+                        ),
+                        card_markup,
+                    )
+                    expected_source = (
+                        f"{asset_prefix}wp-content/uploads/2026/07/"
+                        f"flagship-projects/{FLAGSHIP_IMAGE_FILES[project]}"
+                    )
+                    self.assertIn(
+                        (
+                            f'class="at-flagship__image" src="{expected_source}" '
+                            f'alt="{expected["alt"]}" width="1200" height="750" '
+                            'loading="lazy" decoding="async"'
+                        ),
+                        card_markup,
+                    )
+                    for label in localized_copy["labels"]:
+                        self.assertIn(f"<dt>{label}</dt>", card_markup)
+                    for field in ("year", "building_type", "service", "experience"):
+                        self.assertIn(f'<dd>{expected[field]}</dd>', card_markup)
+                    self.assertIn(
+                        (
+                            '<p class="at-flagship__description">'
+                            f'{expected["description"]}</p>'
+                        ),
+                        card_markup,
+                    )
+                    self.assertRegex(
+                        card_markup,
+                        (
+                            r'<button type="button" class="at-flagship__action" '
+                            f'data-project="{re.escape(project)}" '
+                            r'aria-haspopup="dialog" '
+                            r'aria-controls="selected-projects-dialog" '
+                            f'aria-label="{re.escape(localized_copy["action"])}: '
+                            f'{re.escape(expected["name"])}">\\s*'
+                            f'<span>{re.escape(localized_copy["action"])}</span>'
+                        ),
+                    )
+
+    def test_flagship_assets_are_bounded_wide_webp_files(self) -> None:
+        """Require exactly three optimized 1200-by-750 WebP flagship photographs."""
+        actual_files = {
+            path.name
+            for path in FLAGSHIP_ASSET_ROOT.iterdir()
+            if path.is_file()
+        }
+        self.assertEqual(set(FLAGSHIP_IMAGE_FILES.values()), actual_files)
+        for project, filename in FLAGSHIP_IMAGE_FILES.items():
+            with self.subTest(project=project):
+                asset = FLAGSHIP_ASSET_ROOT / filename
+                self.assertEqual((1200, 750), _read_webp_dimensions(asset))
+                self.assertLessEqual(asset.stat().st_size, 300 * 1024)
+
+    def test_flagship_styles_and_gallery_launcher_contracts_exist(self) -> None:
+        """Require equal responsive cards, accessible targets, and dialog delegation."""
+        stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
+        javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
+        fixture = (WORKSPACE_ROOT / INTERACTION_HARNESS_ROUTE).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            "grid-template-columns: repeat(3, minmax(0, 1fr));",
+            stylesheet,
+        )
+        self.assertIn("aspect-ratio: 8 / 5;", stylesheet)
+        self.assertIn("--flagship-control-size: 44px;", stylesheet)
+        self.assertIn("min-width: var(--flagship-control-size);", stylesheet)
+        self.assertIn("min-height: var(--flagship-control-size);", stylesheet)
+        self.assertIn("@media (max-width: 680px)", stylesheet)
+        self.assertIn(
+            ".at-flagship__grid { grid-template-columns: minmax(0, 1fr); }",
+            stylesheet,
+        )
+        self.assertIn(
+            '".at-gallery-mosaic[data-project], '
+            '.at-flagship__action[data-project]"',
+            javascript,
+        )
+        self.assertIn('class="at-flagship__action"', fixture)
+
     def test_gallery_thumbnail_assets_are_exact_bounded_webp_files(self) -> None:
         """Require exactly 28 named 160px WebP previews no larger than 20KB."""
         actual_files = {
@@ -834,7 +1093,8 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn('event.key === "Enter" || event.key === " "', javascript)
         self.assertIn('card.focus({ preventScroll: true });', javascript)
         self.assertIn(
-            'event.target.closest(".at-gallery-mosaic[data-project]")',
+            '".at-gallery-mosaic[data-project], '
+            '.at-flagship__action[data-project]"',
             javascript,
         )
         self.assertNotIn(

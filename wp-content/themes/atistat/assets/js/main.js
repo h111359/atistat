@@ -531,8 +531,10 @@
 			return null;
 		}
 
-		// Only mosaic buttons can open the dialog; responsive links may also carry project metadata.
-		const launcher = event.target.closest(".at-gallery-mosaic[data-project]");
+		// Only explicit gallery buttons open the dialog; timeline controls may also carry project metadata.
+		const launcher = event.target.closest(
+			".at-gallery-mosaic[data-project], .at-flagship__action[data-project]"
+		);
 		return launcher instanceof HTMLButtonElement ? launcher : null;
 	}
 

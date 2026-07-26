@@ -160,6 +160,40 @@
 			<span>View gallery</span>
 		</span>
 	</button>
+	<!--
+	  Flagship fixture
+	  Design intent: exercise equal three/two/one-column wrapping from desktop to small screens.
+	  Accessibility: Native gallery buttons preserve the production dialog and focus-restoration pattern.
+	-->
+	<section class="at-flagship" aria-labelledby="fixture-flagship-title">
+		<h3 class="at-flagship__title" id="fixture-flagship-title">Flagship projects</h3>
+		<div class="at-flagship__grid">
+			<article class="at-flagship__card" aria-labelledby="fixture-flagship-card-1">
+				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%23538135'/%3E%3C/svg%3E" alt="Fixture flagship one">
+				<div class="at-flagship__body">
+					<h4 class="at-flagship__name" id="fixture-flagship-card-1">Fixture one</h4>
+					<p class="at-flagship__description">Equal editorial evidence.</p>
+					<button class="at-flagship__action" type="button" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
+						View flagship gallery
+					</button>
+				</div>
+			</article>
+			<article class="at-flagship__card" aria-labelledby="fixture-flagship-card-2">
+				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%23f4f1e9'/%3E%3C/svg%3E" alt="Fixture flagship two">
+				<div class="at-flagship__body">
+					<h4 class="at-flagship__name" id="fixture-flagship-card-2">Fixture two</h4>
+					<p class="at-flagship__description">Equal editorial evidence.</p>
+				</div>
+			</article>
+			<article class="at-flagship__card" aria-labelledby="fixture-flagship-card-3">
+				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%2330372c'/%3E%3C/svg%3E" alt="Fixture flagship three">
+				<div class="at-flagship__body">
+					<h4 class="at-flagship__name" id="fixture-flagship-card-3">Fixture three</h4>
+					<p class="at-flagship__description">Equal editorial evidence.</p>
+				</div>
+			</article>
+		</div>
+	</section>
 	<dialog id="selected-projects-dialog" aria-label="Test gallery" aria-modal="true">
 		<div class="at-dialog__header">
 			<h2>Test gallery</h2>
@@ -276,6 +310,9 @@
 			const responsiveMarkers = Array.from(document.querySelectorAll("[data-responsive-marker]"));
 			const responsiveCards = Array.from(document.querySelectorAll(".at-tl-mobile > .at-tlcard"));
 			const gallery = document.getElementById("selected-projects-dialog");
+			const flagshipCards = Array.from(document.querySelectorAll(".at-flagship__card"));
+			const flagshipImages = Array.from(document.querySelectorAll(".at-flagship__image"));
+			const flagshipTrigger = document.querySelector(".at-flagship__action[data-project='fixture']");
 			const isResponsiveViewport = window.matchMedia("(max-width: 860px)").matches;
 			const timelineStyle = getComputedStyle(timeline);
 			const timelineRectangle = timeline.getBoundingClientRect();
@@ -300,6 +337,45 @@
 			verify(
 				document.body.scrollWidth <= window.fixtureTestWidth,
 				`document overflow=${document.body.scrollWidth}/${window.fixtureTestWidth}`
+			);
+			const flagshipRectangles = flagshipCards.map(function measureFlagshipCard(card) {
+				return card.getBoundingClientRect();
+			});
+			verify(
+				flagshipRectangles.every(function flagshipCardIsVisible(rectangle) {
+					return rectangle.width > 0 && rectangle.height > 0;
+				}),
+				"one or more flagship cards have no visible dimensions"
+			);
+			verify(
+				flagshipRectangles.every(function flagshipCardsAreEqual(rectangle) {
+					return Math.abs(rectangle.width - flagshipRectangles[0].width) <= 1;
+				}),
+				"flagship cards do not have equal grid spans"
+			);
+			const flagshipRows = new Set(
+				flagshipRectangles.map(function collectFlagshipRows(rectangle) {
+					return Math.round(rectangle.top);
+				})
+			);
+			const expectedFlagshipRows = window.fixtureTestWidth > 1024
+				? 1
+				: (window.fixtureTestWidth > 680 ? 2 : 3);
+			verify(
+				flagshipRows.size === expectedFlagshipRows,
+				`flagship rows=${flagshipRows.size}/${expectedFlagshipRows}`
+			);
+			verify(
+				flagshipImages.every(function flagshipImageUsesWideCrop(image) {
+					const rectangle = image.getBoundingClientRect();
+					return Math.abs((rectangle.width / rectangle.height) - 1.6) <= .02;
+				}),
+				"flagship images do not preserve the shared wide crop"
+			);
+			const flagshipTargetRectangle = flagshipTrigger.getBoundingClientRect();
+			verify(
+				flagshipTargetRectangle.width >= 44 && flagshipTargetRectangle.height >= 44,
+				`flagship target=${flagshipTargetRectangle.width}x${flagshipTargetRectangle.height}`
 			);
 
 			if (!isResponsiveViewport) {
@@ -550,6 +626,22 @@
 			});
 			verify(!gallery.open, "gallery did not close");
 			verify(document.activeElement === galleryTrigger, "gallery trigger did not regain focus");
+
+			flagshipTrigger.click();
+			verify(gallery.open, "flagship gallery did not open");
+			verify(
+				gallery.querySelector(".at-dialog__header h2").textContent === "Fixture gallery",
+				"flagship gallery did not filter to its project"
+			);
+			galleryClose.click();
+			await new Promise(function waitForFlagshipFocusRestoration(resolve) {
+				window.setTimeout(resolve, 10);
+			});
+			verify(!gallery.open, "flagship gallery did not close");
+			verify(
+				document.activeElement === flagshipTrigger,
+				"flagship gallery trigger did not regain focus"
+			);
 
 			result.dataset.status = failures.length ? "failed" : "passed";
 			result.dataset.viewport = String(window.innerWidth);

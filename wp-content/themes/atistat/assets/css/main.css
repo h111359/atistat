@@ -1,6 +1,6 @@
 /*
  * main.css: Shared responsive theme and component styles for the ATISTAT site.
- * Sections: foundations, navigation, content, timeline, services, gallery, and footer.
+ * Sections: foundations, navigation, content, flagship projects, timeline, services, gallery, and footer.
  */
 
 @font-face {
@@ -252,6 +252,123 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
 }
 .at-opit__headcopy .at-lead { margin-bottom: 0; font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
+
+/* =========================================================================
+   FLAGSHIP PROJECTS — equal editorial evidence before the complete timeline
+   ========================================================================= */
+
+.at-flagship {
+	/* Component tokens keep all cards visually equal and preserve a generous timeline handoff. */
+	--flagship-card-gap: clamp(20px, 2.5vw, 32px);
+	--flagship-card-radius: 18px;
+	--flagship-card-padding: clamp(20px, 2.3vw, 28px);
+	--flagship-control-size: 44px;
+	margin-bottom: clamp(48px, 7vw, 88px);
+}
+
+.at-flagship__title {
+	margin: 0 0 clamp(22px, 3vw, 34px);
+	color: var(--green);
+	font-size: clamp(1rem, 1.5vw, 1.2rem);
+	letter-spacing: .12em;
+	line-height: 1.25;
+	text-transform: uppercase;
+}
+
+.at-flagship__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--flagship-card-gap);
+	align-items: stretch;
+}
+
+.at-flagship__card {
+	min-width: 0;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--line);
+	border-radius: var(--flagship-card-radius);
+	background: var(--cream);
+	box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.at-flagship__image {
+	width: 100%;
+	aspect-ratio: 8 / 5;
+	object-fit: cover;
+}
+
+.at-flagship__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	padding: var(--flagship-card-padding);
+}
+
+.at-flagship__name {
+	margin: 0 0 18px;
+	color: var(--ink);
+	font-size: clamp(1.25rem, 2vw, 1.65rem);
+	line-height: 1.15;
+}
+
+.at-flagship__meta {
+	display: grid;
+	gap: 0;
+	margin: 0 0 20px;
+	font-size: .84rem;
+	line-height: 1.45;
+}
+
+.at-flagship__meta > div {
+	display: grid;
+	grid-template-columns: minmax(82px, .72fr) minmax(0, 1.28fr);
+	gap: 12px;
+	padding: 8px 0;
+	border-top: 1px solid var(--line);
+}
+
+.at-flagship__meta > div:last-child { border-bottom: 1px solid var(--line); }
+.at-flagship__meta dt { color: var(--muted); }
+.at-flagship__meta dd { min-width: 0; margin: 0; color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+.at-flagship__description { flex: 1; margin-bottom: 22px; font-size: .92rem; }
+
+.at-flagship__action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	gap: 10px;
+	min-width: var(--flagship-control-size);
+	min-height: var(--flagship-control-size);
+	padding: 9px 16px;
+	border: 1.5px solid var(--green);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--green);
+	font-size: .86rem;
+	font-weight: 700;
+	line-height: 1.2;
+	/* A brief response confirms activation without competing with the project imagery. */
+	transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+
+.at-flagship__action-icon { font-size: 1.1em; line-height: 1; }
+
+/* Pointer feedback combines fill and movement so the state is not color-only. */
+.at-flagship__action:hover {
+	background: var(--green);
+	color: var(--paper);
+	transform: translateY(-2px);
+}
+
+/* Keyboard focus remains outside the pill so it is visible against every card background. */
+.at-flagship__action:focus-visible {
+	outline: 3px solid var(--green);
+	outline-offset: 3px;
+}
 
 .at-home-timeline {
 	/* Timeline geometry is refreshed by JavaScript after initialization and resize. */
@@ -578,6 +695,8 @@ a.at-contact__val:hover { color: var(--green); }
 /* Compact desktop (max 1024px): allow the hero to follow its content height. */
 @media (max-width: 1024px) {
 	.at-hero__inner { min-height: 0; }
+	/* Two equal columns keep complete flagship content readable on compact desktop and tablet. */
+	.at-flagship__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* Tablet and mobile (max 860px): expose compact marker navigation above stacked evidence cards. */
@@ -1243,6 +1362,11 @@ dialog.at-selected-projects::backdrop {
 	}
 }
 
+/* Large phones and below (max 680px): stack flagship evidence in source order. */
+@media (max-width: 680px) {
+	.at-flagship__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* Mobile (max 480px): prevent horizontal overflow for CTA, partners, dialog */
 @media (max-width: 480px) {
 	.at-contact-cta {
@@ -1303,7 +1427,8 @@ dialog.at-selected-projects::backdrop {
 	.at-tl-progress,
 	.at-tl-control,
 	.at-tlpanel,
-	.at-gallery-mosaic { transition: none !important; }
+	.at-gallery-mosaic,
+	.at-flagship__action { transition: none !important; }
 	.at-faq__item summary::after,
 	.at-viber-fab a {
 		transition: none;
