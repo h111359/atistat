@@ -1,6 +1,6 @@
 """
 test_static_site.py: Regression checks for the dependency-free ATISTAT static export.
-Part of request R-20260725-1526; validates routes, assets, fragments, and browser execution.
+Validates routes, assets, responsive timeline behavior, galleries, and browser execution.
 """
 
 from __future__ import annotations
@@ -9,6 +9,7 @@ import contextlib
 import functools
 import re
 import shutil
+import struct
 import subprocess
 import tempfile
 import threading
@@ -52,6 +53,63 @@ TIMELINE_CONTROL_LABELS = {
     "bg": ("Предишен етап", "Следващ етап"),
     "en": ("Previous stage", "Next stage"),
 }
+RESPONSIVE_TIMELINE_LABELS = {
+    "bg": "Навигация по етапите",
+    "en": "Milestone navigation",
+}
+GALLERY_OVERLAY_LABELS = {
+    "bg": "Виж галерия",
+    "en": "View gallery",
+}
+GALLERY_PROJECTS = (
+    "montekanal",
+    "elemag",
+    "louis-ayer",
+    "ubb-interlease",
+    "arcadia",
+    "bebelan",
+    "power-properties",
+)
+FULL_RESOLUTION_GALLERY_FILES = {
+    "arcadia": tuple(
+        f"Снимка {sequence} , интериор Аркадия.png"
+        for sequence in range(1, 7)
+    ),
+    "louis-ayer": tuple(
+        f"Снимка {sequence} , интериор Луи Айер.png"
+        for sequence in range(1, 5)
+    ),
+    "bebelan": tuple(
+        f"Снимка {sequence} , интериор Бебелан.jpg"
+        for sequence in range(1, 7)
+    ),
+    "elemag": tuple(
+        f"Снимка {sequence} , строителство Елемаг.png"
+        for sequence in range(1, 5)
+    ),
+    "montekanal": (
+        "Снимка 1 ,IMG_6308 - готово за сайт.png",
+        "Снимка 2 ,IMG_6307 - готово за сайт.png",
+        "Снимка 3 ,IMG_6320 - готово за сайт.png",
+        "Снимка 4 ,IMG_6321 - готово за сайт.png",
+    ),
+    "ubb-interlease": tuple(
+        f"Снимка {sequence} , интериор ОББ Интерлийз.jpg"
+        for sequence in range(1, 5)
+    ),
+    "power-properties": tuple(
+        f"Снимка {sequence} , интериор Пауър П.png"
+        for sequence in range(1, 5)
+    ),
+}
+GALLERY_THUMBNAIL_ROOT = (
+    WORKSPACE_ROOT / "wp-content/uploads/2026/07/gallery-thumbnails"
+)
+EXPECTED_GALLERY_THUMBNAILS = {
+    f"{project}-{sequence:02d}.webp"
+    for project in GALLERY_PROJECTS
+    for sequence in range(1, 5)
+}
 ADREO_HOMEPAGE_ROUTES = {
     "index.html": "Адрео",
     "index-bg.html": "Адрео",
@@ -92,6 +150,15 @@ class StaticDocumentParser(HTMLParser):
         self.timeline_controls: list[dict[str, str | None]] = []
         self.timeline_panel_links: list[dict[str, str | None]] = []
         self.timeline_mobile_links: list[dict[str, str | None]] = []
+        self.responsive_timeline_navigation: dict[str, str | None] | None = None
+        self.responsive_timeline_markers: list[dict[str, str | None]] = []
+        self.timeline_cards: list[dict[str, str | None]] = []
+        self.gallery_mosaics: list[dict[str, object]] = []
+        self.gallery_projects: dict[str, list[str]] = {}
+        self._active_gallery_mosaic: dict[str, object] | None = None
+        self._inside_gallery_overlay = False
+        self._active_gallery_project: str | None = None
+        self._active_gallery_project_depth = 0
 
     def handle_starttag(
         self,
@@ -132,6 +199,47 @@ class StaticDocumentParser(HTMLParser):
             self.timeline_panel_links.append(attributes)
         if tag == "a" and "at-tlcard__link" in classes:
             self.timeline_mobile_links.append(attributes)
+        if tag == "nav" and "data-responsive-timeline" in attributes:
+            self.responsive_timeline_navigation = attributes
+        if tag == "a" and "data-responsive-marker" in attributes:
+            self.responsive_timeline_markers.append(attributes)
+        if tag == "li" and "at-tlcard" in classes:
+            self.timeline_cards.append(attributes)
+        if tag == "button" and "at-gallery-mosaic" in classes:
+            mosaic: dict[str, object] = {
+                "attributes": attributes,
+                "images": [],
+                "icon_count": 0,
+                "overlay_attributes": None,
+                "overlay_text": [],
+            }
+            self.gallery_mosaics.append(mosaic)
+            self._active_gallery_mosaic = mosaic
+        elif self._active_gallery_mosaic is not None:
+            if tag == "img":
+                images = self._active_gallery_mosaic["images"]
+                assert isinstance(images, list)
+                images.append(attributes)
+            elif tag == "span" and "at-gallery-mosaic__overlay" in classes:
+                self._inside_gallery_overlay = True
+                self._active_gallery_mosaic["overlay_attributes"] = attributes
+            elif tag == "svg" and "at-gallery-mosaic__icon" in classes:
+                icon_count = self._active_gallery_mosaic["icon_count"]
+                assert isinstance(icon_count, int)
+                self._active_gallery_mosaic["icon_count"] = icon_count + 1
+        if tag == "div" and "at-gallery-project" in classes:
+            project = attributes.get("data-project")
+            if project:
+                self._active_gallery_project = project
+                self._active_gallery_project_depth = 1
+                self.gallery_projects[project] = []
+        elif self._active_gallery_project is not None:
+            if tag == "div":
+                self._active_gallery_project_depth += 1
+            elif tag == "img":
+                source = attributes.get("src")
+                if source:
+                    self.gallery_projects[self._active_gallery_project].append(source)
 
         for attribute in RESOURCE_ATTRIBUTES.get(tag, ()):
             value = attributes.get(attribute)
@@ -141,6 +249,44 @@ class StaticDocumentParser(HTMLParser):
                 self.references.extend(_split_srcset(value))
             else:
                 self.references.append(value)
+
+    def handle_endtag(self, tag: str) -> None:
+        """
+        Close active gallery parsing scopes.
+
+        Args:
+            tag: The normalized closing element name.
+
+        Returns:
+            None; active parser state is updated in place.
+        """
+        if tag == "button" and self._active_gallery_mosaic is not None:
+            self._active_gallery_mosaic = None
+            self._inside_gallery_overlay = False
+        elif tag == "span" and self._inside_gallery_overlay:
+            self._inside_gallery_overlay = False
+        if tag == "div" and self._active_gallery_project is not None:
+            self._active_gallery_project_depth -= 1
+            if self._active_gallery_project_depth == 0:
+                self._active_gallery_project = None
+
+    def handle_data(self, data: str) -> None:
+        """
+        Collect localized visible text inside a gallery overlay.
+
+        Args:
+            data: Character data emitted by the HTML parser.
+
+        Returns:
+            None; non-empty overlay text is stored on the active mosaic.
+        """
+        if self._active_gallery_mosaic is None or not self._inside_gallery_overlay:
+            return
+        normalized = data.strip()
+        if normalized:
+            overlay_text = self._active_gallery_mosaic["overlay_text"]
+            assert isinstance(overlay_text, list)
+            overlay_text.append(normalized)
 
 
 class QuietRequestHandler(SimpleHTTPRequestHandler):
@@ -193,6 +339,55 @@ def _split_srcset(srcset: str) -> list[str]:
     ]
 
 
+def _read_webp_dimensions(path: Path) -> tuple[int, int]:
+    """
+    Read WebP canvas dimensions without introducing an image-library dependency.
+
+    Args:
+        path: WebP file whose dimensions should be inspected.
+
+    Returns:
+        Width and height in CSS-independent image pixels.
+
+    Raises:
+        ValueError: If the file is not a supported WebP container.
+    """
+    content = path.read_bytes()
+    if content[:4] != b"RIFF" or content[8:12] != b"WEBP":
+        raise ValueError(f"{path} is not a WebP RIFF container")
+    chunk_type = content[12:16]
+    if chunk_type == b"VP8 " and content[23:26] == b"\x9d\x01\x2a":
+        width, height = struct.unpack_from("<HH", content, 26)
+        return width & 0x3FFF, height & 0x3FFF
+    if chunk_type == b"VP8L" and content[20] == 0x2F:
+        packed_dimensions = int.from_bytes(content[21:25], "little")
+        width = (packed_dimensions & 0x3FFF) + 1
+        height = ((packed_dimensions >> 14) & 0x3FFF) + 1
+        return width, height
+    if chunk_type == b"VP8X":
+        width = int.from_bytes(content[24:27], "little") + 1
+        height = int.from_bytes(content[27:30], "little") + 1
+        return width, height
+    raise ValueError(f"{path} uses an unsupported WebP payload")
+
+
+def _expected_dialog_sources(asset_prefix: str) -> dict[str, list[str]]:
+    """
+    Build the immutable full-resolution dialog source mapping for one route depth.
+
+    Args:
+        asset_prefix: Route-relative prefix before wp-content.
+
+    Returns:
+        Project-keyed, source-order URL lists.
+    """
+    source_root = f"{asset_prefix}wp-content/uploads/2026/07/"
+    return {
+        project: [f"{source_root}{quote(name)}" for name in file_names]
+        for project, file_names in FULL_RESOLUTION_GALLERY_FILES.items()
+    }
+
+
 def _resolve_local_reference(document: Path, reference: str) -> Path | None:
     """Resolve a local URL reference to its expected workspace path."""
     parts = urlsplit(reference)
@@ -232,8 +427,20 @@ def _serve_workspace() -> Iterator[str]:
         server.server_close()
 
 
-def _run_chrome(url: str) -> tuple[str, str]:
-    """Render one URL in headless Chrome and return its DOM output and diagnostics."""
+def _run_chrome(
+    url: str,
+    viewport: tuple[int, int] = (1280, 900),
+) -> tuple[str, str]:
+    """
+    Render one URL in headless Chrome at a requested viewport.
+
+    Args:
+        url: HTTP or file URL to render.
+        viewport: CSS-pixel width and height requested from headless Chrome.
+
+    Returns:
+        Rendered DOM output and Chrome diagnostics.
+    """
     chrome = shutil.which("google-chrome") or shutil.which("chromium")
     if chrome is None:
         raise unittest.SkipTest("Headless Chrome or Chromium is required for browser smoke tests.")
@@ -249,7 +456,8 @@ def _run_chrome(url: str) -> tuple[str, str]:
                 f"--user-data-dir={profile_directory}",
                 "--enable-logging=stderr",
                 "--v=0",
-                "--window-size=1280,900",
+                f"--window-size={viewport[0]},{viewport[1]}",
+                "--force-device-scale-factor=1",
                 "--virtual-time-budget=1500",
                 "--dump-dom",
                 url,
@@ -407,6 +615,110 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     sum(tab.get("tabindex") == "-1" for tab in parser.timeline_tabs),
                 )
 
+    def test_timeline_documents_have_card_first_responsive_navigation(self) -> None:
+        """Require localized source-order marker links mapped to focusable card containers."""
+        for route, (language, _) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                document = WORKSPACE_ROOT / route
+                content = document.read_text(encoding="utf-8")
+                parser = _parse_document(document)
+                panel_position = content.index('<div class="at-tl-panels"')
+                hint_position = content.index('<p class="at-tl-hint"')
+                stage_position = content.index('<div class="at-tl-stage">')
+                responsive_position = content.index(
+                    '<nav class="at-tl-responsive" data-responsive-timeline'
+                )
+                cards_position = content.index('<ul class="at-tl-mobile">')
+                self.assertLess(panel_position, hint_position)
+                self.assertLess(hint_position, stage_position)
+                self.assertLess(stage_position, responsive_position)
+                self.assertLess(responsive_position, cards_position)
+
+                navigation = parser.responsive_timeline_navigation
+                self.assertIsNotNone(navigation)
+                self.assertEqual(
+                    RESPONSIVE_TIMELINE_LABELS[language],
+                    navigation.get("aria-label") if navigation else None,
+                )
+                markers = parser.responsive_timeline_markers
+                cards = parser.timeline_cards
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(markers))
+                self.assertEqual(TIMELINE_MILESTONE_COUNT, len(cards))
+                self.assertEqual(
+                    [str(index) for index in range(TIMELINE_MILESTONE_COUNT)],
+                    [marker.get("data-index") for marker in markers],
+                )
+                for index, (marker, card) in enumerate(zip(markers, cards, strict=True)):
+                    destination_id = f"timeline-card-{index}"
+                    self.assertEqual(f"#{destination_id}", marker.get("href"))
+                    self.assertEqual(destination_id, card.get("id"))
+                    self.assertEqual("-1", card.get("tabindex"))
+                current_markers = [
+                    marker
+                    for marker in markers
+                    if marker.get("aria-current") == "step"
+                ]
+                self.assertEqual(1, len(current_markers))
+                self.assertEqual("3", current_markers[0].get("data-index"))
+
+    def test_mosaics_use_exact_thumbnails_and_preserve_dialog_sources(self) -> None:
+        """Require optimized preview mappings, localized overlays, and original dialogs."""
+        for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                parser = _parse_document(WORKSPACE_ROOT / route)
+                self.assertEqual(len(GALLERY_PROJECTS) * 2, len(parser.gallery_mosaics))
+                project_counts = {project: 0 for project in GALLERY_PROJECTS}
+                for mosaic in parser.gallery_mosaics:
+                    attributes = mosaic["attributes"]
+                    images = mosaic["images"]
+                    overlay_attributes = mosaic["overlay_attributes"]
+                    overlay_text = mosaic["overlay_text"]
+                    self.assertIsInstance(attributes, dict)
+                    self.assertIsInstance(images, list)
+                    self.assertIsInstance(overlay_attributes, dict)
+                    self.assertIsInstance(overlay_text, list)
+                    project = attributes.get("data-project")
+                    self.assertIn(project, GALLERY_PROJECTS)
+                    project_counts[project] += 1
+                    self.assertTrue(attributes.get("aria-label"))
+                    self.assertEqual(4, len(images))
+                    for sequence, image in enumerate(images, start=1):
+                        expected_source = (
+                            f"{asset_prefix}wp-content/uploads/2026/07/"
+                            f"gallery-thumbnails/{project}-{sequence:02d}.webp"
+                        )
+                        self.assertEqual(expected_source, image.get("src"))
+                        self.assertEqual("160", image.get("width"))
+                        self.assertEqual("160", image.get("height"))
+                        self.assertEqual("lazy", image.get("loading"))
+                        self.assertEqual("async", image.get("decoding"))
+                        self.assertNotRegex(image.get("src", ""), r"\.(?:png|jpe?g)$")
+                    self.assertEqual("true", overlay_attributes.get("aria-hidden"))
+                    self.assertEqual(1, mosaic["icon_count"])
+                    self.assertEqual([GALLERY_OVERLAY_LABELS[language]], overlay_text)
+                self.assertEqual(
+                    {project: 2 for project in GALLERY_PROJECTS},
+                    project_counts,
+                )
+                self.assertEqual(
+                    _expected_dialog_sources(asset_prefix),
+                    parser.gallery_projects,
+                )
+
+    def test_gallery_thumbnail_assets_are_exact_bounded_webp_files(self) -> None:
+        """Require exactly 28 named 160px WebP previews no larger than 20KB."""
+        actual_files = {
+            path.name
+            for path in GALLERY_THUMBNAIL_ROOT.iterdir()
+            if path.is_file()
+        }
+        self.assertEqual(EXPECTED_GALLERY_THUMBNAILS, actual_files)
+        for thumbnail_name in sorted(EXPECTED_GALLERY_THUMBNAILS):
+            with self.subTest(thumbnail=thumbnail_name):
+                thumbnail = GALLERY_THUMBNAIL_ROOT / thumbnail_name
+                self.assertLessEqual(thumbnail.stat().st_size, 20 * 1024)
+                self.assertEqual((160, 160), _read_webp_dimensions(thumbnail))
+
     def test_timeline_controls_company_links_and_arcadia_assets_are_consistent(self) -> None:
         """Require localized controls, native company links, and Arcadia WebP parity."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
@@ -451,7 +763,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 )
                 self.assertNotIn("data-href=", content)
                 self.assertEqual(
-                    2,
+                    3,
                     content.count(
                         f'src="{asset_prefix}wp-content/uploads/2026/07/'
                         'arcadia-timeline.webp"'
@@ -464,7 +776,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 self.assertEqual(1, len(arcadia_tabs))
 
     def test_timeline_css_and_javascript_preserve_progressive_interaction(self) -> None:
-        """Require five-item snapping, fallback scrolling, containment, and reduced motion."""
+        """Require compact desktop and progressive responsive interaction contracts."""
         stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
         javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
         self.assertIn("--timeline-control-width: calc(20% - .8rem);", stylesheet)
@@ -502,6 +814,28 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn('(position - 1 + tabCount) % tabCount', javascript)
         self.assertIn('(position + 1) % tabCount', javascript)
         self.assertNotIn('addEventListener("mouseenter"', javascript)
+        self.assertIn("height: clamp(105px, 10.5vw, 150px);", stylesheet)
+        self.assertIn("font-size: clamp(16px, 1.5vw, 20px);", stylesheet)
+        self.assertIn("font-size: clamp(9px, .7vw, 10px);", stylesheet)
+        self.assertIn("--responsive-marker-width: calc((100% - 20px) / 3);", stylesheet)
+        self.assertIn(".at-home-timeline.is-responsive-enhanced .at-tlr-rail", stylesheet)
+        self.assertIn(".at-home-timeline.is-responsive-enhanced .at-tlr.is-current", stylesheet)
+        self.assertIn("scroll-margin-top: 112px;", stylesheet)
+        self.assertIn(".at-tlcard:focus { outline: 3px solid var(--green);", stylesheet)
+        self.assertIn(".at-gallery-mosaic__overlay", stylesheet)
+        self.assertIn("pointer-events: none;", stylesheet)
+        self.assertIn("initializeResponsiveTimeline();", javascript)
+        self.assertIn('event.key === "ArrowLeft" || event.key === "ArrowRight"', javascript)
+        self.assertIn('event.key === "Enter" || event.key === " "', javascript)
+        self.assertIn('card.focus({ preventScroll: true });', javascript)
+        self.assertIn(
+            'event.target.closest(".at-gallery-mosaic[data-project]")',
+            javascript,
+        )
+        self.assertNotIn(
+            'event.target.closest("button[data-project]:not(.at-tlb)")',
+            javascript,
+        )
 
     def test_progressive_enhancement_and_dialog_fallbacks_exist(self) -> None:
         """Keep reveal content visible without JavaScript and closed dialogs out of layout."""
@@ -531,13 +865,24 @@ class BrowserSmokeTests(unittest.TestCase):
     """Exercise representative routes in Chrome to catch parse and runtime regressions."""
 
     def test_navigation_timeline_and_dialog_interactions(self) -> None:
-        """Require the shared controls to update visible, focus, and accessible state."""
+        """Require desktop, 860px, and 320px interaction and overflow contracts."""
         with _serve_workspace() as base_url:
-            rendered_html, diagnostics = _run_chrome(
-                f"{base_url}/{INTERACTION_HARNESS_ROUTE}"
-            )
-        self.assertIn('data-status="passed"', rendered_html)
-        self.assertEqual([], _first_party_console_errors(diagnostics))
+            for viewport in ((1280, 900), (860, 900), (320, 900)):
+                with self.subTest(viewport=viewport):
+                    harness_url = f"{base_url}/{INTERACTION_HARNESS_ROUTE}"
+                    if viewport[0] == 320:
+                        # Linux Chrome enforces a 500px outer-window minimum; the
+                        # fixture constrains its responsive page canvas to 320px.
+                        harness_url += "?width=320"
+                    rendered_html, diagnostics = _run_chrome(
+                        harness_url,
+                        viewport=viewport,
+                    )
+                    self.assertIn('data-status="passed"', rendered_html)
+                    self.assertIn(f'data-test-width="{viewport[0]}"', rendered_html)
+                    if viewport[0] != 320:
+                        self.assertIn(f'data-viewport="{viewport[0]}"', rendered_html)
+                    self.assertEqual([], _first_party_console_errors(diagnostics))
 
     def test_representative_http_routes_execute_shared_javascript(self) -> None:
         """Require shared JavaScript to initialize without first-party console errors."""

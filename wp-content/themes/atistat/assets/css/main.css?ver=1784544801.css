@@ -221,9 +221,10 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	--timeline-progress-width: var(--active-progress);
 	position: relative;
 }
-.at-tl-mobile { display: none; }
+.at-tl-mobile,
+.at-tl-responsive { display: none; }
 .at-tl-hint {
-	margin: 0 10px 14px; color: var(--muted); font-size: .84rem; font-style: italic;
+	margin: 0 10px 10px; color: var(--muted); font-size: .84rem; font-style: italic;
 	text-align: right; opacity: .72; transition: opacity .3s var(--ease);
 }
 .at-home-timeline.is-touched .at-tl-hint { opacity: 0; }
@@ -235,7 +236,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	position: relative; isolation: isolate; display: grid;
 	grid-template-columns: var(--timeline-boundary-width) minmax(0, 1fr) var(--timeline-boundary-width);
 	align-items: end; gap: clamp(12px, 1.8vw, 28px);
-	padding: clamp(24px, 3vw, 38px) var(--timeline-stage-padding-inline) 28px;
+	padding: clamp(18px, 2.3vw, 28px) var(--timeline-stage-padding-inline) 22px;
 	border: 1px solid var(--line); border-radius: 24px;
 	background:
 		radial-gradient(circle at 50% 0, rgba(83, 129, 53, .075), transparent 42%),
@@ -246,11 +247,11 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	content: ""; position: absolute; z-index: -1; inset: 12px; border-radius: 16px;
 	border: 1px solid rgba(83, 129, 53, .08); pointer-events: none;
 }
-.at-tl-year { text-align: center; padding-bottom: 43px; }
-.at-tl-year strong { display: block; color: var(--green); font-size: clamp(1.45rem, 2.5vw, 2.15rem); line-height: 1; }
+.at-tl-year { text-align: center; padding-bottom: 38px; }
+.at-tl-year strong { display: block; color: var(--green); font-size: clamp(16px, 1.5vw, 20px); line-height: 1; }
 .at-tl-year small {
 	display: block; max-width: 11ch; margin: 8px auto 0; color: var(--muted);
-	font-size: .66rem; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase;
+	font-size: clamp(9px, .7vw, 10px); line-height: 1.4; letter-spacing: .08em; text-transform: uppercase;
 }
 
 .at-tl-rail-shell { position: relative; min-width: 0; }
@@ -258,7 +259,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	/* Five allocations plus four 1rem gaps fill the viewport while all 13 tabs remain scrollable. */
 	--timeline-control-width: calc(20% - .8rem);
 	position: relative; display: flex; align-items: flex-end;
-	gap: 1rem; min-height: clamp(230px, 22vw, 310px); padding: 14px 0 43px;
+	gap: 1rem; min-height: clamp(155px, 15vw, 205px); padding: 10px 0 38px;
 	overflow-x: auto; overflow-y: hidden;
 	scroll-behavior: smooth;
 	scroll-snap-type: x proximity;
@@ -282,7 +283,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	scroll-snap-stop: normal;
 }
 .at-tl-line,
-.at-tl-progress { position: absolute; left: 0; bottom: 43px; height: 2px; pointer-events: none; }
+.at-tl-progress { position: absolute; left: 0; bottom: 38px; height: 2px; pointer-events: none; }
 .at-tl-line {
 	width: var(--timeline-track-width);
 	background: repeating-linear-gradient(90deg, var(--line) 0 9px, transparent 9px 17px);
@@ -297,7 +298,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	padding: 8px 6px 0; color: var(--muted); background: none; border: 0; border-radius: 8px;
 }
 .at-tlb__img {
-	width: 100%; height: clamp(170px, 17vw, 245px); display: flex; align-items: flex-end; justify-content: center;
+	width: 100%; height: clamp(105px, 10.5vw, 150px); display: flex; align-items: flex-end; justify-content: center;
 	background: transparent; mix-blend-mode: multiply; filter: grayscale(.18); opacity: .66;
 	transform-origin: center bottom;
 	--timeline-fade: 6%;
@@ -311,12 +312,12 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	mask-composite: intersect;
 	transition: transform .45s var(--ease), filter .45s var(--ease), opacity .45s var(--ease);
 }
-.at-tlb:nth-of-type(1) .at-tlb__img { height: clamp(205px, 20vw, 285px); }
-.at-tlb:nth-of-type(2) .at-tlb__img { height: clamp(175px, 17.5vw, 250px); }
-.at-tlb:nth-of-type(3) .at-tlb__img { height: clamp(170px, 17vw, 245px); }
-.at-tlb:nth-of-type(4) .at-tlb__img { height: clamp(175px, 17.5vw, 250px); }
+.at-tlb:nth-of-type(1) .at-tlb__img { height: clamp(126px, 12.5vw, 176px); }
+.at-tlb:nth-of-type(2) .at-tlb__img { height: clamp(108px, 10.8vw, 155px); }
+.at-tlb:nth-of-type(3) .at-tlb__img { height: clamp(105px, 10.5vw, 150px); }
+.at-tlb:nth-of-type(4) .at-tlb__img { height: clamp(108px, 10.8vw, 155px); }
 .at-tlb:nth-of-type(5) .at-tlb__img,
-.at-tlb:nth-of-type(6) .at-tlb__img { height: clamp(160px, 16vw, 230px); }
+.at-tlb:nth-of-type(6) .at-tlb__img { height: clamp(99px, 10vw, 142px); }
 .at-tlb__img img {
 	width: auto; max-width: 100%; height: 100%; object-fit: contain; object-position: center bottom;
 	mix-blend-mode: normal; transition: height .45s var(--ease);
@@ -377,7 +378,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 
 /* Directional fades are state-driven and never intercept pointer or touch input. */
 .at-tl-edge {
-	position: absolute; z-index: 7; top: 0; bottom: 43px; width: 52px;
+	position: absolute; z-index: 7; top: 0; bottom: 38px; width: 52px;
 	pointer-events: none; opacity: 0; transition: opacity .2s var(--ease);
 }
 .at-tl-edge--previous {
@@ -427,7 +428,10 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-tlcard--logo .at-tlcard__img img { object-fit: contain; padding: 14px; }
 .at-tlcard__link { color: inherit; text-decoration: none; }
 
-.at-tl-panels { position: relative; min-height: 176px; max-width: 900px; margin: clamp(20px, 3vw, 34px) auto 0; }
+.at-tl-panels {
+	position: relative; min-height: 176px; max-width: 900px;
+	margin: 0 auto clamp(24px, 3.5vw, 42px);
+}
 .at-tlpanel {
 	position: absolute; inset: 0; display: grid; grid-template-columns: clamp(92px, 10vw, 132px) minmax(0, 1fr) auto;
 	gap: clamp(20px, 3vw, 36px); align-items: center; padding: clamp(22px, 3vw, 34px);
@@ -532,7 +536,7 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-hero__inner { min-height: 0; }
 }
 
-/* Tablet and mobile (max 860px): replace the desktop timeline with stacked cards. */
+/* Tablet and mobile (max 860px): expose compact marker navigation above stacked evidence cards. */
 @media (max-width: 860px) {
 	.at-navtoggle { display: inline-flex; }
 	.at-nav {
@@ -562,13 +566,98 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-opit__story { grid-template-columns: 1fr; gap: 4px; }
 	.at-services__grid { grid-template-columns: 1fr; gap: 28px; }
 
-	/* timeline → stacked cards */
+	/* Responsive Experience keeps chronological links visible while removing desktop endpoint controls. */
+	.at-home-timeline { min-width: 0; max-width: 100%; }
 	.at-tl-desktop { display: none; }
+	.at-tl-responsive {
+		display: block; min-width: 0; max-width: 100%; margin: 0 0 24px;
+	}
+	.at-tlr-shell {
+		position: relative; min-width: 0; max-width: 100%;
+		border: 1px solid var(--line); border-radius: 14px;
+		background: rgba(244, 241, 233, .72);
+	}
+	.at-tlr-rail {
+		/* Three allocations, two gaps, and rail padding fit within the responsive viewport. */
+		--responsive-marker-width: calc((100% - 20px) / 3);
+		display: flex; gap: 10px; min-width: 0; padding: 10px 8px 18px;
+		overflow-x: auto; overflow-y: hidden;
+		scroll-behavior: smooth;
+		scroll-snap-type: x proximity;
+		touch-action: pan-x pan-y;
+		overscroll-behavior-inline: contain;
+		scrollbar-color: var(--green) transparent;
+		-webkit-overflow-scrolling: touch;
+	}
+	/* Native scrollbars remain available until JavaScript validates all marker/card relationships. */
+	.at-home-timeline.is-responsive-enhanced .at-tlr-rail { scrollbar-width: none; }
+	/* Chromium and Safari mirror the enhancement-gated Firefox scrollbar behavior. */
+	.at-home-timeline.is-responsive-enhanced .at-tlr-rail::-webkit-scrollbar { display: none; }
+	.at-tlr {
+		position: relative; z-index: 2;
+		flex: 0 0 var(--responsive-marker-width); min-width: var(--responsive-marker-width);
+		display: flex; flex-direction: column; align-items: center; gap: 5px;
+		padding: 8px 5px 12px; color: var(--muted); text-decoration: none;
+		border: 1px solid transparent; border-radius: 9px;
+		scroll-snap-align: center; scroll-snap-stop: normal;
+		transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+	}
+	.at-tlr__img {
+		width: 100%; height: clamp(62px, 18vw, 96px);
+		display: flex; align-items: flex-end; justify-content: center;
+		background: transparent; mix-blend-mode: multiply;
+	}
+	.at-tlr__img img {
+		width: auto; max-width: 100%; height: 100%;
+		object-fit: contain; object-position: center bottom;
+	}
+	.at-tlr--logo .at-tlr__img { align-items: center; mix-blend-mode: normal; }
+	.at-tlr--logo .at-tlr__img img { width: 100%; height: auto; max-height: 52px; }
+	.at-tlr__year { font-size: .72rem; font-weight: 700; line-height: 1; }
+	.at-tlr__dot {
+		position: absolute; bottom: 5px; left: 50%; width: 8px; height: 8px;
+		transform: translateX(-50%); border: 1px solid var(--green); border-radius: 50%;
+		background: var(--cream);
+	}
+	/* Pointer feedback adds a contained lift so state is visible without relying on color. */
+	.at-tlr:hover { transform: translateY(-2px); border-color: var(--green); }
+	/* Keyboard focus surrounds the complete responsive marker. */
+	.at-tlr:focus-visible { outline: 2px solid var(--green); outline-offset: -1px; }
+	/* Current-marker treatment is enhancement-gated and persists only after explicit activation. */
+	.at-home-timeline.is-responsive-enhanced .at-tlr.is-current {
+		color: var(--ink); border-color: var(--green);
+		background: rgba(83, 129, 53, .12);
+		box-shadow: inset 0 -3px 0 var(--green);
+	}
+	.at-home-timeline.is-responsive-enhanced .at-tlr.is-current .at-tlr__dot {
+		background: var(--green);
+	}
+	.at-tlr-edge {
+		position: absolute; z-index: 3; top: 0; bottom: 0; width: 36px;
+		pointer-events: none; opacity: 0; transition: opacity .2s var(--ease);
+	}
+	.at-tlr-edge--previous {
+		left: 0;
+		background: linear-gradient(90deg, var(--paper), transparent);
+	}
+	.at-tlr-edge--next {
+		right: 0;
+		background: linear-gradient(270deg, var(--paper), transparent);
+	}
+	/* Before enhancement, the next fade signals that the native link rail can scroll. */
+	.at-home-timeline:not(.is-responsive-enhanced) .at-tlr-edge--next { opacity: .9; }
+	/* Validated edge classes expose additional marker content without intercepting touch input. */
+	.at-home-timeline.has-responsive-previous .at-tlr-edge--previous,
+	.at-home-timeline.has-responsive-next .at-tlr-edge--next { opacity: .9; }
 	.at-tl-mobile { display: grid; gap: 20px; list-style: none; margin: 0; padding: 0; }
 	.at-tlcard {
 		display: grid; grid-template-columns: minmax(150px, 38%) minmax(0, 1fr) auto; gap: 22px; align-items: center;
 		padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--cream);
+		min-width: 0; scroll-margin-top: 112px;
 	}
+	.at-tlcard > * { min-width: 0; }
+	/* Programmatic card focus confirms responsive marker activation for keyboard and pointer users. */
+	.at-tlcard:focus { outline: 3px solid var(--green); outline-offset: 4px; }
 	.at-tlcard--logo .at-tlcard__link {
 		display: grid; grid-column: 1 / -1;
 		grid-template-columns: minmax(150px, 38%) minmax(0, 1fr);
@@ -600,7 +689,7 @@ a.at-contact__val:hover { color: var(--green); }
 	.at-nav { inset: 76px 0 auto 0; }
 	/* Fit long Bulgarian hero words within the narrow viewport without clipping. */
 	.at-hero__title { font-size: clamp(1.8rem, 9vw, 2.2rem); overflow-wrap: anywhere; }
-	.at-tlcard { grid-template-columns: 1fr; gap: 14px; padding: 16px; }
+	.at-tlcard { grid-template-columns: 1fr; gap: 14px; padding: 16px; scroll-margin-top: 96px; }
 	.at-tlcard--logo .at-tlcard__link { grid-template-columns: 1fr; gap: 14px; }
 	.at-tlcard__img { height: 220px; }
 	.at-footer__inner { justify-content: center; text-align: center; }
@@ -980,6 +1069,7 @@ dialog.at-selected-projects::backdrop {
    ========================================================================= */
 
 .at-gallery-mosaic {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(2, 56px);
 	gap: 4px;
@@ -990,6 +1080,8 @@ dialog.at-selected-projects::backdrop {
 	border: 0;
 	border-radius: 4px;
 	cursor: pointer;
+	overflow: hidden;
+	transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
 
 .at-gallery-mosaic img {
@@ -1000,10 +1092,30 @@ dialog.at-selected-projects::backdrop {
 	border-radius: 2px;
 }
 
-/* Keyboard focus uses the brand color around the complete four-image control. */
+/* Persistent decoration names the launcher visually and never intercepts pointer input. */
+.at-gallery-mosaic__overlay {
+	position: absolute; right: 4px; bottom: 4px; left: 4px;
+	display: flex; align-items: center; justify-content: center; gap: 4px;
+	padding: 5px 6px; color: var(--paper);
+	/* Dark ink transparency preserves thumbnail context behind the localized affordance. */
+	background: rgba(37, 42, 34, .78); border-radius: 3px;
+	font-size: .65rem; font-weight: 700; line-height: 1.1;
+	pointer-events: none;
+}
+.at-gallery-mosaic__icon { width: 16px; height: 16px; flex: 0 0 16px; }
+
+/* Pointer feedback lifts the complete button and adds a non-color-only outer boundary. */
+.at-gallery-mosaic:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 0 0 3px rgba(83, 129, 53, .24);
+}
+
+/* Keyboard focus uses the brand color and elevation around the complete four-image control. */
 .at-gallery-mosaic:focus-visible {
 	outline: 2px solid var(--green);
 	outline-offset: 4px;
+	transform: translateY(-2px);
+	box-shadow: 0 0 0 3px rgba(83, 129, 53, .24);
 }
 
 /* Explicitly preserve native hidden behavior if other gallery display rules evolve. */
@@ -1135,15 +1247,19 @@ dialog.at-selected-projects::backdrop {
 	/* Reduced-motion users receive visible content without reveal transitions. */
 	.has-js .at-fade { opacity: 1; transform: none; transition: none; }
 	.at-sketch__img { transition: none !important; animation: none !important; }
-	.at-tl-buildings { scroll-behavior: auto; }
+	.at-tl-buildings,
+	.at-tlr-rail { scroll-behavior: auto; }
 	.at-tl-edge,
+	.at-tlr,
+	.at-tlr-edge,
 	.at-tlb__img,
 	.at-tlb__img img,
 	.at-tlb__year,
 	.at-tlb__dot,
 	.at-tl-progress,
 	.at-tl-control,
-	.at-tlpanel { transition: none !important; }
+	.at-tlpanel,
+	.at-gallery-mosaic { transition: none !important; }
 	.at-faq__item summary::after,
 	.at-viber-fab a {
 		transition: none;

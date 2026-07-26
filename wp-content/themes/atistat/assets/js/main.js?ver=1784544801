@@ -306,6 +306,199 @@
 	}
 
 	/**
+	 * Exposes whether additional responsive markers exist beyond either rail edge.
+	 *
+	 * @param {Object} state - The validated responsive marker and card state.
+	 * @returns {void}
+	 */
+	function updateResponsiveTimelineEdges(state) {
+		const maximumScroll = Math.max(0, state.rail.scrollWidth - state.rail.clientWidth);
+		const hasPrevious = state.rail.scrollLeft > TIMELINE_SCROLL_EDGE_TOLERANCE;
+		const hasNext = state.rail.scrollLeft
+			< maximumScroll - TIMELINE_SCROLL_EDGE_TOLERANCE;
+		state.timeline.classList.toggle("has-responsive-previous", hasPrevious);
+		state.timeline.classList.toggle("has-responsive-next", hasNext);
+	}
+
+	/**
+	 * Defers responsive edge calculations so repeated scroll events share one frame.
+	 *
+	 * @param {Object} state - The validated responsive marker and card state.
+	 * @returns {void}
+	 */
+	function scheduleResponsiveTimelineEdgeUpdate(state) {
+		if (state.edgeUpdateFrame !== null) {
+			return;
+		}
+		state.edgeUpdateFrame = window.requestAnimationFrame(
+			function applyResponsiveTimelineEdgeUpdate() {
+				state.edgeUpdateFrame = null;
+				updateResponsiveTimelineEdges(state);
+			}
+		);
+	}
+
+	/**
+	 * Centers a responsive marker without activating or scrolling to its card.
+	 *
+	 * @param {Object} state - The validated responsive marker and card state.
+	 * @param {HTMLElement} marker - The marker that should be centered.
+	 * @returns {void}
+	 */
+	function centerResponsiveTimelineMarker(state, marker) {
+		const maximumScroll = Math.max(0, state.rail.scrollWidth - state.rail.clientWidth);
+		const desiredScroll = marker.offsetLeft
+			- ((state.rail.clientWidth - marker.offsetWidth) / 2);
+		const boundedScroll = Math.max(0, Math.min(maximumScroll, desiredScroll));
+		const prefersReducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+		const behavior = prefersReducedMotion ? "instant" : "smooth";
+		state.rail.scrollTo({ left: boundedScroll, behavior });
+		if (prefersReducedMotion) {
+			updateResponsiveTimelineEdges(state);
+		} else {
+			scheduleResponsiveTimelineEdgeUpdate(state);
+		}
+	}
+
+	/**
+	 * Moves the single responsive tab stop and optionally transfers keyboard focus.
+	 *
+	 * @param {Object} state - The validated responsive marker and card state.
+	 * @param {number} position - Zero-based marker position that becomes tabbable.
+	 * @param {boolean} shouldFocus - Whether keyboard focus should move to the marker.
+	 * @returns {void}
+	 */
+	function setResponsiveTimelineFocus(state, position, shouldFocus) {
+		state.markers.forEach(function updateResponsiveMarkerTabStop(marker, markerPosition) {
+			marker.setAttribute("tabindex", markerPosition === position ? "0" : "-1");
+		});
+		state.focusedPosition = position;
+		const marker = state.markers[position];
+		if (shouldFocus) {
+			marker.focus({ preventScroll: true });
+		}
+		centerResponsiveTimelineMarker(state, marker);
+	}
+
+	/**
+	 * Activates one responsive destination and persists only that explicit selection.
+	 *
+	 * @param {Object} state - The validated responsive marker and card state.
+	 * @param {number} position - Zero-based marker and card position to activate.
+	 * @returns {void}
+	 */
+	function activateResponsiveTimelineMarker(state, position) {
+		setResponsiveTimelineFocus(state, position, false);
+		state.markers.forEach(function updateResponsiveCurrentMarker(marker, markerPosition) {
+			const isCurrent = markerPosition === position;
+			marker.classList.toggle("is-current", isCurrent);
+			if (isCurrent) {
+				marker.setAttribute("aria-current", "step");
+			} else {
+				marker.removeAttribute("aria-current");
+			}
+		});
+
+		const behavior = window.matchMedia(REDUCED_MOTION_QUERY).matches ? "instant" : "smooth";
+		const card = state.cards[position];
+		card.scrollIntoView({ behavior, block: "start" });
+		// preventScroll avoids a second browser-generated jump competing with the requested scroll.
+		card.focus({ preventScroll: true });
+	}
+
+	/**
+	 * Validates and enhances the static responsive milestone links.
+	 *
+	 * @returns {void}
+	 */
+	function initializeResponsiveTimeline() {
+		const timeline = document.querySelector("[data-timeline]");
+		const navigation = timeline?.querySelector("[data-responsive-timeline]");
+		const rail = navigation?.querySelector("[data-responsive-timeline-rail]");
+		const previousEdge = navigation?.querySelector('[data-responsive-edge="previous"]');
+		const nextEdge = navigation?.querySelector('[data-responsive-edge="next"]');
+		const markers = navigation
+			? Array.from(navigation.querySelectorAll("a[data-responsive-marker]"))
+			: [];
+		const cards = timeline
+			? Array.from(timeline.querySelectorAll(".at-tl-mobile > .at-tlcard"))
+			: [];
+		const destinations = markers.map(function resolveResponsiveDestination(marker) {
+			const markerHref = marker.getAttribute("href") || "";
+			const destinationId = markerHref.startsWith("#") ? markerHref.slice(1) : "";
+			return destinationId ? document.getElementById(destinationId) : null;
+		});
+		const hasReciprocalMappings = destinations.every(
+			function validateResponsiveDestination(destination, position) {
+				return destination instanceof HTMLElement
+					&& destination === cards[position]
+					&& timeline.contains(destination)
+					&& destination.getAttribute("tabindex") === "-1";
+			}
+		);
+		const currentMarkers = markers.filter(function findResponsiveCurrentMarker(marker) {
+			return marker.getAttribute("aria-current") === "step";
+		});
+		if (
+			!(timeline instanceof HTMLElement)
+			|| !(navigation instanceof HTMLElement)
+			|| !(rail instanceof HTMLElement)
+			|| !(previousEdge instanceof HTMLElement)
+			|| !(nextEdge instanceof HTMLElement)
+			|| markers.length !== TIMELINE_MILESTONE_COUNT
+			|| cards.length !== TIMELINE_MILESTONE_COUNT
+			|| new Set(destinations).size !== TIMELINE_MILESTONE_COUNT
+			|| !hasReciprocalMappings
+			|| currentMarkers.length !== 1
+		) {
+			return;
+		}
+
+		const initialPosition = markers.indexOf(currentMarkers[0]);
+		const state = {
+			timeline,
+			rail,
+			markers,
+			cards,
+			focusedPosition: initialPosition,
+			edgeUpdateFrame: null
+		};
+		markers.forEach(function registerResponsiveMarker(marker, position) {
+			marker.addEventListener("keydown", function handleResponsiveMarkerKey(event) {
+				if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+					event.preventDefault();
+					const direction = event.key === "ArrowLeft" ? -1 : 1;
+					const nextPosition = (
+						position + direction + markers.length
+					) % markers.length;
+					setResponsiveTimelineFocus(state, nextPosition, true);
+					return;
+				}
+				if (event.key === "Enter" || event.key === " ") {
+					event.preventDefault();
+					activateResponsiveTimelineMarker(state, position);
+				}
+			});
+			marker.addEventListener("click", function activateClickedResponsiveMarker(event) {
+				event.preventDefault();
+				activateResponsiveTimelineMarker(state, position);
+			});
+		});
+		rail.addEventListener("scroll", function synchronizeResponsiveTimelineEdges() {
+			scheduleResponsiveTimelineEdgeUpdate(state);
+		}, { passive: true });
+		window.addEventListener("resize", function recenterResponsiveTimelineAfterResize() {
+			centerResponsiveTimelineMarker(state, markers[state.focusedPosition]);
+			updateResponsiveTimelineEdges(state);
+		});
+
+		// Enhancement starts only after every native link resolves to its source-order card.
+		timeline.classList.add("is-responsive-enhanced");
+		setResponsiveTimelineFocus(state, initialPosition, false);
+		updateResponsiveTimelineEdges(state);
+	}
+
+	/**
 	 * Enables tap-to-reveal behavior for non-link project sketches.
 	 *
 	 * @returns {void}
@@ -333,8 +526,9 @@
 			return null;
 		}
 
-		// Timeline tabs may identify a project for styling but are never gallery launchers.
-		return event.target.closest("button[data-project]:not(.at-tlb)");
+		// Only mosaic buttons can open the dialog; responsive links may also carry project metadata.
+		const launcher = event.target.closest(".at-gallery-mosaic[data-project]");
+		return launcher instanceof HTMLButtonElement ? launcher : null;
 	}
 
 	/**
@@ -427,6 +621,7 @@
 	initializeMobileNavigation();
 	initializeScrollReveal();
 	initializeTimeline();
+	initializeResponsiveTimeline();
 	initializeTouchSketches();
 	initializeSelectedProjectsDialog();
 }());
