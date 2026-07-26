@@ -228,10 +228,14 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 }
 .at-home-timeline.is-touched .at-tl-hint { opacity: 0; }
 .at-tl-stage {
+	/* Shared boundary metrics keep each arrow centered above its endpoint year at every desktop width. */
+	--timeline-boundary-width: clamp(76px, 8vw, 110px);
+	--timeline-boundary-center: clamp(38px, 4vw, 55px);
+	--timeline-stage-padding-inline: clamp(18px, 2.5vw, 34px);
 	position: relative; isolation: isolate; display: grid;
-	grid-template-columns: clamp(76px, 8vw, 110px) minmax(0, 1fr) clamp(76px, 8vw, 110px);
+	grid-template-columns: var(--timeline-boundary-width) minmax(0, 1fr) var(--timeline-boundary-width);
 	align-items: end; gap: clamp(12px, 1.8vw, 28px);
-	padding: clamp(24px, 3vw, 38px) clamp(18px, 2.5vw, 34px) 28px;
+	padding: clamp(24px, 3vw, 38px) var(--timeline-stage-padding-inline) 28px;
 	border: 1px solid var(--line); border-radius: 24px;
 	background:
 		radial-gradient(circle at 50% 0, rgba(83, 129, 53, .075), transparent 42%),
@@ -388,22 +392,31 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-home-timeline.has-timeline-previous .at-tl-edge--previous,
 .at-home-timeline.has-timeline-next .at-tl-edge--next { opacity: .92; }
 
-/* Labelled replacement controls remain visible for mouse, keyboard, and wide-touch users. */
-.at-tl-controls {
-	display: flex; justify-content: center; gap: 12px; margin-top: 14px;
-}
+/* Stage arrows sit above the endpoint-year centers (layer 8) and remain operable by mouse, keyboard, and touch. */
 .at-tl-control {
+	position: absolute; z-index: 8; top: 50%; transform: translate(-50%, -50%); pointer-events: auto;
 	display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 	min-width: 44px; min-height: 44px; padding: 8px 14px;
 	color: var(--green); background: var(--paper); border: 1px solid var(--green); border-radius: 999px;
 	transition: color .2s var(--ease), background .2s var(--ease), opacity .2s var(--ease);
 }
+/* Previous control aligns to the horizontal center of the start-year grid column. */
+.at-tl-control--previous {
+	left: calc(var(--timeline-stage-padding-inline) + var(--timeline-boundary-center));
+}
+/* Next control uses the same endpoint offset and mirrors its translation from the right edge. */
+.at-tl-control--next {
+	right: calc(var(--timeline-stage-padding-inline) + var(--timeline-boundary-center));
+	transform: translate(50%, -50%);
+}
+/* Icon dimensions match the SVG viewBox while the button preserves its full tap target. */
+.at-tl-control svg { width: 10px; height: 18px; }
 /* Hover gives enabled controls a filled brand treatment. */
 .at-tl-control:not(:disabled):hover { color: var(--paper); background: var(--green); }
 /* Keyboard focus uses a high-visibility outer ring. */
 .at-tl-control:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
-/* Disabled boundary state remains visible while clearly unavailable. */
-.at-tl-control:disabled { opacity: .38; cursor: not-allowed; }
+/* Boundary controls disappear when no further milestone exists in their direction. */
+.at-tl-control:disabled { visibility: hidden; }
 
 /* Linked info panel (partner entries) */
 .at-tlpanel__copy--link { text-decoration: none; color: inherit; display: block; }
@@ -742,13 +755,6 @@ a.at-contact__val:hover { color: var(--green); }
 	max-height: 52px;
 	width: auto;
 	object-fit: contain;
-}
-
-/* Adreo text partner: styled wordmark in lieu of a logo image */
-.at-partner__wordmark {
-	font-size: 1.4rem;
-	font-weight: 700;
-	color: var(--ink); /* Dark ink color */
 }
 
 /* =========================================================================

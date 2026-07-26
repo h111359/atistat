@@ -50,7 +50,14 @@ TIMELINE_ROUTES = {
 }
 TIMELINE_CONTROL_LABELS = {
     "bg": ("Предишен етап", "Следващ етап"),
-    "en": ("Previous milestone", "Next milestone"),
+    "en": ("Previous stage", "Next stage"),
+}
+ADREO_HOMEPAGE_ROUTES = {
+    "index.html": "Адрео",
+    "index-bg.html": "Адрео",
+    "index-en.html": "Adreo",
+    "index.html?lang=bg.html": "Адрео",
+    "index.html?lang=en.html": "Adreo",
 }
 TIMELINE_COMPANY_DESTINATIONS = (
     "https://correctproject.com",
@@ -355,6 +362,18 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             with self.subTest(asset=canonical.name):
                 self.assertEqual(canonical.read_bytes(), versioned.read_bytes())
 
+    def test_adreo_partner_logo_is_localized_across_homepages(self) -> None:
+        """Require the local Adreo image and language-appropriate alternative text."""
+        for route, alternative_text in ADREO_HOMEPAGE_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                self.assertIn(
+                    'src="wp-content/uploads/2026/07/adreo.png" '
+                    f'alt="{alternative_text}" loading="lazy" decoding="async"',
+                    content,
+                )
+                self.assertNotIn('class="at-partner__wordmark"', content)
+
     def test_timeline_documents_have_complete_automatic_tab_relationships(self) -> None:
         """Require all six timelines to expose one complete 13-item tab model."""
         for route in TIMELINE_ROUTES:
@@ -402,6 +421,20 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 expected_previous, expected_next = TIMELINE_CONTROL_LABELS[language]
                 self.assertEqual(expected_previous, controls_by_direction["previous"].get("aria-label"))
                 self.assertEqual(expected_next, controls_by_direction["next"].get("aria-label"))
+                stage_position = content.index('<div class="at-tl-stage">')
+                previous_position = content.index("data-timeline-previous")
+                start_year_position = content.index('<div class="at-tl-year at-tl-year--start">')
+                shell_position = content.index('<div class="at-tl-rail-shell">')
+                next_position = content.index("data-timeline-next")
+                end_year_position = content.index('<div class="at-tl-year at-tl-year--end">')
+                self.assertLess(stage_position, previous_position)
+                self.assertLess(previous_position, start_year_position)
+                self.assertLess(start_year_position, shell_position)
+                self.assertLess(shell_position, next_position)
+                self.assertLess(next_position, end_year_position)
+                self.assertNotIn('class="at-tl-controls"', content)
+                self.assertIn('points="9,1 1,9 9,17"', content)
+                self.assertIn('points="1,1 9,9 1,17"', content)
 
                 internal_destination = f"{asset_prefix or '/'}"
                 expected_destinations = {
@@ -441,6 +474,26 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn("overflow-x: auto;", stylesheet)
         self.assertIn(".is-timeline-enhanced .at-tl-buildings", stylesheet)
         self.assertIn("min-width: 44px; min-height: 44px;", stylesheet)
+        self.assertIn(
+            "position: absolute; z-index: 8; top: 50%; "
+            "transform: translate(-50%, -50%); pointer-events: auto;",
+            stylesheet,
+        )
+        self.assertIn("--timeline-boundary-center: clamp(38px, 4vw, 55px);", stylesheet)
+        self.assertIn(
+            "left: calc(var(--timeline-stage-padding-inline) + "
+            "var(--timeline-boundary-center));",
+            stylesheet,
+        )
+        self.assertIn(
+            "right: calc(var(--timeline-stage-padding-inline) + "
+            "var(--timeline-boundary-center));",
+            stylesheet,
+        )
+        self.assertIn("transform: translate(50%, -50%);", stylesheet)
+        self.assertIn(".at-tl-control:disabled { visibility: hidden; }", stylesheet)
+        self.assertNotIn(".at-tl-controls {", stylesheet)
+        self.assertNotIn(".at-partner__wordmark", stylesheet)
         self.assertIn('.at-tlb[data-project="arcadia"] .at-tlb__img', stylesheet)
         self.assertIn("filter: grayscale(1);", stylesheet)
         self.assertNotIn("scale(2.15)", stylesheet)
@@ -455,6 +508,23 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
         self.assertIn(".at-fade { opacity: 1; transform: none; }", stylesheet)
         self.assertIn("dialog.at-selected-projects:not([open])", stylesheet)
+
+    def test_gallery_dialog_uses_one_dynamic_project_heading(self) -> None:
+        """Keep project names in the dialog title without repeated container headings."""
+        javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
+        self.assertIn("activeContainer.dataset.name?.trim()", javascript)
+        for route in TIMELINE_ROUTES:
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                dialog_markup = content.split(
+                    '<dialog id="selected-projects-dialog"',
+                    maxsplit=1,
+                )[1].split("</dialog>", maxsplit=1)[0]
+                self.assertEqual(
+                    7,
+                    dialog_markup.count('class="at-gallery-project"'),
+                )
+                self.assertNotIn("<h3>", dialog_markup)
 
 
 class BrowserSmokeTests(unittest.TestCase):

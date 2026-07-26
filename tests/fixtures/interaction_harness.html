@@ -27,6 +27,8 @@
 	<section class="at-home-timeline" data-timeline aria-label="Test timeline">
 		<div class="at-tl-desktop">
 			<div class="at-tl-stage">
+				<!-- Previous control is a stage child before the start year and supports native button activation. -->
+				<button class="at-tl-control at-tl-control--previous" type="button" data-timeline-previous aria-label="Previous milestone">Previous</button>
 				<div class="at-tl-year at-tl-year--start">
 					<strong>2006</strong>
 					<small>first</small>
@@ -81,15 +83,12 @@
 						</button>
 					</div>
 				</div>
+				<!-- Next control is a stage child before the end year and supports native button activation. -->
+				<button class="at-tl-control at-tl-control--next" type="button" data-timeline-next aria-label="Next milestone">Next</button>
 				<div class="at-tl-year at-tl-year--end">
 					<strong>2026</strong>
 					<small>last</small>
 				</div>
-			</div>
-			<!-- Previous/Next buttons expose native disabled states at the selected boundaries. -->
-			<div class="at-tl-controls" aria-label="Timeline navigation">
-				<button class="at-tl-control" type="button" data-timeline-previous aria-label="Previous milestone">Previous</button>
-				<button class="at-tl-control" type="button" data-timeline-next aria-label="Next milestone">Next</button>
 			</div>
 			<div class="at-tl-panels" aria-live="polite">
 				<article class="at-tlpanel" id="fixture-panel-0" role="tabpanel" aria-labelledby="fixture-tab-0" data-panel="0" aria-hidden="true">
@@ -116,8 +115,11 @@
 		Open gallery
 	</button>
 	<dialog id="selected-projects-dialog" aria-label="Test gallery" aria-modal="true">
-		<button class="at-dialog__close" type="button" aria-label="Close gallery">Close</button>
-		<div data-project="fixture"><h3>Fixture gallery</h3></div>
+		<div class="at-dialog__header">
+			<h2>Test gallery</h2>
+			<button class="at-dialog__close" type="button" aria-label="Close gallery">Close</button>
+		</div>
+		<div class="at-gallery-project" data-project="fixture" data-name="Fixture gallery"></div>
 	</dialog>
 
 	<div id="target">Navigation target</div>
@@ -260,6 +262,14 @@
 			const galleryClose = document.querySelector(".at-dialog__close");
 			galleryTrigger.click();
 			verify(gallery.open, "gallery did not open");
+			verify(
+				gallery.querySelector(".at-dialog__header h2").textContent === "Fixture gallery",
+				"gallery title did not use the project data name"
+			);
+			verify(
+				gallery.querySelector(".at-gallery-project h3") === null,
+				"gallery repeated the project title inside its project container"
+			);
 			verify(document.activeElement === galleryClose, "gallery close control did not receive focus");
 			galleryClose.click();
 			await new Promise(function waitForFocusRestoration(resolve) {

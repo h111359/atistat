@@ -212,12 +212,18 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				<p class="at-tl-hint" data-hint>Изберете етап, за да видите детайли</p>
 
 				<div class="at-tl-stage">
+					<!-- Previous stage control: native button supports Enter/Space; aria-label exposes direction without visible text. -->
+					<button type="button" class="at-tl-control at-tl-control--previous" data-timeline-previous aria-label="Предишен етап">
+						<svg viewBox="0 0 10 18" aria-hidden="true">
+							<polyline points="9,1 1,9 9,17" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+						</svg>
+					</button>
 					<div class="at-tl-year at-tl-year--start">
 						<strong>2000</strong>
 						<small>началото</small>
 					</div>
 
-					<!-- Desktop timeline: automatic tabs support Arrow keys, Home, End, click, and labelled rail controls. -->
+					<!-- Desktop timeline: automatic tabs support Arrow keys, Home, End, click, and labelled stage controls. -->
 					<div class="at-tl-rail-shell">
 						<span class="at-tl-edge at-tl-edge--previous" data-timeline-edge="previous" aria-hidden="true"></span>
 						<span class="at-tl-edge at-tl-edge--next" data-timeline-edge="next" aria-hidden="true"></span>
@@ -292,20 +298,16 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						</div>
 					</div>
 
+					<!-- Next stage control: native button supports Enter/Space; aria-label exposes direction without visible text. -->
+					<button type="button" class="at-tl-control at-tl-control--next" data-timeline-next aria-label="Следващ етап">
+						<svg viewBox="0 0 10 18" aria-hidden="true">
+							<polyline points="1,1 9,9 1,17" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+						</svg>
+					</button>
 					<div class="at-tl-year at-tl-year--end">
 						<strong>2026</strong>
 						<small>26 години постижения</small>
 					</div>
-				</div>
-
-				<!-- Previous and Next are native buttons; disabled states expose the selected rail boundaries. -->
-				<div class="at-tl-controls" aria-label="Навигация по времевата линия">
-					<button type="button" class="at-tl-control at-tl-control--previous" data-timeline-previous aria-label="Предишен етап">
-						<span aria-hidden="true">←</span><span>Предишен</span>
-					</button>
-					<button type="button" class="at-tl-control at-tl-control--next" data-timeline-next aria-label="Следващ етап">
-						<span>Следващ</span><span aria-hidden="true">→</span>
-					</button>
 				</div>
 
 				<div class="at-tl-panels" aria-live="polite">
@@ -726,7 +728,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		<ul class="at-partners__list">
 			<li><a class="at-partner__link" href="https://engsys.bg" target="_blank" rel="noopener" aria-label="Инженерни Системи — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/engsys.png" alt="Инженерни Системи" loading="lazy" decoding="async"></a></li>
 			<li><a class="at-partner__link" href="https://correctproject.com" target="_blank" rel="noopener" aria-label="Корект Проект — отвори сайта на партньора"><img src="wp-content/themes/atistat/assets/images/correctproject.png" alt="Корект Проект" loading="lazy" decoding="async"></a></li>
-			<li><a class="at-partner__link" href="https://www.adreo.bg/" target="_blank" rel="noopener" aria-label="Адрео — отвори сайта на партньора"><span class="at-partner__wordmark">Адрео</span></a></li>
+			<li><a class="at-partner__link" href="https://www.adreo.bg/" target="_blank" rel="noopener" aria-label="Адрео — отвори сайта на партньора"><img src="wp-content/uploads/2026/07/adreo.png" alt="Адрео" loading="lazy" decoding="async"></a></li>
 		</ul>
 	</div>
 </section>
@@ -854,7 +856,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		</div>
 				<div class="at-dialog__body">
 			<div class="at-gallery-project" hidden data-project="arcadia" data-name="Апартамент Аркадия">
-				<h3>Апартамент Аркадия</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D1%8F.png" alt="Апартамент Аркадия — снимка 1" width="1449" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%90%D1%80%D0%BA%D0%B0%D0%B4%D0%B8%D1%8F.png" alt="Апартамент Аркадия — снимка 2" width="1086" height="1448" loading="lazy" decoding="async">
@@ -865,7 +866,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="louis-ayer" data-name="Апартамент Луи Айер">
-				<h3>Апартамент Луи Айер</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="Апартамент Луи Айер — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9B%D1%83%D0%B8%20%D0%90%D0%B9%D0%B5%D1%80.png" alt="Апартамент Луи Айер — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">
@@ -874,7 +874,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="bebelan" data-name="Обект Бебелан">
-				<h3>Обект Бебелан</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%91%D0%B5%D0%B1%D0%B5%D0%BB%D0%B0%D0%BD.jpg" alt="Обект Бебелан — снимка 1" width="1800" height="1200" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%91%D0%B5%D0%B1%D0%B5%D0%BB%D0%B0%D0%BD.jpg" alt="Обект Бебелан — снимка 2" width="1800" height="1200" loading="lazy" decoding="async">
@@ -885,7 +884,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="elemag" data-name="Елемаг">
-				<h3>Елемаг</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%BE%20%D0%95%D0%BB%D0%B5%D0%BC%D0%B0%D0%B3.png" alt="Елемаг — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D1%81%D1%82%D0%B2%D0%BE%20%D0%95%D0%BB%D0%B5%D0%BC%D0%B0%D0%B3.png" alt="Елемаг — снимка 2" width="1086" height="1448" loading="lazy" decoding="async">
@@ -894,7 +892,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="montekanal" data-name="Монтеканал">
-				<h3>Монтеканал</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2CIMG_6308%20-%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BE%20%D0%B7%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82.png" alt="Монтеканал — снимка 1" width="1448" height="1086" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2CIMG_6307%20-%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BE%20%D0%B7%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82.png" alt="Монтеканал — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">
@@ -903,7 +900,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="ubb-interlease" data-name="ОББ Интерлийз">
-				<h3>ОББ Интерлийз</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9E%D0%91%D0%91%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BB%D0%B8%D0%B9%D0%B7.jpg" alt="ОББ Интерлийз — снимка 1" width="1800" height="1200" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9E%D0%91%D0%91%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BB%D0%B8%D0%B9%D0%B7.jpg" alt="ОББ Интерлийз — снимка 2" width="1800" height="1200" loading="lazy" decoding="async">
@@ -912,7 +908,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 				</div>
 			</div>
 			<div class="at-gallery-project" hidden data-project="power-properties" data-name="Пауър Пропъртис">
-				<h3>Пауър Пропъртис</h3>
 				<div class="at-gallery-grid">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%201%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9F%D0%B0%D1%83%D1%8A%D1%80%20%D0%9F.png" alt="Пауър Пропъртис — снимка 1" width="1086" height="1448" loading="lazy" decoding="async">
 				<img src="wp-content/uploads/2026/07/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BA%D0%B0%202%20%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B8%D0%BE%D1%80%20%D0%9F%D0%B0%D1%83%D1%8A%D1%80%20%D0%9F.png" alt="Пауър Пропъртис — снимка 2" width="1448" height="1086" loading="lazy" decoding="async">

@@ -369,8 +369,7 @@
 		}
 
 		activeContainer.hidden = false;
-		const projectHeading = activeContainer.querySelector("h3");
-		const projectName = projectHeading?.textContent.trim() || defaultLabel;
+		const projectName = activeContainer.dataset.name?.trim() || defaultLabel;
 		const dialogTitle = dialog.querySelector(".at-dialog__header h2");
 		dialog.setAttribute("aria-label", projectName);
 		if (dialogTitle) {

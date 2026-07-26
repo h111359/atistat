@@ -1,10 +1,10 @@
 ---
 state:
-  request_id: ~
-  title: ~
-  status: idle
-  input_verification_result: null
-  context_verification_result: null
+  request_id: R-20260726-0259
+  title: Keep only selected-projects-title visible
+  status: analysis_ready
+  input_verification_result: valid
+  context_verification_result: valid
 options:
   minimum_questions: 13
   input_verification_enabled: true
@@ -13,4 +13,4 @@ options:
 
 ## Input
 
-In "Партньори" for Adreo use the image `wp-content/uploads/2026/07/adreo.png` as the partner image like for the other partners. For BG and EN pages
+In at-gallery-project containers the name of the object repeats selected-projects-title. Keep only selected-projects-title visible
