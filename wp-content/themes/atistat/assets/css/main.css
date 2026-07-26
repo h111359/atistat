@@ -661,13 +661,46 @@ a.at-contact__val:hover { color: var(--green); }
    ========================================================================= */
 .at-footer { border-top: 1px solid var(--line); background: var(--paper); padding-block: 40px; }
 .at-footer__inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.at-footer__logo { display: inline-flex; opacity: .92; transition: opacity .25s var(--ease); }
+/* Brand lockup: the localized promise sits at the logo's lower-right edge on wide viewports. */
+.at-footer__logo {
+	display: inline-flex;
+	align-items: flex-end;
+	gap: clamp(10px, 2vw, 18px);
+	max-width: 100%;
+	opacity: .92;
+	transition: opacity .25s var(--ease);
+}
+/* Hover state: restore full contrast to confirm that the complete brand lockup is interactive. */
 .at-footer__logo:hover { opacity: 1; }
 .at-footer__logo svg, .at-footer__logo img { display: block; height: clamp(30px, 3.4vw, 40px); width: auto; }
+/* Two explicit lines preserve the approved wording while keeping the slogan visually secondary. */
+.at-footer__slogan {
+	display: inline-flex;
+	flex: 0 1 auto;
+	flex-direction: column;
+	min-width: 0;
+	color: var(--ink);
+	font-size: clamp(.65rem, 1.1vw, .8rem);
+	line-height: 1.35;
+	letter-spacing: .01em;
+	text-align: left;
+}
+.at-footer__slogan span { display: block; white-space: nowrap; }
 .at-footer__note { margin: 0; font-size: .9rem; color: var(--muted); }
 .at-footer__totop { display: inline-flex; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; align-items: center; justify-content: center; color: var(--green); transition: background .25s, color .25s; }
 .at-footer__totop-icon { transform: rotate(-90deg); width: 20px; height: 20px; }
 .at-footer__totop:hover { background: var(--green); color: #fff; }
+
+/* Narrow phones and small tablets (max 640px): stack the slogan below the logo to prevent overlap. */
+@media (max-width: 640px) {
+	.at-footer__logo {
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		text-align: center;
+	}
+	.at-footer__slogan { text-align: center; }
+}
 
 /* =========================================================================
    fade-in on scroll
@@ -935,6 +968,11 @@ a.at-contact__val:hover { color: var(--green); }
 	max-height: 52px;
 	width: auto;
 	object-fit: contain;
+}
+
+/* Correct Project's tall mark uses a smaller cap so its visual weight matches the other partners. */
+.at-partner__link .at-partner__logo--correct-project {
+	max-height: 40px;
 }
 
 /* =========================================================================

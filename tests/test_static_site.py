@@ -286,6 +286,47 @@ ADREO_HOMEPAGE_ROUTES = {
     "index.html?lang=bg.html": "Адрео",
     "index.html?lang=en.html": "Adreo",
 }
+FOOTER_SLOGANS = {
+    "bg": (
+        "Строителство с професионализъм,",
+        "Инвестиции с визия.",
+    ),
+    "en": (
+        "Construction with professionalism,",
+        "Investments with vision.",
+    ),
+}
+FAQ_QUOTE_COPY = {
+    "bg": {
+        "question": "Колко отнема изготвянето на оферта?",
+        "answer": (
+            "При наличие на проектна документация, количествени сметки и "
+            "технически спецификации - от 3 до 15 работни дни. Времето за "
+            "подготовка на оферта се определя за всяко конкретно запитване. "
+            "В рамките на 48 часа от вашето запитване ще потвърдим получаването "
+            "му и ще предложим удобен час за начален разговор."
+        ),
+        "obsolete": ("3 до 7 работни дни", "24 часа"),
+    },
+    "en": {
+        "question": "How long does it take to prepare a quote?",
+        "answer": (
+            "Where project documentation, bills of quantities and technical "
+            "specifications are available, preparation takes 3 to 15 working "
+            "days. The time required to prepare a quote is determined for each "
+            "individual enquiry. Within 48 hours of your enquiry, we will "
+            "confirm receipt and propose a convenient time for an initial call."
+        ),
+        "obsolete": ("3 to 7 working days", "Within 24 hours"),
+    },
+}
+FAQ_ROUTES = {
+    "index.html": "bg",
+    "index-bg.html": "bg",
+    "index-en.html": "en",
+    "index.html?lang=bg.html": "bg",
+    "index.html?lang=en.html": "en",
+}
 TIMELINE_COMPANY_DESTINATIONS = (
     "https://correctproject.com",
     "https://engsys.bg",
@@ -761,6 +802,133 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         for canonical, versioned in SHARED_ASSET_PAIRS:
             with self.subTest(asset=canonical.name):
                 self.assertEqual(canonical.read_bytes(), versioned.read_bytes())
+
+    def test_footer_slogan_is_exact_localized_and_footer_only(self) -> None:
+        """Require one approved two-line slogan beside every standard footer logo."""
+        slogan_pattern = re.compile(
+            r'<span class="at-footer__slogan">\s*'
+            r"<span>([^<]+)</span>\s*"
+            r"<span>([^<]+)</span>\s*"
+            r"</span>"
+        )
+        footer_routes: list[str] = []
+        for document in _html_paths():
+            content = document.read_text(encoding="utf-8")
+            route = str(document.relative_to(WORKSPACE_ROOT))
+            if 'class="at-footer__logo"' not in content:
+                self.assertNotIn('class="at-footer__slogan"', content)
+                continue
+
+            footer_routes.append(route)
+            parser = _parse_document(document)
+            self.assertIn(parser.language, FOOTER_SLOGANS)
+            assert parser.language is not None
+            footer_match = re.search(
+                r'<footer class="at-footer">.*?</footer>',
+                content,
+                flags=re.DOTALL,
+            )
+            self.assertIsNotNone(footer_match)
+            assert footer_match is not None
+            self.assertEqual(
+                [FOOTER_SLOGANS[parser.language]],
+                slogan_pattern.findall(footer_match.group(0)),
+                route,
+            )
+            self.assertEqual(1, content.count('class="at-footer__slogan"'), route)
+
+        self.assertEqual(42, len(footer_routes))
+
+    def test_footer_slogan_layout_has_wide_and_narrow_contracts(self) -> None:
+        """Keep the slogan lower-right on wide screens and stacked below on narrow ones."""
+        stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
+        self.assertRegex(
+            stylesheet,
+            r"\.at-footer__logo\s*\{[^}]*align-items:\s*flex-end;"
+            r"[^}]*max-width:\s*100%;",
+        )
+        self.assertIn(".at-footer__slogan {", stylesheet)
+        self.assertIn(
+            ".at-footer__slogan span { display: block; white-space: nowrap; }",
+            stylesheet,
+        )
+        self.assertRegex(
+            stylesheet,
+            r"(?s)@media \(max-width: 640px\)\s*\{"
+            r".*?\.at-footer__logo\s*\{[^}]*flex-direction:\s*column;"
+            r"[^}]*align-items:\s*center;",
+        )
+
+    def test_correct_project_partner_logo_has_unique_size_cap(self) -> None:
+        """Limit only the six Correct Project partner marks to the approved 40px cap."""
+        for route in TIMELINE_ROUTES:
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                section_match = re.search(
+                    r'<section class="at-section at-partners".*?</section>',
+                    content,
+                    flags=re.DOTALL,
+                )
+                self.assertIsNotNone(section_match)
+                assert section_match is not None
+                partner_section = section_match.group(0)
+                self.assertEqual(
+                    1,
+                    partner_section.count(
+                        'class="at-partner__logo--correct-project"'
+                    ),
+                )
+                self.assertRegex(
+                    partner_section,
+                    r'<img class="at-partner__logo--correct-project" '
+                    r'src="[^"]*correctproject\.png"',
+                )
+                self.assertEqual(
+                    1,
+                    content.count('class="at-partner__logo--correct-project"'),
+                )
+
+        stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
+        self.assertRegex(
+            stylesheet,
+            r"\.at-partner__link img\s*\{\s*max-height:\s*52px;",
+        )
+        self.assertRegex(
+            stylesheet,
+            r"\.at-partner__link \.at-partner__logo--correct-project\s*"
+            r"\{\s*max-height:\s*40px;",
+        )
+
+    def test_quote_faq_answer_is_exact_and_localized(self) -> None:
+        """Keep the approved quote lead-time answer in exactly the five FAQ routes."""
+        detected_faq_routes = {
+            str(document.relative_to(WORKSPACE_ROOT))
+            for document in _html_paths()
+            if 'class="at-section at-faq"' in document.read_text(encoding="utf-8")
+        }
+        self.assertEqual(set(FAQ_ROUTES), detected_faq_routes)
+
+        for route, language in FAQ_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                copy = FAQ_QUOTE_COPY[language]
+                question = copy["question"]
+                answer = copy["answer"]
+                self.assertEqual(1, content.count(f"<summary>{question}</summary>"))
+                details_match = re.search(
+                    rf"<details>\s*<summary>{re.escape(question)}</summary>"
+                    rf".*?</details>",
+                    content,
+                    flags=re.DOTALL,
+                )
+                self.assertIsNotNone(details_match)
+                assert details_match is not None
+                self.assertEqual(
+                    1,
+                    details_match.group(0).count(f"<p>{answer}</p>"),
+                )
+                for obsolete_copy in copy["obsolete"]:
+                    self.assertNotIn(obsolete_copy, details_match.group(0))
 
     def test_adreo_partner_logo_is_localized_across_homepages(self) -> None:
         """Require the local Adreo image and language-appropriate alternative text."""
