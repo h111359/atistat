@@ -63,7 +63,12 @@
 			});
 		}, REVEAL_OPTIONS);
 
-		fades.forEach(function observeFade(element) {
+		fades.forEach(function revealTimelineOrObserveFade(element) {
+			// A 13-card responsive timeline can be taller than the observer's reachable threshold.
+			if (element.hasAttribute("data-timeline")) {
+				element.classList.add("is-in");
+				return;
+			}
 			observer.observe(element);
 		});
 	}

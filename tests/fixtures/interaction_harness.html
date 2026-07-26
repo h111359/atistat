@@ -24,7 +24,7 @@
 	  Design intent: force 13 milestones through a five-item desktop viewport.
 	  Accessibility: automatic tabs use Arrow keys/Home/End; labelled buttons move one milestone.
 	-->
-	<section class="at-home-timeline" data-timeline aria-label="Test timeline">
+	<section class="at-home-timeline at-fade" data-fade data-timeline aria-label="Test timeline">
 		<div class="at-tl-desktop">
 			<div class="at-tl-stage">
 				<!-- Previous control is a stage child before the start year and supports native button activation. -->
@@ -228,6 +228,20 @@
 			}
 
 			/**
+			 * Reports whether two visible layout rectangles overlap.
+			 *
+			 * @param {DOMRect} firstRectangle - First rendered element bounds.
+			 * @param {DOMRect} secondRectangle - Second rendered element bounds.
+			 * @returns {boolean} Whether both rectangles share visible area.
+			 */
+			function rectanglesIntersect(firstRectangle, secondRectangle) {
+				return firstRectangle.left < secondRectangle.right
+					&& firstRectangle.right > secondRectangle.left
+					&& firstRectangle.top < secondRectangle.bottom
+					&& firstRectangle.bottom > secondRectangle.top;
+			}
+
+			/**
 			 * Waits for pending scroll and animation-frame state synchronization.
 			 *
 			 * @returns {Promise<void>} A promise resolved after the browser can paint.
@@ -263,13 +277,56 @@
 			const responsiveCards = Array.from(document.querySelectorAll(".at-tl-mobile > .at-tlcard"));
 			const gallery = document.getElementById("selected-projects-dialog");
 			const isResponsiveViewport = window.matchMedia("(max-width: 860px)").matches;
+			const timelineStyle = getComputedStyle(timeline);
+			const timelineRectangle = timeline.getBoundingClientRect();
 			verify(timeline.classList.contains("is-timeline-enhanced"), "timeline enhancement was not confirmed");
 			verify(
 				timeline.classList.contains("is-responsive-enhanced"),
 				"responsive timeline enhancement was not confirmed"
 			);
+			verify(timeline.classList.contains("is-in"), "timeline was not revealed immediately");
+			verify(
+				timelineStyle.opacity === "1" && timelineStyle.transform === "none",
+				`timeline paint state=${timelineStyle.opacity}/${timelineStyle.transform}`
+			);
+			verify(
+				timelineStyle.transitionDuration === "0s",
+				`timeline retained reveal transition=${timelineStyle.transitionDuration}`
+			);
+			verify(
+				timelineRectangle.width > 0 && timelineRectangle.height > 0,
+				`timeline dimensions=${timelineRectangle.width}x${timelineRectangle.height}`
+			);
+			verify(
+				document.body.scrollWidth <= window.fixtureTestWidth,
+				`document overflow=${document.body.scrollWidth}/${window.fixtureTestWidth}`
+			);
 
 			if (!isResponsiveViewport) {
+				const desktopTimelineRectangle = document.querySelector(".at-tl-desktop")
+					.getBoundingClientRect();
+				const nextControlRectangle = nextControl.getBoundingClientRect();
+				const endYearRectangle = document.querySelector(".at-tl-year--end")
+					.getBoundingClientRect();
+				verify(
+					desktopTimelineRectangle.width > 0 && desktopTimelineRectangle.height > 0,
+					"desktop timeline has no visible dimensions"
+				);
+				verify(
+					!rectanglesIntersect(nextControlRectangle, endYearRectangle),
+					"Next control overlaps the ending-year block"
+				);
+				verify(
+					nextControlRectangle.bottom < endYearRectangle.top,
+					`Next/year gap=${endYearRectangle.top - nextControlRectangle.bottom}`
+				);
+				verify(
+					Math.abs(
+						(nextControlRectangle.left + (nextControlRectangle.width / 2))
+						- (endYearRectangle.left + (endYearRectangle.width / 2))
+					) <= 2,
+					"Next control left its ending-year column"
+				);
 				verify(rail.scrollWidth > rail.clientWidth, "timeline fixture does not overflow");
 				verify(getComputedStyle(arcadiaImage).filter === "grayscale(1)", "Arcadia rest state is not grayscale");
 
@@ -334,6 +391,10 @@
 				);
 				verify(!gallery.open, "Arcadia tab was treated as a gallery launcher");
 			} else {
+				const responsiveNavigationRectangle = document.querySelector(".at-tl-responsive")
+					.getBoundingClientRect();
+				const responsiveListRectangle = document.querySelector(".at-tl-mobile")
+					.getBoundingClientRect();
 				verify(
 					getComputedStyle(document.querySelector(".at-tl-desktop")).display === "none",
 					"desktop timeline remained visible at the responsive boundary"
@@ -341,6 +402,22 @@
 				verify(
 					getComputedStyle(document.querySelector(".at-tl-responsive")).display === "block",
 					"responsive navigation was not visible at the boundary"
+				);
+				verify(
+					responsiveNavigationRectangle.width > 0
+						&& responsiveNavigationRectangle.height > 0,
+					"responsive navigation has no visible dimensions"
+				);
+				verify(
+					responsiveListRectangle.width > 0 && responsiveListRectangle.height > 0,
+					"responsive card list has no visible dimensions"
+				);
+				verify(
+					responsiveCards.every(function cardHasVisibleDimensions(card) {
+						const rectangle = card.getBoundingClientRect();
+						return rectangle.width > 0 && rectangle.height > 0;
+					}),
+					"one or more responsive cards have no visible dimensions"
 				);
 				verify(responsiveRail.scrollWidth > responsiveRail.clientWidth, "responsive rail does not overflow");
 				const visibleMarkerCount = responsiveRail.clientWidth / responsiveMarkers[0].offsetWidth;
@@ -447,12 +524,6 @@
 					`responsive next edge scroll=${responsiveRail.scrollLeft}/`
 						+ `${responsiveRail.scrollWidth - responsiveRail.clientWidth}`
 				);
-				if (window.fixtureTestWidth <= 320) {
-					verify(
-						document.body.scrollWidth <= window.fixtureTestWidth,
-						"320px viewport has page-level horizontal overflow"
-					);
-				}
 			}
 
 			const galleryTrigger = document.querySelector(".at-gallery-mosaic[data-project='fixture']");

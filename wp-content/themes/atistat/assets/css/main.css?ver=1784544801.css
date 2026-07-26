@@ -233,10 +233,13 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	--timeline-boundary-width: clamp(76px, 8vw, 110px);
 	--timeline-boundary-center: clamp(38px, 4vw, 55px);
 	--timeline-stage-padding-inline: clamp(18px, 2.5vw, 34px);
+	--timeline-stage-padding-top: clamp(18px, 2.3vw, 28px);
+	/* Half the 44px control target places each arrow directly below the stage's top padding. */
+	--timeline-control-center-top: calc(var(--timeline-stage-padding-top) + 22px);
 	position: relative; isolation: isolate; display: grid;
 	grid-template-columns: var(--timeline-boundary-width) minmax(0, 1fr) var(--timeline-boundary-width);
 	align-items: end; gap: clamp(12px, 1.8vw, 28px);
-	padding: clamp(18px, 2.3vw, 28px) var(--timeline-stage-padding-inline) 22px;
+	padding: var(--timeline-stage-padding-top) var(--timeline-stage-padding-inline) 22px;
 	border: 1px solid var(--line); border-radius: 24px;
 	background:
 		radial-gradient(circle at 50% 0, rgba(83, 129, 53, .075), transparent 42%),
@@ -393,9 +396,9 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 .at-home-timeline.has-timeline-previous .at-tl-edge--previous,
 .at-home-timeline.has-timeline-next .at-tl-edge--next { opacity: .92; }
 
-/* Stage arrows sit above the endpoint-year centers (layer 8) and remain operable by mouse, keyboard, and touch. */
+/* Stage arrows occupy the top of each endpoint column (layer 8), leaving the year labels clear below. */
 .at-tl-control {
-	position: absolute; z-index: 8; top: 50%; transform: translate(-50%, -50%); pointer-events: auto;
+	position: absolute; z-index: 8; top: var(--timeline-control-center-top); transform: translateX(-50%); pointer-events: auto;
 	display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 	min-width: 44px; min-height: 44px; padding: 8px 14px;
 	color: var(--green); background: var(--paper); border: 1px solid var(--green); border-radius: 999px;
@@ -408,7 +411,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 /* Next control uses the same endpoint offset and mirrors its translation from the right edge. */
 .at-tl-control--next {
 	right: calc(var(--timeline-stage-padding-inline) + var(--timeline-boundary-center));
-	transform: translate(50%, -50%);
+	transform: translateX(50%);
 }
 /* Icon dimensions match the SVG viewBox while the button preserves its full tap target. */
 .at-tl-control svg { width: 10px; height: 18px; }
@@ -527,6 +530,8 @@ a.at-contact__val:hover { color: var(--green); }
 /* JavaScript-enabled reveal starts offset; 700ms keeps the editorial motion unhurried. */
 .has-js .at-fade { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .has-js .at-fade.is-in { opacity: 1; transform: none; }
+/* The long timeline stays outside the reveal compositor so tall mobile content cannot remain unpainted. */
+.has-js .at-home-timeline.at-fade { opacity: 1; transform: none; transition: none; }
 
 /* =========================================================================
    RESPONSIVE

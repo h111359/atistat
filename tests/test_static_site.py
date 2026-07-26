@@ -787,11 +787,16 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn(".is-timeline-enhanced .at-tl-buildings", stylesheet)
         self.assertIn("min-width: 44px; min-height: 44px;", stylesheet)
         self.assertIn(
-            "position: absolute; z-index: 8; top: 50%; "
-            "transform: translate(-50%, -50%); pointer-events: auto;",
+            "top: var(--timeline-control-center-top); "
+            "transform: translateX(-50%); pointer-events: auto;",
             stylesheet,
         )
         self.assertIn("--timeline-boundary-center: clamp(38px, 4vw, 55px);", stylesheet)
+        self.assertIn(
+            "--timeline-control-center-top: "
+            "calc(var(--timeline-stage-padding-top) + 22px);",
+            stylesheet,
+        )
         self.assertIn(
             "left: calc(var(--timeline-stage-padding-inline) + "
             "var(--timeline-boundary-center));",
@@ -802,7 +807,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             "var(--timeline-boundary-center));",
             stylesheet,
         )
-        self.assertIn("transform: translate(50%, -50%);", stylesheet)
+        self.assertIn("transform: translateX(50%);", stylesheet)
         self.assertIn(".at-tl-control:disabled { visibility: hidden; }", stylesheet)
         self.assertNotIn(".at-tl-controls {", stylesheet)
         self.assertNotIn(".at-partner__wordmark", stylesheet)
@@ -840,7 +845,14 @@ class StaticSiteIntegrityTests(unittest.TestCase):
     def test_progressive_enhancement_and_dialog_fallbacks_exist(self) -> None:
         """Keep reveal content visible without JavaScript and closed dialogs out of layout."""
         stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
+        javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
         self.assertIn(".at-fade { opacity: 1; transform: none; }", stylesheet)
+        self.assertIn(
+            ".has-js .at-home-timeline.at-fade "
+            "{ opacity: 1; transform: none; transition: none; }",
+            stylesheet,
+        )
+        self.assertIn('element.hasAttribute("data-timeline")', javascript)
         self.assertIn("dialog.at-selected-projects:not([open])", stylesheet)
 
     def test_gallery_dialog_uses_one_dynamic_project_heading(self) -> None:
@@ -865,22 +877,32 @@ class BrowserSmokeTests(unittest.TestCase):
     """Exercise representative routes in Chrome to catch parse and runtime regressions."""
 
     def test_navigation_timeline_and_dialog_interactions(self) -> None:
-        """Require desktop, 860px, and 320px interaction and overflow contracts."""
+        """Require interaction, visibility, and layout contracts from 320px upward."""
         with _serve_workspace() as base_url:
-            for viewport in ((1280, 900), (860, 900), (320, 900)):
+            viewports = (
+                (320, 900),
+                (360, 900),
+                (412, 900),
+                (768, 900),
+                (860, 900),
+                (861, 900),
+                (1024, 900),
+                (1440, 900),
+            )
+            for viewport in viewports:
                 with self.subTest(viewport=viewport):
                     harness_url = f"{base_url}/{INTERACTION_HARNESS_ROUTE}"
-                    if viewport[0] == 320:
+                    if viewport[0] < 500:
                         # Linux Chrome enforces a 500px outer-window minimum; the
-                        # fixture constrains its responsive page canvas to 320px.
-                        harness_url += "?width=320"
+                        # fixture constrains its responsive page canvas to the target width.
+                        harness_url += f"?width={viewport[0]}"
                     rendered_html, diagnostics = _run_chrome(
                         harness_url,
                         viewport=viewport,
                     )
                     self.assertIn('data-status="passed"', rendered_html)
                     self.assertIn(f'data-test-width="{viewport[0]}"', rendered_html)
-                    if viewport[0] != 320:
+                    if viewport[0] >= 500:
                         self.assertIn(f'data-viewport="{viewport[0]}"', rendered_html)
                     self.assertEqual([], _first_party_console_errors(diagnostics))
 
