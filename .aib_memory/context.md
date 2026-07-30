@@ -36,7 +36,6 @@
 - Six project directories each store default, Bulgarian, English, and query-style static page variants. 
 - Shared theme stylesheet defines green, ink, cream, and paper design tokens, local Bookman Cyrillic typography, responsive grids, timeline presentation, contact layout, and reduced-motion behavior.
 - Shared vanilla JavaScript controls mobile-nav state, intersection-based reveal animation, desktop timeline selection, partner-card outbound actions, and touch sketch toggles.
-- Local media uses WebP project imagery, PNG partner marks, and WOFF2 and TTF font files; version-suffixed CSS and JS copies are byte-identical to canonical assets. 
 - External services are limited to a Google Maps iframe and outbound WhatsApp, Facebook, LinkedIn, Correct Project, and Engineering Systems destinations.
 - Primary Bulgarian homepage extends the shared theme with document-local CSS for hero actions, differentiation cards, FAQ, a selected-projects gallery dialog, a CTA contact block, and a floating Viber action.
 - A partners section with Инженерни Системи, Корект Проект, and Адрео logo-links appears between the Services and Why sections on all BG and EN homepage copies.
@@ -47,7 +46,7 @@
 - Language switcher option controls meet 44x44 CSS pixel tap target size and mark the active language with aria-current=page and a non-color-only green background chip indicator.
 - Elemag hero sketch and Montekanal about sketch captions each use a three-span vertical structure (label, project name, service classification) with an aria-label on the parent anchor element.
 - Main site navigation includes a Partners section anchor link across all five homepage documents.
-- Gallery-only projects (Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) use lightweight line-art WebP timeline assets generated from their first submitted photograph and stored in wp-content/uploads/2026/07/ with ASCII filenames.
+- Gallery-only projects (Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) use lightweight line-art timeline assets generated from their first submitted photograph and stored in wp-content/uploads/2026/07/ with ASCII filenames.
 - Official white Viber icon is stored locally as viber-icon.png in wp-content/themes/atistat/assets/images/ and served on ATISTAT green controls without alteration across all five root homepage documents.
 - English Why/FAQ sections are faithful translations of the Bulgarian source-of-truth sections and inherit CSS rules defined in main.css; Why/FAQ document-local styles in index.html are promoted to the shared stylesheet.
 - opit/index.html is synchronized with the English homepage timeline and gallery content, including thirteen milestones, project metadata, and project-scoped gallery launchers.
@@ -56,6 +55,7 @@
 - Adreo partner logo-link uses wp-content/uploads/2026/07/adreo.png; BG-localized documents carry alt='Адрео', EN-localized documents carry alt='Adreo'.
 - Across index.html, index-bg.html, index-en.html, index.html?lang=bg.html, index.html?lang=en.html, and opit/index.html, the Experience section presents the unchanged selected evidence panel before its localized instruction and a compact thirteen-milestone desktop rail above 860px; the desktop rail keeps about five complete milestones, inline Previous/Next controls, boundary hiding, edge fades, free panning, proximity snapping, active-tab centering, and automatic tab activation while using smaller milestone imagery and endpoint labels; at 860px and below, a static approximately three-up 13-link navigation rail appears above the unchanged 13-card list, remains useful without JavaScript, and is enhanced with focus-only Arrow navigation, explicit Enter/Space/click activation, card-container focus, reduced-motion-aware scrolling, edge state, and activation-only persistent current state.
 - Gallery-eligible projects (Elemag, Montekanal, UBB Interlease, Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) expose a four-image mosaic launcher in the active desktop panel and eligible responsive card; every launcher reuses project-scoped 160x160 WebP previews no larger than 20KB from wp-content/uploads/2026/07/gallery-thumbnails/ and carries a persistent localized gallery icon/text overlay; launchers open one reusable filtered native dialog with the invoked project's original full-resolution image set and restore focus to the invoker on close.
+- Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized projects as equal responsive image-led cards whose full surface opens the shared native project dialog; each dialog view uses one expanded localized title and leads with category and year before the existing description and project-scoped gallery.
 
 ## File Structure
 

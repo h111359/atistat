@@ -86,76 +86,56 @@ FLAGSHIP_ASSET_ROOT = (
 SELECTED_PROJECT_COPY = {
     "bg": {
         "heading": "ИЗБРАНИ ПРОЕКТИ",
-        "labels": ("Вид сграда", "Дейност", "Статус", "Година", "Опит"),
-        "action": "Подробности и галерия",
+        "category_label": "Категория",
+        "year_label": "Година",
+        "retired_action": "Подробности и галерия",
         "projects": {
             "bebelan": {
-                "name": "Бебелан",
+                "title": "Административна сграда и склад на Бебелан",
+                "category": "Индустриални обекти",
                 "year": "2025",
-                "building_type": "Офисно-складова",
-                "activity": "Довършителни работи",
-                "status": "Завършена",
-                "experience": "с Инженерни Системи",
                 "image": "flagship-projects/bebelan.webp",
                 "dimensions": ("1200", "750"),
             },
             "power-properties": {
-                "name": "Пауър Пропъртис",
+                "title": "Сграда със смесено предназначение на Пауър Пропъртис",
+                "category": "Индустриални обекти",
                 "year": "2025",
-                "building_type": "Офисно-складова",
-                "activity": "Довършителни работи",
-                "status": "Завършена",
-                "experience": "с Инженерни Системи",
-                "image": "power-properties-timeline.webp",
+                "image": "power-properties-timeline.png",
                 "dimensions": ("675", "900"),
             },
             "montekanal": {
-                "name": "Монтеканал",
+                "title": "Жилищен комплекс Монтеканал",
+                "category": "Жилищни комплекси",
                 "year": "2011",
-                "building_type": "Жилищна",
-                "activity": "Довършителни работи",
-                "status": "Завършена",
-                "experience": "с Инженерни Системи",
-                "image": "montekanal-1-1100x825.webp",
+                "image": "montekanal-1-1100x825.png",
                 "dimensions": ("1100", "825"),
             },
             "elemag": {
-                "name": "Елемаг",
+                "title": "Жилищна сграда Елемаг",
+                "category": "Жилищни сгради",
                 "year": "2021",
-                "building_type": "Жилищна",
-                "activity": "Строителство",
-                "status": "Завършена",
-                "experience": "с Инженерни Системи",
                 "image": "flagship-projects/elemag.webp",
                 "dimensions": ("1200", "750"),
             },
             "louis-ayer": {
-                "name": "ап. Луи Айер",
+                "title": "Цялостен интериор на апартамент Луи Айер",
+                "category": "Жилищни интериори",
                 "year": "2024",
-                "building_type": "Апартамент",
-                "activity": "Довършителни работи",
-                "status": "Завършен",
-                "experience": "с АТИСТАТ",
-                "image": "louis-ayer-timeline.webp",
+                "image": "louis-ayer-timeline.png",
                 "dimensions": ("900", "675"),
             },
             "arcadia": {
-                "name": "ап. Аркадия",
+                "title": "Цялостен интериор на апартамент Аркадия",
+                "category": "Жилищни интериори",
                 "year": "2025",
-                "building_type": "Апартамент",
-                "activity": "Довършителни работи",
-                "status": "Завършен",
-                "experience": "с АТИСТАТ",
-                "image": "arcadia-timeline.webp",
+                "image": "arcadia-timeline.png",
                 "dimensions": ("900", "674"),
             },
             "ubb-interlease": {
-                "name": "ОББ Интерлийз",
+                "title": "Административна сграда „Пърл Център“ на ОББ Интерлийз",
+                "category": "Офисни сгради",
                 "year": "2025",
-                "building_type": "Офисна",
-                "activity": "Довършителни работи",
-                "status": "Завършена",
-                "experience": "с Инженерни Системи",
                 "image": "flagship-projects/ubb-interlease.webp",
                 "dimensions": ("1200", "750"),
             },
@@ -163,76 +143,56 @@ SELECTED_PROJECT_COPY = {
     },
     "en": {
         "heading": "SELECTED PROJECTS",
-        "labels": ("Building type", "Activity", "Status", "Year", "Experience"),
-        "action": "Details and gallery",
+        "category_label": "Category",
+        "year_label": "Year",
+        "retired_action": "Details and gallery",
         "projects": {
             "bebelan": {
-                "name": "Bebelan",
+                "title": "Administrative Building and Warehouse for Bebelan",
+                "category": "Industrial Facilities",
                 "year": "2025",
-                "building_type": "Office and warehouse",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with Engineering Systems",
                 "image": "flagship-projects/bebelan.webp",
                 "dimensions": ("1200", "750"),
             },
             "power-properties": {
-                "name": "Power Properties",
+                "title": "Mixed-use Building for Power Properties",
+                "category": "Industrial Facilities",
                 "year": "2025",
-                "building_type": "Office and warehouse",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with Engineering Systems",
-                "image": "power-properties-timeline.webp",
+                "image": "power-properties-timeline.png",
                 "dimensions": ("675", "900"),
             },
             "montekanal": {
-                "name": "Montekanal",
+                "title": "Montekanal Residential Complex",
+                "category": "Residential Complexes",
                 "year": "2011",
-                "building_type": "Residential",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with Engineering Systems",
-                "image": "montekanal-1-1100x825.webp",
+                "image": "montekanal-1-1100x825.png",
                 "dimensions": ("1100", "825"),
             },
             "elemag": {
-                "name": "Elemag",
+                "title": "Elemag Residential Building",
+                "category": "Residential Buildings",
                 "year": "2021",
-                "building_type": "Residential",
-                "activity": "Construction",
-                "status": "Completed",
-                "experience": "with Engineering Systems",
                 "image": "flagship-projects/elemag.webp",
                 "dimensions": ("1200", "750"),
             },
             "louis-ayer": {
-                "name": "Louis Ayer Apartment",
+                "title": "Complete Interior of Louis Ayer Apartment",
+                "category": "Residential Interiors",
                 "year": "2024",
-                "building_type": "Apartment",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with ATISTAT",
-                "image": "louis-ayer-timeline.webp",
+                "image": "louis-ayer-timeline.png",
                 "dimensions": ("900", "675"),
             },
             "arcadia": {
-                "name": "Arcadia Apartment",
+                "title": "Complete Interior of Arcadia Apartment",
+                "category": "Residential Interiors",
                 "year": "2025",
-                "building_type": "Apartment",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with ATISTAT",
-                "image": "arcadia-timeline.webp",
+                "image": "arcadia-timeline.png",
                 "dimensions": ("900", "674"),
             },
             "ubb-interlease": {
-                "name": "UBB Interlease",
+                "title": "UBB Interlease Pearl Center Administrative Building",
+                "category": "Office Buildings",
                 "year": "2025",
-                "building_type": "Office",
-                "activity": "Fit-out works",
-                "status": "Completed",
-                "experience": "with Engineering Systems",
                 "image": "flagship-projects/ubb-interlease.webp",
                 "dimensions": ("1200", "750"),
             },
@@ -1090,7 +1050,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 )
 
     def test_selected_projects_are_localized_complete_and_before_timeline(self) -> None:
-        """Require the ordered seven-card selected-project section in every timeline."""
+        """Require ordered, localized, whole-card dialog controls before every timeline."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
             with self.subTest(route=route):
                 content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
@@ -1124,8 +1084,9 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     (
                         r'<article class="at-flagship__card" '
                         r'id="selected-project-([^"]+)" '
-                        r'data-project="([^"]+)" tabindex="-1"'
-                        r'([^>]*)>(.*?)</article>'
+                        r'data-project="([^"]+)" role="button" tabindex="0" '
+                        r'aria-labelledby="([^"]+)" aria-haspopup="dialog" '
+                        r'aria-controls="selected-projects-dialog">(.*?)</article>'
                     ),
                     flagship_markup,
                     flags=re.DOTALL,
@@ -1139,24 +1100,31 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 )
                 self.assertEqual(7, flagship_markup.count('class="at-flagship__card"'))
                 self.assertEqual(7, flagship_markup.count('class="at-flagship__image"'))
-                self.assertEqual(7, flagship_markup.count('class="at-flagship__action"'))
+                self.assertEqual(7, flagship_markup.count('class="at-flagship__category"'))
+                self.assertEqual(7, flagship_markup.count('role="button"'))
+                self.assertEqual(7, flagship_markup.count('aria-haspopup="dialog"'))
+                self.assertNotIn("at-flagship__meta", flagship_markup)
+                self.assertNotIn("at-flagship__action", flagship_markup)
                 self.assertNotIn("at-flagship__description", flagship_markup)
+                self.assertNotIn(localized_copy["retired_action"], flagship_markup)
 
-                for project, _, article_attributes, card_markup in cards:
+                for project, _, label_identifier, card_markup in cards:
                     expected = localized_copy["projects"][project]
-                    label_match = re.search(
-                        r'aria-labelledby="([^"]+)"',
-                        article_attributes,
-                    )
-                    self.assertIsNotNone(label_match)
-                    label_identifier = label_match.group(1) if label_match else ""
                     self.assertIn(
                         (
                             f'class="at-flagship__name" id="{label_identifier}">'
-                            f'{expected["name"]}</h4>'
+                            f'{expected["title"]}</h4>'
                         ),
                         card_markup,
                     )
+                    category_markup = (
+                        '<p class="at-flagship__category">'
+                        '<span class="at-flagship__category-label">'
+                        f'{localized_copy["category_label"]}:</span> '
+                        '<span class="at-flagship__category-value">'
+                        f'{expected["category"]}</span></p>'
+                    )
+                    self.assertIn(category_markup, card_markup)
                     expected_source = (
                         f"{asset_prefix}wp-content/uploads/2026/07/"
                         f'{expected["image"]}'
@@ -1174,27 +1142,16 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     if image_match:
                         self.assertTrue(image_match.group(1))
                         self.assertEqual(expected["dimensions"], image_match.group(2, 3))
-                    for label in localized_copy["labels"]:
-                        self.assertIn(f"<dt>{label}</dt>", card_markup)
-                    for field in (
-                        "year",
-                        "building_type",
-                        "activity",
-                        "status",
-                        "experience",
-                    ):
-                        self.assertIn(f'<dd>{expected[field]}</dd>', card_markup)
-                    self.assertRegex(
-                        card_markup,
-                        (
-                            r'<button type="button" class="at-flagship__action" '
-                            f'data-project="{re.escape(project)}" '
-                            r'aria-haspopup="dialog" '
-                            r'aria-controls="selected-projects-dialog" '
-                            f'aria-label="{re.escape(localized_copy["action"])}: '
-                            f'{re.escape(expected["name"])}">\\s*'
-                            f'<span>{re.escape(localized_copy["action"])}</span>'
-                        ),
+                    self.assertEqual(1, card_markup.count("<img "))
+                    self.assertEqual(1, card_markup.count(category_markup))
+                    self.assertEqual(1, card_markup.count("at-flagship__name"))
+                    self.assertLess(
+                        card_markup.index('class="at-flagship__image"'),
+                        card_markup.index(category_markup),
+                    )
+                    self.assertLess(
+                        card_markup.index(category_markup),
+                        card_markup.index('class="at-flagship__name"'),
                     )
 
     def test_detailed_project_descriptions_precede_each_gallery(self) -> None:
@@ -1215,11 +1172,13 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                         (
                             r'<div class="at-gallery-project"[^>]*'
                             f'data-project="{re.escape(project)}"[^>]*>\\s*'
+                            r'<dl class="at-gallery-project__facts">.*?</dl>\s*'
                             r'<p class="at-gallery-project__description">'
                             r"([^<]+)</p>\s*"
                             r'<div class="at-gallery-grid">'
                         ),
                         content,
+                        flags=re.DOTALL,
                     )
                     self.assertIsNotNone(description_match, project)
                     if description_match:
@@ -1250,10 +1209,28 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             "grid-template-columns: repeat(3, minmax(0, 1fr));",
             stylesheet,
         )
-        self.assertIn("aspect-ratio: 8 / 5;", stylesheet)
-        self.assertIn("--flagship-control-size: 44px;", stylesheet)
-        self.assertIn("min-width: var(--flagship-control-size);", stylesheet)
-        self.assertIn("min-height: var(--flagship-control-size);", stylesheet)
+        image_rule = re.search(
+            r"\.at-flagship__image\s*\{([^}]+)\}",
+            stylesheet,
+        )
+        self.assertIsNotNone(image_rule)
+        image_declarations = image_rule.group(1) if image_rule else ""
+        for declaration in (
+            "width: 100%;",
+            "height: auto;",
+            "aspect-ratio: 8 / 5;",
+            "object-fit: cover;",
+        ):
+            self.assertIn(declaration, image_declarations)
+        self.assertIn("--project-accent: #a24600;", stylesheet)
+        self.assertIn(".at-flagship__card:hover", stylesheet)
+        self.assertIn(".at-flagship__card:focus-visible", stylesheet)
+        self.assertIn(".at-flagship__category-label { color: var(--muted); }", stylesheet)
+        self.assertIn(
+            ".at-flagship__category-value { color: var(--project-accent); }",
+            stylesheet,
+        )
+        self.assertIn("min-height: 2.5em;", stylesheet)
         self.assertIn("@media (max-width: 680px)", stylesheet)
         self.assertIn(
             ".at-flagship__grid { grid-template-columns: minmax(0, 1fr); }",
@@ -1275,12 +1252,11 @@ class StaticSiteIntegrityTests(unittest.TestCase):
             "text-transform: uppercase;",
         ):
             self.assertIn(declaration, heading_declarations)
-        self.assertIn(
-            '".at-gallery-mosaic[data-project], '
-            '.at-flagship__action[data-project]"',
-            javascript,
-        )
-        self.assertIn('class="at-flagship__action"', fixture)
+        self.assertIn("FLAGSHIP_PROJECT_CARD_SELECTOR", javascript)
+        self.assertIn("GALLERY_LAUNCHER_SELECTOR", javascript)
+        self.assertIn('event.key !== "Enter" && event.key !== " "', javascript)
+        self.assertIn('role="button"', fixture)
+        self.assertNotIn('class="at-flagship__action"', fixture)
 
     def test_gallery_thumbnail_assets_are_exact_bounded_webp_files(self) -> None:
         """Require exactly 28 named 160px WebP previews no larger than 20KB."""
@@ -1339,9 +1315,14 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     {link.get("href") for link in parser.timeline_mobile_links},
                 )
                 self.assertNotIn("data-href=", content)
+                timeline_start = content.index(
+                    '<h3 class="at-timeline__title"'
+                )
+                timeline_end = content.index("</section>", timeline_start)
+                timeline_content = content[timeline_start:timeline_end]
                 self.assertEqual(
-                    4,
-                    content.count(
+                    3,
+                    timeline_content.count(
                         f'src="{asset_prefix}wp-content/uploads/2026/07/'
                         'arcadia-timeline.webp"'
                     ),
@@ -1410,11 +1391,8 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn('event.key === "ArrowLeft" || event.key === "ArrowRight"', javascript)
         self.assertIn('event.key === "Enter" || event.key === " "', javascript)
         self.assertIn('card.focus({ preventScroll: true });', javascript)
-        self.assertIn(
-            '".at-gallery-mosaic[data-project], '
-            '.at-flagship__action[data-project]"',
-            javascript,
-        )
+        self.assertIn("GALLERY_LAUNCHER_SELECTOR", javascript)
+        self.assertIn("FLAGSHIP_PROJECT_CARD_SELECTOR", javascript)
         self.assertNotIn(
             'event.target.closest("button[data-project]:not(.at-tlb)")',
             javascript,
@@ -1434,10 +1412,10 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn("dialog.at-selected-projects:not([open])", stylesheet)
 
     def test_gallery_dialog_uses_one_dynamic_project_heading(self) -> None:
-        """Keep project names in the dialog title without repeated container headings."""
+        """Keep expanded titles dynamic and category/year facts first in the body."""
         javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
         self.assertIn("activeContainer.dataset.name?.trim()", javascript)
-        for route in TIMELINE_ROUTES:
+        for route, (language, _) in TIMELINE_ROUTES.items():
             with self.subTest(route=route):
                 content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
                 dialog_markup = content.split(
@@ -1449,6 +1427,37 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     dialog_markup.count('class="at-gallery-project"'),
                 )
                 self.assertNotIn("<h3>", dialog_markup)
+                localized_copy = SELECTED_PROJECT_COPY[language]
+                for project in SELECTED_PROJECTS:
+                    expected = localized_copy["projects"][project]
+                    ordered_facts = (
+                        '<dl class="at-gallery-project__facts">\n'
+                        f'\t\t\t\t\t<div><dt>{localized_copy["category_label"]}</dt>'
+                        f'<dd>{expected["category"]}</dd></div>\n'
+                        f'\t\t\t\t\t<div><dt>{localized_copy["year_label"]}</dt>'
+                        f'<dd>{expected["year"]}</dd></div>\n'
+                        "\t\t\t\t</dl>"
+                    )
+                    project_start = dialog_markup.index(
+                        f'data-project="{project}" '
+                        f'data-name="{expected["title"]}">'
+                    )
+                    project_end = dialog_markup.find(
+                        '<div class="at-gallery-project"',
+                        project_start + 1,
+                    )
+                    if project_end < 0:
+                        project_end = len(dialog_markup)
+                    project_markup = dialog_markup[project_start:project_end]
+                    self.assertIn(ordered_facts, project_markup)
+                    self.assertLess(
+                        project_markup.index("at-gallery-project__facts"),
+                        project_markup.index("at-gallery-project__description"),
+                    )
+                    self.assertLess(
+                        project_markup.index("at-gallery-project__description"),
+                        project_markup.index("at-gallery-grid"),
+                    )
 
     def test_stakeholder_simplifications_and_project_links_are_consistent(self) -> None:
         """Require simplified contact/navigation UI and focusable selected-project links."""
@@ -1506,7 +1515,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                         1,
                         content.count(
                             f'id="selected-project-{project}" '
-                            f'data-project="{project}" tabindex="-1"'
+                            f'data-project="{project}" role="button" tabindex="0"'
                         ),
                     )
 

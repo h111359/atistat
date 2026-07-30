@@ -15,6 +15,10 @@
 	const TOUCH_POINTER_QUERY = "(hover: none)";
 	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 	const SELECTED_PROJECT_LINK_SELECTOR = 'a[data-selected-project-link][href^="#selected-project-"]';
+	const FLAGSHIP_PROJECT_CARD_SELECTOR = '.at-flagship__card[role="button"][data-project]';
+	const GALLERY_LAUNCHER_SELECTOR = (
+		`.at-gallery-mosaic[data-project], ${FLAGSHIP_PROJECT_CARD_SELECTOR}`
+	);
 
 	/**
 	 * Initializes the mobile navigation toggle and closes the menu after navigation.
@@ -553,19 +557,23 @@
 	/**
 	 * Resolves the project gallery launcher associated with a click.
 	 *
-	 * @param {Event} event - The delegated document click event.
-	 * @returns {HTMLElement|null} The native launcher button, when one was clicked.
+	 * @param {Event} event - The delegated document pointer or keyboard event.
+	 * @returns {HTMLElement|null} The native timeline button or role-button project card.
 	 */
 	function resolveGalleryLauncher(event) {
 		if (!(event.target instanceof Element)) {
 			return null;
 		}
 
-		// Only explicit gallery buttons open the dialog; timeline controls may also carry project metadata.
-		const launcher = event.target.closest(
-			".at-gallery-mosaic[data-project], .at-flagship__action[data-project]"
-		);
-		return launcher instanceof HTMLButtonElement ? launcher : null;
+		// Only explicit launchers open the dialog; timeline controls may also carry project metadata.
+		const launcher = event.target.closest(GALLERY_LAUNCHER_SELECTOR);
+		if (launcher instanceof HTMLButtonElement) {
+			return launcher;
+		}
+		return launcher instanceof HTMLElement
+			&& launcher.matches(FLAGSHIP_PROJECT_CARD_SELECTOR)
+			? launcher
+			: null;
 	}
 
 	/**
@@ -789,6 +797,20 @@
 				return;
 			}
 
+			state.lastGalleryLauncher = launcher;
+			openGalleryProject(state, launcher);
+		});
+		document.addEventListener("keydown", function openKeyedSelectedProject(event) {
+			const launcher = resolveGalleryLauncher(event);
+			if (
+				!launcher?.matches(FLAGSHIP_PROJECT_CARD_SELECTOR)
+				|| (event.key !== "Enter" && event.key !== " ")
+			) {
+				return;
+			}
+
+			// A non-native role-button needs explicit Enter and Space activation parity.
+			event.preventDefault();
 			state.lastGalleryLauncher = launcher;
 			openGalleryProject(state, launcher);
 		});
