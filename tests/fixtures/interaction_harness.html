@@ -96,7 +96,23 @@
 				</article>
 				<article class="at-tlpanel" id="fixture-panel-1" role="tabpanel" aria-labelledby="fixture-tab-1" data-panel="1" aria-hidden="true">Milestone 1</article>
 				<article class="at-tlpanel" id="fixture-panel-2" role="tabpanel" aria-labelledby="fixture-tab-2" data-panel="2" aria-hidden="true">Milestone 2</article>
-				<article class="at-tlpanel is-active" id="fixture-panel-3" role="tabpanel" aria-labelledby="fixture-tab-3" data-panel="3" aria-hidden="false">Milestone 3</article>
+				<article class="at-tlpanel is-active" id="fixture-panel-3" role="tabpanel" aria-labelledby="fixture-tab-3" data-panel="3" aria-hidden="false">
+					<!-- Full-surface native control supports click, Enter, and Space while the parent remains a tab panel. -->
+					<button type="button" class="at-timeline-project-launcher" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open fixture project"></button>
+					<span>Milestone 3</span>
+					<div class="at-gallery-mosaic" aria-hidden="true">
+						<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23538135'/%3E%3C/svg%3E" alt="" aria-hidden="true">
+						<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23f4f1e9'/%3E%3C/svg%3E" alt="" aria-hidden="true">
+						<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23252a22'/%3E%3C/svg%3E" alt="" aria-hidden="true">
+						<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23e8e4da'/%3E%3C/svg%3E" alt="" aria-hidden="true">
+						<span class="at-gallery-mosaic__overlay" aria-hidden="true">
+							<svg class="at-gallery-mosaic__icon" viewBox="0 0 24 24" focusable="false">
+								<path d="M4 5h16v14H4zM7 15l3-3 2 2 2-2 3 3" fill="none" stroke="currentColor"></path>
+							</svg>
+							<span>View gallery</span>
+						</span>
+					</div>
+				</article>
 				<article class="at-tlpanel" id="fixture-panel-4" role="tabpanel" aria-labelledby="fixture-tab-4" data-panel="4" aria-hidden="true">Milestone 4</article>
 				<article class="at-tlpanel" id="fixture-panel-5" role="tabpanel" aria-labelledby="fixture-tab-5" data-panel="5" aria-hidden="true">Milestone 5</article>
 				<article class="at-tlpanel" id="fixture-panel-6" role="tabpanel" aria-labelledby="fixture-tab-6" data-panel="6" aria-hidden="true">Milestone 6</article>
@@ -134,7 +150,11 @@
 				<li class="at-tlcard" id="fixture-card-0" tabindex="-1">Responsive card 0</li>
 				<li class="at-tlcard" id="fixture-card-1" tabindex="-1">Responsive card 1</li>
 				<li class="at-tlcard" id="fixture-card-2" tabindex="-1">Responsive card 2</li>
-				<li class="at-tlcard" id="fixture-card-3" tabindex="-1">Responsive card 3</li>
+				<li class="at-tlcard" id="fixture-card-3" tabindex="-1">
+					<!-- Responsive full-surface native control receives focus after marker activation. -->
+					<button type="button" class="at-timeline-project-launcher" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open fixture project"></button>
+					<span>Responsive card 3</span>
+				</li>
 				<li class="at-tlcard" id="fixture-card-4" tabindex="-1">Responsive card 4</li>
 				<li class="at-tlcard" id="fixture-card-5" tabindex="-1">Responsive card 5</li>
 				<li class="at-tlcard" id="fixture-card-6" tabindex="-1">Responsive card 6</li>
@@ -147,19 +167,6 @@
 			</ul>
 		</section>
 
-	<!-- Gallery fixture: native modal opens from a project launcher and restores focus on close. -->
-	<button class="at-gallery-mosaic" type="button" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23538135'/%3E%3C/svg%3E" alt="" aria-hidden="true">
-		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23f4f1e9'/%3E%3C/svg%3E" alt="" aria-hidden="true">
-		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23252a22'/%3E%3C/svg%3E" alt="" aria-hidden="true">
-		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23e8e4da'/%3E%3C/svg%3E" alt="" aria-hidden="true">
-		<span class="at-gallery-mosaic__overlay" aria-hidden="true">
-			<svg class="at-gallery-mosaic__icon" viewBox="0 0 24 24" focusable="false">
-				<path d="M4 5h16v14H4zM7 15l3-3 2 2 2-2 3 3" fill="none" stroke="currentColor"></path>
-			</svg>
-			<span>View gallery</span>
-		</span>
-	</button>
 	<!--
 	  Flagship fixture
 	  Design intent: exercise equal three/two/one-column wrapping from desktop to small screens.
@@ -629,14 +636,27 @@
 				);
 			}
 
-			const galleryTrigger = document.querySelector(".at-gallery-mosaic[data-project='fixture']");
-			const galleryOverlay = galleryTrigger.querySelector(".at-gallery-mosaic__overlay");
+			if (!isResponsiveViewport) {
+				timelineTabs[3].click();
+			}
+			const galleryTrigger = document.querySelector(
+				isResponsiveViewport
+					? "#fixture-card-3 .at-timeline-project-launcher"
+					: "#fixture-panel-3 .at-timeline-project-launcher"
+			);
+			const galleryPreview = document.querySelector(".at-gallery-mosaic");
+			const galleryOverlay = galleryPreview.querySelector(".at-gallery-mosaic__overlay");
 			const galleryClose = document.querySelector(".at-dialog__close");
+			verify(
+				galleryPreview.tagName === "DIV"
+					&& galleryPreview.getAttribute("aria-hidden") === "true",
+				"gallery preview remained an interactive control"
+			);
 			verify(
 				getComputedStyle(galleryOverlay).pointerEvents === "none",
 				"gallery overlay intercepts pointer input"
 			);
-			galleryOverlay.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+			galleryTrigger.click();
 			verify(gallery.open, "gallery did not open");
 			verify(
 				gallery.querySelector(".at-dialog__header h2").textContent

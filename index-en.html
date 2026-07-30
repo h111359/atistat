@@ -279,6 +279,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		<h3 class="at-timeline__title" id="timeline-title">TIMELINE</h3>
 		<div class="at-home-timeline at-fade" data-fade data-timeline aria-labelledby="timeline-title" style="--active-progress: 25%">
 			<div class="at-tl-desktop">
+				<!-- Project panels use full-surface native buttons with click, Enter, and Space activation. -->
 				<div class="at-tl-panels" aria-live="polite">
 																	<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-0" aria-labelledby="timeline-correct-project" role="tabpanel" data-panel="0" aria-hidden="true">
 							<span class="at-tlpanel__year">2006</span>
@@ -286,6 +287,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 															<h3 class="at-tlpanel__name">Correct Project</h3>
 								<span class="at-tlpanel__type">Project management company</span>								<p class="at-tlpanel__desc">correctproject.com</p>							</a>						</article>
 							<article class="at-tlpanel" id="timeline-panel-1" aria-labelledby="project-10" role="tabpanel" data-panel="1" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="eos-matrix" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open EOS Matrix project" disabled></button>
 							<span class="at-tlpanel__year">2007</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">EOS Matrix</h3>
@@ -297,13 +299,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 															<h3 class="at-tlpanel__name">Engineering Systems</h3>
 								<span class="at-tlpanel__type">Construction company</span>								<p class="at-tlpanel__desc">engsys.bg</p>							</a>						</article>
 							<article class="at-tlpanel is-active" id="timeline-panel-3" aria-labelledby="project-8" data-project="montekanal" role="tabpanel" data-panel="3" aria-hidden="false">
+							<button type="button" class="at-timeline-project-launcher" data-project="montekanal" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Montekanal project"></button>
 							<span class="at-tlpanel__year">2011</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Montekanal</h3>
 								<span class="at-tlpanel__type">Residential building</span>								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-montekanal">Go to selected project</a>							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="montekanal" aria-label="Gallery: Montekanal">
+															</div>
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -314,22 +317,24 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-4" aria-labelledby="project-24" role="tabpanel" data-panel="4" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="ema" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open EMA project" disabled></button>
 							<span class="at-tlpanel__year">2015</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">EMA</h3>
 								<span class="at-tlpanel__type">Logistics building</span>								<p class="at-tlpanel__desc">Construction</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>							</div>						</article>
 							<article class="at-tlpanel" id="timeline-panel-5" aria-labelledby="project-6" data-project="elemag" role="tabpanel" data-panel="5" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Elemag project" disabled></button>
 							<span class="at-tlpanel__year">2021</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">Elemag</h3>
 								<span class="at-tlpanel__type">Residential building</span>								<p class="at-tlpanel__desc">Construction</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-elemag">Go to selected project</a>							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="elemag" aria-label="Gallery: Elemag">
+															</div>
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -340,18 +345,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-6" aria-labelledby="project-louisayer-btn" data-project="louis-ayer" role="tabpanel" data-panel="6" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="louis-ayer" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Louis Ayer apartment project" disabled></button>
 							<span class="at-tlpanel__year">2024</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Apt. Louis Ayer</h3>
 								<span class="at-tlpanel__type">Apartment</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with ATISTAT</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-louis-ayer">Go to selected project</a>
+
 							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="louis-ayer" aria-label="Gallery: Apt. Louis Ayer">
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -362,23 +368,24 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel at-tlpanel--logo" id="timeline-panel-7" aria-labelledby="timeline-atistat" role="tabpanel" data-panel="7" aria-hidden="true">
 							<span class="at-tlpanel__year">2024</span>
-							<a class="at-tlpanel__copy at-tlpanel__copy--link" href="/">
+							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">ATISTAT</h3>
 								<span class="at-tlpanel__type">Construction and investment company</span>
-							</a>
+							</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-8" aria-labelledby="project-12" data-project="ubb-interlease" role="tabpanel" data-panel="8" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open UBB Interlease project" disabled></button>
 							<span class="at-tlpanel__year">2025</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">UBB Interlease</h3>
 								<span class="at-tlpanel__type">Office building</span>								<p class="at-tlpanel__desc">Fit-out works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-ubb-interlease">Go to selected project</a>							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="ubb-interlease" aria-label="Gallery: UBB Interlease">
+															</div>
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -389,18 +396,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-9" aria-labelledby="project-arcadia-btn" data-project="arcadia" role="tabpanel" data-panel="9" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="arcadia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Arcadia apartment project" disabled></button>
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Apt. Arcadia</h3>
 								<span class="at-tlpanel__type">Apartment</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with ATISTAT</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-arcadia">Go to selected project</a>
+
 							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="arcadia" aria-label="Gallery: Apt. Arcadia">
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -411,18 +419,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-10" aria-labelledby="project-bebelan-btn" data-project="bebelan" role="tabpanel" data-panel="10" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Bebelan project" disabled></button>
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Bebelan</h3>
 								<span class="at-tlpanel__type">Office/Warehouse</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-bebelan">Go to selected project</a>
+
 							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="bebelan" aria-label="Gallery: Bebelan">
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -433,18 +442,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-11" aria-labelledby="project-pp-btn" data-project="power-properties" role="tabpanel" data-panel="11" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="power-properties" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Power Properties project" disabled></button>
 							<span class="at-tlpanel__year">2025</span>
 							<div class="at-tlpanel__copy">
 								<h3 class="at-tlpanel__name">Power Properties</h3>
 								<span class="at-tlpanel__type">Office/Warehouse</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-power-properties">Go to selected project</a>
+
 							</div>
-								<button type="button" class="at-gallery-mosaic" data-project="power-properties" aria-label="Gallery: Power Properties">
+								<div class="at-gallery-mosaic" aria-hidden="true">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 									<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -455,9 +465,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 										</svg>
 										<span>View gallery</span>
 									</span>
-								</button>
+								</div>
 						</article>
 							<article class="at-tlpanel" id="timeline-panel-12" aria-labelledby="project-14" role="tabpanel" data-panel="12" aria-hidden="true">
+							<button type="button" class="at-timeline-project-launcher" data-project="british-school-sofia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open British School of Sofia project" disabled></button>
 							<span class="at-tlpanel__year">2026</span>
 														<div class="at-tlpanel__copy">
 															<h3 class="at-tlpanel__name">British School of Sofia</h3>
@@ -644,6 +655,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</div>
 				</div>
 			</nav>
+			<!-- Responsive project cards use full-surface native buttons and restore focus after dialog close. -->
 			<ul class="at-tl-mobile">
 					<li class="at-tlcard at-tlcard--logo" id="timeline-card-0" tabindex="-1">
 					<a class="at-tlcard__link" href="https://correctproject.com" target="_blank" rel="noopener" aria-label="Correct Project - opens an external site">
@@ -655,6 +667,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</a>
 				</li>
 							<li class="at-tlcard" id="timeline-card-1" tabindex="-1">
+						<button type="button" class="at-timeline-project-launcher" data-project="eos-matrix" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open EOS Matrix project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/matrix-1-799x900.webp" alt="EOS Matrix" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2007</span>
@@ -671,14 +684,15 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 					</a>
 				</li>
 							<li class="at-tlcard" id="timeline-card-3" tabindex="-1" data-project="montekanal">
+						<button type="button" class="at-timeline-project-launcher" data-project="montekanal" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Montekanal project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/montekanal-1-1100x825.webp" alt="Montekanal" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2011</span>
 							<h3 class="at-tlpanel__name">Montekanal</h3>
 							<span class="at-tlpanel__type">Residential building</span>							<p class="at-tlpanel__desc">Fit-out Works</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-montekanal">Go to selected project</a>						</div>
+														</div>
 
-							<button type="button" class="at-gallery-mosaic" data-project="montekanal" aria-label="Gallery: Montekanal">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/montekanal-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -689,9 +703,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-4" tabindex="-1">
+						<button type="button" class="at-timeline-project-launcher" data-project="ema" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open EMA project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/ema-1-1100x733.webp" alt="EMA" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2015</span>
@@ -699,14 +714,15 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 							<span class="at-tlpanel__type">Logistics building</span>							<p class="at-tlpanel__desc">Construction</p>						</div>
 					</li>
 							<li class="at-tlcard" id="timeline-card-5" tabindex="-1" data-project="elemag">
+						<button type="button" class="at-timeline-project-launcher" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Elemag project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/elemag-1-1100x851.webp" alt="Elemag" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2021</span>
 							<h3 class="at-tlpanel__name">Elemag</h3>
 							<span class="at-tlpanel__type">Residential building</span>							<p class="at-tlpanel__desc">Construction</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-elemag">Go to selected project</a>						</div>
+														</div>
 
-							<button type="button" class="at-gallery-mosaic" data-project="elemag" aria-label="Gallery: Elemag">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/elemag-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -717,9 +733,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-6" tabindex="-1" data-project="louis-ayer">
+						<button type="button" class="at-timeline-project-launcher" data-project="louis-ayer" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Louis Ayer apartment project"></button>
 							<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/louis-ayer-timeline.webp" alt="Apt. Louis Ayer" loading="lazy" decoding="async"></div>
 							<div class="at-tlcard__body">
 								<span class="at-tlpanel__year">2024</span>
@@ -727,9 +744,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Apartment</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with ATISTAT</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-louis-ayer">Go to selected project</a>
+
 							</div>
-							<button type="button" class="at-gallery-mosaic" data-project="louis-ayer" aria-label="Gallery: Apt. Louis Ayer">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/louis-ayer-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -740,27 +757,28 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard at-tlcard--logo" id="timeline-card-7" tabindex="-1">
-					<a class="at-tlcard__link" href="/" aria-label="ATISTAT">
+					<div class="at-tlcard__link">
 						<div class="at-tlcard__img"><img src="wp-content/themes/atistat/assets/images/atistat-logo.png" alt="ATISTAT" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2024</span>
 							<h3 class="at-tlpanel__name">ATISTAT</h3>
 							<span class="at-tlpanel__type">Construction and investment company</span>
 						</div>
-					</a>
+					</div>
 				</li>
 							<li class="at-tlcard" id="timeline-card-8" tabindex="-1" data-project="ubb-interlease">
+						<button type="button" class="at-timeline-project-launcher" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open UBB Interlease project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/obb-1-1100x665.webp" alt="UBB Interlease" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2025</span>
 							<h3 class="at-tlpanel__name">UBB Interlease</h3>
 							<span class="at-tlpanel__type">Office building</span>							<p class="at-tlpanel__desc">Fit-out works</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-ubb-interlease">Go to selected project</a>						</div>
+														</div>
 
-							<button type="button" class="at-gallery-mosaic" data-project="ubb-interlease" aria-label="Gallery: UBB Interlease">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/ubb-interlease-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -771,9 +789,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-9" tabindex="-1" data-project="arcadia">
+						<button type="button" class="at-timeline-project-launcher" data-project="arcadia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Arcadia apartment project"></button>
 							<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/arcadia-timeline.webp" alt="Apt. Arcadia" loading="lazy" decoding="async"></div>
 							<div class="at-tlcard__body">
 								<span class="at-tlpanel__year">2025</span>
@@ -781,9 +800,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Apartment</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with ATISTAT</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-arcadia">Go to selected project</a>
+
 							</div>
-							<button type="button" class="at-gallery-mosaic" data-project="arcadia" aria-label="Gallery: Apt. Arcadia">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/arcadia-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -794,9 +813,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-10" tabindex="-1" data-project="bebelan">
+						<button type="button" class="at-timeline-project-launcher" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Bebelan project"></button>
 							<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/bebelan-timeline.webp" alt="Bebelan" loading="lazy" decoding="async"></div>
 							<div class="at-tlcard__body">
 								<span class="at-tlpanel__year">2025</span>
@@ -804,9 +824,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Office/Warehouse</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-bebelan">Go to selected project</a>
+
 							</div>
-							<button type="button" class="at-gallery-mosaic" data-project="bebelan" aria-label="Gallery: Bebelan">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/bebelan-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -817,9 +837,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-11" tabindex="-1" data-project="power-properties">
+						<button type="button" class="at-timeline-project-launcher" data-project="power-properties" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open Power Properties project"></button>
 							<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/power-properties-timeline.webp" alt="Power Properties" loading="lazy" decoding="async"></div>
 							<div class="at-tlcard__body">
 								<span class="at-tlpanel__year">2025</span>
@@ -827,9 +848,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 								<span class="at-tlpanel__type">Office/Warehouse</span>
 								<p class="at-tlpanel__desc">Fit-out Works</p>
 								<p class="at-tlpanel__desc">Experience with Engineering Systems</p>
-								<a class="at-selected-project-link" data-selected-project-link href="#selected-project-power-properties">Go to selected project</a>
+
 							</div>
-							<button type="button" class="at-gallery-mosaic" data-project="power-properties" aria-label="Gallery: Power Properties">
+							<div class="at-gallery-mosaic" aria-hidden="true">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-01.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-02.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
 								<img src="wp-content/uploads/2026/07/gallery-thumbnails/power-properties-03.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="160" height="160">
@@ -840,9 +861,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 									</svg>
 									<span>View gallery</span>
 								</span>
-							</button>
+							</div>
 						</li>
 							<li class="at-tlcard" id="timeline-card-12" tabindex="-1">
+						<button type="button" class="at-timeline-project-launcher" data-project="british-school-sofia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Open British School of Sofia project"></button>
 						<div class="at-tlcard__img"><img src="wp-content/uploads/2026/07/bss-1-1100x619.webp" alt="British School of Sofia" loading="lazy" decoding="async"></div>
 						<div class="at-tlcard__body">
 							<span class="at-tlpanel__year">2026</span>
@@ -1087,6 +1109,34 @@ Sofia 1404</span>
 			<button type="button" class="at-dialog__close" aria-label="Close">&#x2715;</button>
 		</div>
 				<div class="at-dialog__body">
+			<!-- Timeline-only projects use factual single-image records without gallery controls. -->
+			<div class="at-gallery-project" hidden data-project="eos-matrix" data-name="EOS Matrix">
+				<dl class="at-gallery-project__facts">
+					<div><dt>Category</dt><dd>Office building</dd></div>
+					<div><dt>Year</dt><dd>2007</dd></div>
+					<div><dt>Activity</dt><dd>Construction and investment project management and supervision</dd></div>
+				</dl>
+				<p class="at-gallery-project__description">A 2007 office building for which construction and investment project management and supervision form part of the experience gained with Correct Project.</p>
+				<img class="at-project-image" src="wp-content/uploads/2026/07/matrix-1-799x900.webp" alt="EOS Matrix office building" width="799" height="900" loading="lazy" decoding="async">
+			</div>
+			<div class="at-gallery-project" hidden data-project="ema" data-name="EMA">
+				<dl class="at-gallery-project__facts">
+					<div><dt>Category</dt><dd>Logistics building</dd></div>
+					<div><dt>Year</dt><dd>2015</dd></div>
+					<div><dt>Activity</dt><dd>Construction</dd></div>
+				</dl>
+				<p class="at-gallery-project__description">A logistics building delivered in 2015 through construction activities forming part of the experience gained with Engineering Systems.</p>
+				<img class="at-project-image" src="wp-content/uploads/2026/07/ema-1-1100x733.webp" alt="EMA logistics building" width="1100" height="733" loading="lazy" decoding="async">
+			</div>
+			<div class="at-gallery-project" hidden data-project="british-school-sofia" data-name="British School of Sofia">
+				<dl class="at-gallery-project__facts">
+					<div><dt>Category</dt><dd>School building</dd></div>
+					<div><dt>Year</dt><dd>2026</dd></div>
+					<div><dt>Activity</dt><dd>Construction</dd></div>
+				</dl>
+				<p class="at-gallery-project__description">A school building delivered in 2026 through construction activities forming part of the experience gained with Engineering Systems.</p>
+				<img class="at-project-image" src="wp-content/uploads/2026/07/bss-1-1100x619.webp" alt="British School of Sofia school building" width="1100" height="619" loading="lazy" decoding="async">
+			</div>
 			<div class="at-gallery-project" hidden data-project="arcadia" data-name="Complete Interior of Arcadia Apartment">
 				<dl class="at-gallery-project__facts">
 					<div><dt>Category</dt><dd>Residential Interiors</dd></div>

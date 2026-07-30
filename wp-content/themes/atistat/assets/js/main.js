@@ -14,10 +14,12 @@
 	const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 	const TOUCH_POINTER_QUERY = "(hover: none)";
 	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-	const SELECTED_PROJECT_LINK_SELECTOR = 'a[data-selected-project-link][href^="#selected-project-"]';
 	const FLAGSHIP_PROJECT_CARD_SELECTOR = '.at-flagship__card[role="button"][data-project]';
-	const GALLERY_LAUNCHER_SELECTOR = (
-		`.at-gallery-mosaic[data-project], ${FLAGSHIP_PROJECT_CARD_SELECTOR}`
+	const TIMELINE_PROJECT_LAUNCHER_SELECTOR = (
+		"button.at-timeline-project-launcher[data-project]"
+	);
+	const PROJECT_DIALOG_LAUNCHER_SELECTOR = (
+		`${TIMELINE_PROJECT_LAUNCHER_SELECTOR}, ${FLAGSHIP_PROJECT_CARD_SELECTOR}`
 	);
 
 	/**
@@ -179,6 +181,11 @@
 			const isActive = panelPosition === position;
 			panel.classList.toggle("is-active", isActive);
 			panel.setAttribute("aria-hidden", isActive ? "false" : "true");
+			const projectLauncher = panel.querySelector(TIMELINE_PROJECT_LAUNCHER_SELECTOR);
+			if (projectLauncher instanceof HTMLButtonElement) {
+				// Inactive absolute panels must not expose hidden launchers in the tab sequence.
+				projectLauncher.disabled = !isActive;
+			}
 		});
 
 		state.previousControl.disabled = position === 0;
@@ -412,8 +419,12 @@
 		const behavior = window.matchMedia(REDUCED_MOTION_QUERY).matches ? "instant" : "smooth";
 		const card = state.cards[position];
 		card.scrollIntoView({ behavior, block: "start" });
+		const projectLauncher = card.querySelector(TIMELINE_PROJECT_LAUNCHER_SELECTOR);
+		const focusTarget = projectLauncher instanceof HTMLButtonElement
+			? projectLauncher
+			: card;
 		// preventScroll avoids a second browser-generated jump competing with the requested scroll.
-		card.focus({ preventScroll: true });
+		focusTarget.focus({ preventScroll: true });
 	}
 
 	/**
@@ -526,54 +537,19 @@
 	}
 
 	/**
-	 * Scrolls selected-project links to their exact cards and transfers keyboard focus.
-	 *
-	 * @returns {void}
-	 */
-	function initializeSelectedProjectLinks() {
-		document.querySelectorAll(SELECTED_PROJECT_LINK_SELECTOR).forEach(
-			function registerSelectedProjectLink(link) {
-				link.addEventListener("click", function focusSelectedProject(event) {
-					const destinationId = link.getAttribute("href")?.slice(1);
-					const destination = destinationId
-						? document.getElementById(destinationId)
-						: null;
-					if (!(destination instanceof HTMLElement)) {
-						return;
-					}
-
-					event.preventDefault();
-					const prefersReducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-					const behavior = prefersReducedMotion ? "auto" : "smooth";
-					window.history.pushState(null, "", `#${destinationId}`);
-					destination.scrollIntoView({ behavior, block: "center" });
-					// preventScroll preserves the single reduced-motion-aware scroll requested above.
-					destination.focus({ preventScroll: true });
-				});
-			}
-		);
-	}
-
-	/**
-	 * Resolves the project gallery launcher associated with a click.
+	 * Resolves a selected-project card or timeline full-surface button.
 	 *
 	 * @param {Event} event - The delegated document pointer or keyboard event.
-	 * @returns {HTMLElement|null} The native timeline button or role-button project card.
+	 * @returns {HTMLElement|null} The project dialog launcher associated with the event.
 	 */
-	function resolveGalleryLauncher(event) {
+	function resolveProjectDialogLauncher(event) {
 		if (!(event.target instanceof Element)) {
 			return null;
 		}
 
-		// Only explicit launchers open the dialog; timeline controls may also carry project metadata.
-		const launcher = event.target.closest(GALLERY_LAUNCHER_SELECTOR);
-		if (launcher instanceof HTMLButtonElement) {
-			return launcher;
-		}
-		return launcher instanceof HTMLElement
-			&& launcher.matches(FLAGSHIP_PROJECT_CARD_SELECTOR)
-			? launcher
-			: null;
+		// Explicit selectors prevent project metadata on timeline markers from opening the dialog.
+		const launcher = event.target.closest(PROJECT_DIALOG_LAUNCHER_SELECTOR);
+		return launcher instanceof HTMLElement ? launcher : null;
 	}
 
 	/**
@@ -788,20 +764,20 @@
 			projectImages: [],
 			imagePosition: 0,
 			sourceImage: null,
-			lastGalleryLauncher: null
+			lastProjectLauncher: null
 		};
 		enhanceGalleryImages(state);
 		document.addEventListener("click", function openSelectedProject(event) {
-			const launcher = resolveGalleryLauncher(event);
+			const launcher = resolveProjectDialogLauncher(event);
 			if (!launcher) {
 				return;
 			}
 
-			state.lastGalleryLauncher = launcher;
+			state.lastProjectLauncher = launcher;
 			openGalleryProject(state, launcher);
 		});
 		document.addEventListener("keydown", function openKeyedSelectedProject(event) {
-			const launcher = resolveGalleryLauncher(event);
+			const launcher = resolveProjectDialogLauncher(event);
 			if (
 				!launcher?.matches(FLAGSHIP_PROJECT_CARD_SELECTOR)
 				|| (event.key !== "Enter" && event.key !== " ")
@@ -811,7 +787,7 @@
 
 			// A non-native role-button needs explicit Enter and Space activation parity.
 			event.preventDefault();
-			state.lastGalleryLauncher = launcher;
+			state.lastProjectLauncher = launcher;
 			openGalleryProject(state, launcher);
 		});
 		closeButton.addEventListener("click", function closeSelectedProjects() {
@@ -848,10 +824,10 @@
 		});
 		dialog.addEventListener("close", function restoreSelectedProjectsFocus() {
 			closeLargeImage(state, false);
-			const launcherToRestore = state.lastGalleryLauncher;
+			const launcherToRestore = state.lastProjectLauncher;
 			if (launcherToRestore && document.contains(launcherToRestore)) {
 				// Native dialog focus restoration completes after the close event.
-				window.setTimeout(function focusGalleryLauncher() {
+				window.setTimeout(function focusProjectLauncher() {
 					if (document.contains(launcherToRestore)) {
 						launcherToRestore.focus();
 					}
@@ -866,6 +842,5 @@
 	initializeTimeline();
 	initializeResponsiveTimeline();
 	initializeTouchSketches();
-	initializeSelectedProjectLinks();
 	initializeSelectedProjectsDialog();
 }());

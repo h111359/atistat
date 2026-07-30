@@ -75,6 +75,29 @@ SELECTED_PROJECTS = (
     "ubb-interlease",
 )
 GALLERY_PROJECTS = SELECTED_PROJECTS
+TIMELINE_ONLY_PROJECTS = (
+    "eos-matrix",
+    "ema",
+    "british-school-sofia",
+)
+TIMELINE_DIALOG_PROJECTS = (*TIMELINE_ONLY_PROJECTS, *SELECTED_PROJECTS)
+TIMELINE_PROJECTS = (
+    "eos-matrix",
+    "montekanal",
+    "ema",
+    "elemag",
+    "louis-ayer",
+    "ubb-interlease",
+    "arcadia",
+    "bebelan",
+    "power-properties",
+    "british-school-sofia",
+)
+TIMELINE_ONLY_PROJECT_MEDIA = {
+    "eos-matrix": ("matrix-1-799x900.webp", ("799", "900")),
+    "ema": ("ema-1-1100x733.webp", ("1100", "733")),
+    "british-school-sofia": ("bss-1-1100x619.webp", ("1100", "619")),
+}
 FLAGSHIP_IMAGE_FILES = {
     "elemag": "elemag.webp",
     "bebelan": "bebelan.webp",
@@ -195,6 +218,62 @@ SELECTED_PROJECT_COPY = {
                 "year": "2025",
                 "image": "flagship-projects/ubb-interlease.webp",
                 "dimensions": ("1200", "750"),
+            },
+        },
+    },
+}
+TIMELINE_ONLY_PROJECT_COPY = {
+    "bg": {
+        "category_label": "Категория",
+        "year_label": "Година",
+        "activity_label": "Дейност",
+        "projects": {
+            "eos-matrix": {
+                "title": "ЕОС Матрикс",
+                "category": "Офис сграда",
+                "year": "2007",
+                "activity": (
+                    "Управление и контрол на строително-инвестиционен проект"
+                ),
+            },
+            "ema": {
+                "title": "ЕМА",
+                "category": "Логистична сграда",
+                "year": "2015",
+                "activity": "Строителство",
+            },
+            "british-school-sofia": {
+                "title": "Британско училище в София",
+                "category": "Училищна сграда",
+                "year": "2026",
+                "activity": "Строителство",
+            },
+        },
+    },
+    "en": {
+        "category_label": "Category",
+        "year_label": "Year",
+        "activity_label": "Activity",
+        "projects": {
+            "eos-matrix": {
+                "title": "EOS Matrix",
+                "category": "Office building",
+                "year": "2007",
+                "activity": (
+                    "Construction and investment project management and supervision"
+                ),
+            },
+            "ema": {
+                "title": "EMA",
+                "category": "Logistics building",
+                "year": "2015",
+                "activity": "Construction",
+            },
+            "british-school-sofia": {
+                "title": "British School of Sofia",
+                "category": "School building",
+                "year": "2026",
+                "activity": "Construction",
             },
         },
     },
@@ -323,6 +402,7 @@ class StaticDocumentParser(HTMLParser):
         self.responsive_timeline_navigation: dict[str, str | None] | None = None
         self.responsive_timeline_markers: list[dict[str, str | None]] = []
         self.timeline_cards: list[dict[str, str | None]] = []
+        self.timeline_project_launchers: list[dict[str, str | None]] = []
         self.gallery_mosaics: list[dict[str, object]] = []
         self.gallery_projects: dict[str, list[str]] = {}
         self._active_gallery_mosaic: dict[str, object] | None = None
@@ -375,7 +455,9 @@ class StaticDocumentParser(HTMLParser):
             self.responsive_timeline_markers.append(attributes)
         if tag == "li" and "at-tlcard" in classes:
             self.timeline_cards.append(attributes)
-        if tag == "button" and "at-gallery-mosaic" in classes:
+        if tag == "button" and "at-timeline-project-launcher" in classes:
+            self.timeline_project_launchers.append(attributes)
+        if tag == "div" and "at-gallery-mosaic" in classes:
             mosaic: dict[str, object] = {
                 "attributes": attributes,
                 "images": [],
@@ -430,7 +512,7 @@ class StaticDocumentParser(HTMLParser):
         Returns:
             None; active parser state is updated in place.
         """
-        if tag == "button" and self._active_gallery_mosaic is not None:
+        if tag == "div" and self._active_gallery_mosaic is not None:
             self._active_gallery_mosaic = None
             self._inside_gallery_overlay = False
         elif tag == "span" and self._inside_gallery_overlay:
@@ -552,10 +634,15 @@ def _expected_dialog_sources(asset_prefix: str) -> dict[str, list[str]]:
         Project-keyed, source-order URL lists.
     """
     source_root = f"{asset_prefix}wp-content/uploads/2026/07/"
-    return {
+    gallery_sources = {
         project: [f"{source_root}{quote(name)}" for name in file_names]
         for project, file_names in FULL_RESOLUTION_GALLERY_FILES.items()
     }
+    timeline_only_sources = {
+        project: [f"{source_root}{filename}"]
+        for project, (filename, _) in TIMELINE_ONLY_PROJECT_MEDIA.items()
+    }
+    return {**timeline_only_sources, **gallery_sources}
 
 
 def _extract_flagship_markup(content: str) -> str:
@@ -1021,10 +1108,20 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     self.assertIsInstance(images, list)
                     self.assertIsInstance(overlay_attributes, dict)
                     self.assertIsInstance(overlay_text, list)
-                    project = attributes.get("data-project")
+                    first_source = images[0].get("src", "") if images else ""
+                    source_match = re.search(
+                        r"gallery-thumbnails/([a-z-]+)-01\.webp$",
+                        first_source,
+                    )
+                    self.assertIsNotNone(source_match)
+                    project = source_match.group(1) if source_match else ""
                     self.assertIn(project, GALLERY_PROJECTS)
                     project_counts[project] += 1
-                    self.assertTrue(attributes.get("aria-label"))
+                    self.assertEqual("true", attributes.get("aria-hidden"))
+                    self.assertNotIn("data-project", attributes)
+                    self.assertNotIn("aria-label", attributes)
+                    self.assertNotIn("role", attributes)
+                    self.assertNotIn("tabindex", attributes)
                     self.assertEqual(4, len(images))
                     for sequence, image in enumerate(images, start=1):
                         expected_source = (
@@ -1184,6 +1281,93 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     if description_match:
                         self.assertGreaterEqual(len(description_match.group(1)), 180)
 
+    def test_timeline_project_cards_open_complete_localized_dialog_records(self) -> None:
+        """Require ten full-card launchers and factual single-image records."""
+        for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                document = WORKSPACE_ROOT / route
+                content = document.read_text(encoding="utf-8")
+                parser = _parse_document(document)
+                launcher_projects = [
+                    launcher.get("data-project")
+                    for launcher in parser.timeline_project_launchers
+                ]
+                self.assertEqual(20, len(launcher_projects))
+                self.assertEqual(
+                    {project: 2 for project in TIMELINE_PROJECTS},
+                    {
+                        project: launcher_projects.count(project)
+                        for project in TIMELINE_PROJECTS
+                    },
+                )
+                for launcher in parser.timeline_project_launchers:
+                    self.assertEqual("dialog", launcher.get("aria-haspopup"))
+                    self.assertEqual(
+                        "selected-projects-dialog",
+                        launcher.get("aria-controls"),
+                    )
+                    self.assertTrue(launcher.get("aria-label"))
+
+                self.assertEqual(
+                    9,
+                    len(
+                        re.findall(
+                            (
+                                r'<article class="at-tlpanel[^"]*" '
+                                r'id="timeline-panel-[^"]+"[^>]*>\s*'
+                                r'<button[^>]+class="at-timeline-project-launcher"'
+                                r"[^>]+disabled"
+                            ),
+                            content,
+                        )
+                    ),
+                )
+                self.assertNotIn('class="at-selected-project-link"', content)
+                self.assertNotRegex(
+                    content,
+                    r'<button[^>]+class="at-gallery-mosaic"',
+                )
+
+                localized_copy = TIMELINE_ONLY_PROJECT_COPY[language]
+                for project in TIMELINE_ONLY_PROJECTS:
+                    expected = localized_copy["projects"][project]
+                    filename, dimensions = TIMELINE_ONLY_PROJECT_MEDIA[project]
+                    project_match = re.search(
+                        (
+                            r'<div class="at-gallery-project" hidden '
+                            f'data-project="{re.escape(project)}" '
+                            f'data-name="{re.escape(expected["title"])}">'
+                            r'(.*?</div>)(?=\s*<div class="at-gallery-project")'
+                        ),
+                        content,
+                        flags=re.DOTALL,
+                    )
+                    self.assertIsNotNone(project_match, project)
+                    project_markup = project_match.group(1) if project_match else ""
+                    for label, value in (
+                        (localized_copy["category_label"], expected["category"]),
+                        (localized_copy["year_label"], expected["year"]),
+                        (localized_copy["activity_label"], expected["activity"]),
+                    ):
+                        self.assertIn(
+                            f"<div><dt>{label}</dt><dd>{value}</dd></div>",
+                            project_markup,
+                        )
+                    self.assertIn('class="at-gallery-project__description"', project_markup)
+                    self.assertNotIn('class="at-gallery-grid"', project_markup)
+                    self.assertEqual(1, project_markup.count('class="at-project-image"'))
+                    self.assertIn(
+                        (
+                            f'src="{asset_prefix}wp-content/uploads/2026/07/{filename}"'
+                            f' alt="'
+                        ),
+                        project_markup,
+                    )
+                    self.assertIn(
+                        f'width="{dimensions[0]}" height="{dimensions[1]}"',
+                        project_markup,
+                    )
+
     def test_flagship_assets_are_bounded_wide_webp_files(self) -> None:
         """Require exactly three optimized 1200-by-750 WebP flagship photographs."""
         actual_files = {
@@ -1253,7 +1437,8 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         ):
             self.assertIn(declaration, heading_declarations)
         self.assertIn("FLAGSHIP_PROJECT_CARD_SELECTOR", javascript)
-        self.assertIn("GALLERY_LAUNCHER_SELECTOR", javascript)
+        self.assertIn("PROJECT_DIALOG_LAUNCHER_SELECTOR", javascript)
+        self.assertIn("TIMELINE_PROJECT_LAUNCHER_SELECTOR", javascript)
         self.assertIn('event.key !== "Enter" && event.key !== " "', javascript)
         self.assertIn('role="button"', fixture)
         self.assertNotIn('class="at-flagship__action"', fixture)
@@ -1301,11 +1486,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 self.assertIn('points="9,1 1,9 9,17"', content)
                 self.assertIn('points="1,1 9,9 1,17"', content)
 
-                internal_destination = f"{asset_prefix or '/'}"
-                expected_destinations = {
-                    *TIMELINE_COMPANY_DESTINATIONS,
-                    internal_destination,
-                }
+                expected_destinations = set(TIMELINE_COMPANY_DESTINATIONS)
                 self.assertEqual(
                     expected_destinations,
                     {link.get("href") for link in parser.timeline_panel_links},
@@ -1314,6 +1495,15 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     expected_destinations,
                     {link.get("href") for link in parser.timeline_mobile_links},
                 )
+                atistat_panel_start = content.index('id="timeline-panel-7"')
+                atistat_panel_end = content.index("</article>", atistat_panel_start)
+                atistat_panel = content[atistat_panel_start:atistat_panel_end]
+                atistat_card_start = content.index('id="timeline-card-7"')
+                atistat_card_end = content.index("</li>", atistat_card_start)
+                atistat_card = content[atistat_card_start:atistat_card_end]
+                for atistat_markup in (atistat_panel, atistat_card):
+                    self.assertNotIn("href=", atistat_markup)
+                    self.assertNotIn("at-timeline-project-launcher", atistat_markup)
                 self.assertNotIn("data-href=", content)
                 timeline_start = content.index(
                     '<h3 class="at-timeline__title"'
@@ -1390,8 +1580,9 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn("initializeResponsiveTimeline();", javascript)
         self.assertIn('event.key === "ArrowLeft" || event.key === "ArrowRight"', javascript)
         self.assertIn('event.key === "Enter" || event.key === " "', javascript)
-        self.assertIn('card.focus({ preventScroll: true });', javascript)
-        self.assertIn("GALLERY_LAUNCHER_SELECTOR", javascript)
+        self.assertIn('focusTarget.focus({ preventScroll: true });', javascript)
+        self.assertIn("PROJECT_DIALOG_LAUNCHER_SELECTOR", javascript)
+        self.assertIn("TIMELINE_PROJECT_LAUNCHER_SELECTOR", javascript)
         self.assertIn("FLAGSHIP_PROJECT_CARD_SELECTOR", javascript)
         self.assertNotIn(
             'event.target.closest("button[data-project]:not(.at-tlb)")',
@@ -1423,7 +1614,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     maxsplit=1,
                 )[1].split("</dialog>", maxsplit=1)[0]
                 self.assertEqual(
-                    7,
+                    len(TIMELINE_DIALOG_PROJECTS),
                     dialog_markup.count('class="at-gallery-project"'),
                 )
                 self.assertNotIn("<h3>", dialog_markup)
@@ -1460,7 +1651,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     )
 
     def test_stakeholder_simplifications_and_project_links_are_consistent(self) -> None:
-        """Require simplified contact/navigation UI and focusable selected-project links."""
+        """Require simplified contact/navigation UI without timeline-to-section links."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
             with self.subTest(route=route):
                 content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
@@ -1500,17 +1691,10 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 )
 
                 self.assertEqual(
-                    14,
+                    0,
                     content.count('class="at-selected-project-link"'),
                 )
                 for project in SELECTED_PROJECTS:
-                    expected_link_count = 2
-                    if project in {"elemag", "montekanal"}:
-                        expected_link_count += 1
-                    self.assertEqual(
-                        expected_link_count,
-                        content.count(f'href="#selected-project-{project}"'),
-                    )
                     self.assertEqual(
                         1,
                         content.count(

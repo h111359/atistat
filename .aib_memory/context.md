@@ -28,6 +28,7 @@
 - MUST: Prioritize the above-fold homepage hero image and defer below-fold imagery.
 - MUST NOT: Require third-party JavaScript libraries or a build pipeline for core front-end interactions. 
 - OPTIONAL: Outbound integrations may connect visitors to a map, messaging, social profiles, and related-company sites. 
+- MUST: Expose real-project timeline panels and responsive cards as keyboard-operable controls that open localized project information.
 
 ## Solution
 
@@ -39,7 +40,6 @@
 - External services are limited to a Google Maps iframe and outbound WhatsApp, Facebook, LinkedIn, Correct Project, and Engineering Systems destinations.
 - Primary Bulgarian homepage extends the shared theme with document-local CSS for hero actions, differentiation cards, FAQ, a selected-projects gallery dialog, a CTA contact block, and a floating Viber action.
 - A partners section with Инженерни Системи, Корект Проект, and Адрео logo-links appears between the Services and Why sections on all BG and EN homepage copies.
-- Homepage timeline includes an ATISTAT entry at 2024 using atistat-logo.png from wp-content/themes/atistat/assets/images/ linked to the site root.
 - Experience attribution secondary lines appear in the desktop panels and mobile cards of four timeline project entries (EOS Matrix, Montekanal, Elemag, and UBB Interlease) identifying the associated partner company.
 - Service feature bullet lists with green checkmark style appear before the numbered process steps in each of the four service article elements across all five homepage documents.
 - All five homepage documents carry meta description, Open Graph, Twitter Card, and JSON-LD Organization structured-data blocks with language-appropriate values and per-document canonical og:url.
@@ -49,13 +49,14 @@
 - Gallery-only projects (Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) use lightweight line-art timeline assets generated from their first submitted photograph and stored in wp-content/uploads/2026/07/ with ASCII filenames.
 - Official white Viber icon is stored locally as viber-icon.png in wp-content/themes/atistat/assets/images/ and served on ATISTAT green controls without alteration across all five root homepage documents.
 - English Why/FAQ sections are faithful translations of the Bulgarian source-of-truth sections and inherit CSS rules defined in main.css; Why/FAQ document-local styles in index.html are promoted to the shared stylesheet.
-- opit/index.html is synchronized with the English homepage timeline and gallery content, including thirteen milestones, project metadata, and project-scoped gallery launchers.
 - Apartment Arcadia uses arcadia-timeline.webp across all six timeline documents; its desktop marker is fully grayscale at rest and in color on hover, keyboard focus, and active selection, while mobile stacked-card imagery remains in color.
 - Workspace has no README, scripts directory, dependency manifest, or build configuration; tests/test_static_site.py and tests/fixtures/interaction_harness.html provide Python unittest static checks and Chrome interaction smoke coverage.
 - Adreo partner logo-link uses wp-content/uploads/2026/07/adreo.png; BG-localized documents carry alt='Адрео', EN-localized documents carry alt='Adreo'.
 - Across index.html, index-bg.html, index-en.html, index.html?lang=bg.html, index.html?lang=en.html, and opit/index.html, the Experience section presents the unchanged selected evidence panel before its localized instruction and a compact thirteen-milestone desktop rail above 860px; the desktop rail keeps about five complete milestones, inline Previous/Next controls, boundary hiding, edge fades, free panning, proximity snapping, active-tab centering, and automatic tab activation while using smaller milestone imagery and endpoint labels; at 860px and below, a static approximately three-up 13-link navigation rail appears above the unchanged 13-card list, remains useful without JavaScript, and is enhanced with focus-only Arrow navigation, explicit Enter/Space/click activation, card-container focus, reduced-motion-aware scrolling, edge state, and activation-only persistent current state.
-- Gallery-eligible projects (Elemag, Montekanal, UBB Interlease, Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) expose a four-image mosaic launcher in the active desktop panel and eligible responsive card; every launcher reuses project-scoped 160x160 WebP previews no larger than 20KB from wp-content/uploads/2026/07/gallery-thumbnails/ and carries a persistent localized gallery icon/text overlay; launchers open one reusable filtered native dialog with the invoked project's original full-resolution image set and restore focus to the invoker on close.
-- Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized projects as equal responsive image-led cards whose full surface opens the shared native project dialog; each dialog view uses one expanded localized title and leads with category and year before the existing description and project-scoped gallery.
+- Timeline interaction classifies ten real projects as full-surface native dialog controls, Correct Project and Engineering Systems as external links, and ATISTAT as selectable navigation content without a destination action.
+- Gallery-eligible projects (Elemag, Montekanal, UBB Interlease, Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) retain noninteractive four-image mosaic previews from bounded 160x160 WebP assets in desktop panels and responsive cards; full-surface native project controls open the reusable filtered dialog with original project-scoped image sets and restore focus after close.
+- Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized image-led cards while the shared native dialog holds ten localized project records; EOS Matrix, EMA, and British School of Sofia use factual single-image records available only from the timeline.
+- opit/index.html is synchronized with the English homepage timeline and dialog content, including thirteen milestones, ten project launchers, and ten localized project records.
 
 ## File Structure
 
@@ -89,7 +90,6 @@ Summary: Defines current public-facing Bulgarian company narrative, conversion s
 ## Issues
 
 - Default fade styling hides marked content when JavaScript is unavailable or fails before reveal initialization. Source: main.css sets fade opacity to zero globally while main.js performs reveal activation.
-- Homepage project timeline buttons do not link to the six local project-detail routes, although partner-company milestones have outbound links. Source: index.html contains no proekti route links.
 - Six project page families expose only project name and service classification without project narrative, facts, galleries, or outcome evidence. Source: proekti page content and exported project records remain minimal.
 - English project pages localize navigation and footer labels but retain Bulgarian project titles and service descriptions. Source: proekti project index-en.html variants contain Bulgarian main content.
 - Header and footer inline logos repeat the same eight HTML identifiers within the primary homepage. Source: index.html contains two occurrences each of svg1, namedview1, defs1, layer3, g1, layer2, text1, and text2.
