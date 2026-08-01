@@ -210,66 +210,129 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 				<!--
 		  Selected Projects
-		  Design intent: Seven equal image-led cards support fast scanning through a concise category and expanded project title.
-		  Accessibility: Each card is a named dialog control with pointer, touch, Enter, and Space activation; focus returns after close.
+		  Design intent: Seven image-led cards pair consistent photography with detailed, left-aligned project facts.
+		  Accessibility: Cards remain programmatic link targets; native buttons expose the shared dialog and support Enter and Space.
 		-->
 		<section class="at-flagship" aria-labelledby="selected-projects-heading">
 			<h3 class="at-flagship__title" id="selected-projects-heading">ИЗБРАНИ ПРОЕКТИ</h3>
 			<div class="at-flagship__grid">
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-bebelan" data-project="bebelan" role="button" tabindex="0" aria-labelledby="selected-project-bebelan-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/bebelan.webp" alt="Бебелан — интериор на административната сграда и склада" width="1200" height="750" loading="lazy" decoding="async">
-					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Индустриални обекти</span></p>
-						<h4 class="at-flagship__name" id="selected-project-bebelan-title">Административна сграда и склад на Бебелан</h4>
-					</div>
-				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-power-properties" data-project="power-properties" role="button" tabindex="0" aria-labelledby="selected-project-power-properties-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/power-properties-timeline.png" alt="Пауър Пропъртис — интериор на сградата със смесено предназначение" width="675" height="900" loading="lazy" decoding="async">
-					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Индустриални обекти</span></p>
-						<h4 class="at-flagship__name" id="selected-project-power-properties-title">Сграда със смесено предназначение на Пауър Пропъртис</h4>
-					</div>
-				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-montekanal" data-project="montekanal" role="button" tabindex="0" aria-labelledby="selected-project-montekanal-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/montekanal-1-1100x825.png" alt="Жилищен комплекс Монтеканал" width="1100" height="825" loading="lazy" decoding="async">
-					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Жилищни комплекси</span></p>
-						<h4 class="at-flagship__name" id="selected-project-montekanal-title">Жилищен комплекс Монтеканал</h4>
-					</div>
-				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-elemag" data-project="elemag" role="button" tabindex="0" aria-labelledby="selected-project-elemag-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
+				<article class="at-flagship__card" id="selected-project-elemag" data-project="elemag" tabindex="-1" aria-labelledby="selected-project-elemag-title">
 					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/elemag.webp" alt="Екстериор на жилищна сграда Елемаг" width="1200" height="750" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Жилищни сгради</span></p>
-						<h4 class="at-flagship__name" id="selected-project-elemag-title">Жилищна сграда Елемаг</h4>
+						<h4 class="at-flagship__name" id="selected-project-elemag-title">Елемаг</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Жилищна</dd></div>
+							<div><dt>Дейност</dt><dd>Строителство</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2021</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="elemag" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Елемаг">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
 					</div>
 				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-louis-ayer" data-project="louis-ayer" role="button" tabindex="0" aria-labelledby="selected-project-louis-ayer-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/louis-ayer-timeline.png" alt="Цялостен интериор на апартамент Луи Айер" width="900" height="675" loading="lazy" decoding="async">
+				<article class="at-flagship__card" id="selected-project-montekanal" data-project="montekanal" tabindex="-1" aria-labelledby="selected-project-montekanal-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/montekanal-1-1100x825.png" alt="Жилищен комплекс Монтеканал" width="1100" height="825" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Жилищни интериори</span></p>
-						<h4 class="at-flagship__name" id="selected-project-louis-ayer-title">Цялостен интериор на апартамент Луи Айер</h4>
+						<h4 class="at-flagship__name" id="selected-project-montekanal-title">Монтеканал</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Жилищна</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2011</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="montekanal" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Монтеканал">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
 					</div>
 				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-arcadia" data-project="arcadia" role="button" tabindex="0" aria-labelledby="selected-project-arcadia-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
-					<img class="at-flagship__image" src="wp-content/uploads/2026/07/arcadia-timeline.png" alt="Цялостен интериор на апартамент Аркадия" width="900" height="674" loading="lazy" decoding="async">
+				<article class="at-flagship__card" id="selected-project-bebelan" data-project="bebelan" tabindex="-1" aria-labelledby="selected-project-bebelan-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/bebelan.webp" alt="Бебелан — интериор на административната сграда и склада" width="1200" height="750" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Жилищни интериори</span></p>
-						<h4 class="at-flagship__name" id="selected-project-arcadia-title">Цялостен интериор на апартамент Аркадия</h4>
+						<h4 class="at-flagship__name" id="selected-project-bebelan-title">Бебелан</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисно-складова</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="bebelan" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Бебелан">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
 					</div>
 				</article>
-				<!-- The role=button card opens the shared dialog with click, touch, Enter, or Space; aria-labelledby uses the visible project title. -->
-				<article class="at-flagship__card" id="selected-project-ubb-interlease" data-project="ubb-interlease" role="button" tabindex="0" aria-labelledby="selected-project-ubb-interlease-title" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
+				<article class="at-flagship__card" id="selected-project-ubb-interlease" data-project="ubb-interlease" tabindex="-1" aria-labelledby="selected-project-ubb-interlease-title">
 					<img class="at-flagship__image" src="wp-content/uploads/2026/07/flagship-projects/ubb-interlease.webp" alt="Интериор на административна сграда Пърл Център на ОББ Интерлийз" width="1200" height="750" loading="lazy" decoding="async">
 					<div class="at-flagship__body">
-						<p class="at-flagship__category"><span class="at-flagship__category-label">Категория:</span> <span class="at-flagship__category-value">Офисни сгради</span></p>
-						<h4 class="at-flagship__name" id="selected-project-ubb-interlease-title">Административна сграда „Пърл Център“ на ОББ Интерлийз</h4>
+						<h4 class="at-flagship__name" id="selected-project-ubb-interlease-title">ОББ Интерлийз</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисна</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="ubb-interlease" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ОББ Интерлийз">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-power-properties" data-project="power-properties" tabindex="-1" aria-labelledby="selected-project-power-properties-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/power-properties-timeline.png" alt="Пауър Пропъртис — интериор на сградата със смесено предназначение" width="675" height="900" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-power-properties-title">Пауър Пропъртис</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Офисно-складова</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършена</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с Инженерни Системи</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="power-properties" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: Пауър Пропъртис">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-louis-ayer" data-project="louis-ayer" tabindex="-1" aria-labelledby="selected-project-louis-ayer-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/louis-ayer-timeline.png" alt="Цялостен интериор на апартамент Луи Айер" width="900" height="675" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-louis-ayer-title">ап. Луи Айер</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Апартамент</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършен</dd></div>
+							<div><dt>Година</dt><dd>2024</dd></div>
+							<div><dt>Опит</dt><dd>с АТИСТАТ</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="louis-ayer" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ап. Луи Айер">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
+					</div>
+				</article>
+				<article class="at-flagship__card" id="selected-project-arcadia" data-project="arcadia" tabindex="-1" aria-labelledby="selected-project-arcadia-title">
+					<img class="at-flagship__image" src="wp-content/uploads/2026/07/arcadia-timeline.png" alt="Цялостен интериор на апартамент Аркадия" width="900" height="674" loading="lazy" decoding="async">
+					<div class="at-flagship__body">
+						<h4 class="at-flagship__name" id="selected-project-arcadia-title">ап. Аркадия</h4>
+						<dl class="at-flagship__meta">
+							<div><dt>Вид сграда</dt><dd>Апартамент</dd></div>
+							<div><dt>Дейност</dt><dd>Довършителни работи</dd></div>
+							<div><dt>Статус</dt><dd>Завършен</dd></div>
+							<div><dt>Година</dt><dd>2025</dd></div>
+							<div><dt>Опит</dt><dd>с АТИСТАТ</dd></div>
+						</dl>
+						<!-- Native button supports Enter/Space; dialog attributes announce the gallery relationship. -->
+						<button type="button" class="at-flagship__action" data-project="arcadia" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Подробности и галерия: ап. Аркадия">
+							<span>Подробности и галерия</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+						</button>
 					</div>
 				</article>
 			</div>

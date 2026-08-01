@@ -42,3 +42,17 @@ These directives apply to every successful execution of `.aib_brain/prompts/aib-
 
 
 - MUST: Place the context-update report before the final completion line required by `aib-modify.md`.
+
+### Maintain user report
+
+- MUST: Maintain a file `workdir/chronicles.md` where after each modify or implement prompt adds in several bullets explanation for non-technical audience what was changed.
+
+- MUST: Group the entries for each modify or implement prompt under `##` header with the request name
+
+- MUST: Make additions to `workdir/chronicles.md` at the bottom of the file
+
+- MUST: Use Bulgarian language
+
+- MUST: Create the file `workdir/chronicles.md` if not exists.
+
+- MUST NOT: Change the previous content of the file `workdir/chronicles.md` if exists.

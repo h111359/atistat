@@ -231,6 +231,7 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	--flagship-card-gap: clamp(20px, 2.5vw, 32px);
 	--flagship-card-radius: 18px;
 	--flagship-card-padding: clamp(18px, 2vw, 24px);
+	--flagship-control-size: 44px;
 	margin-bottom: clamp(48px, 7vw, 88px);
 }
 
@@ -260,20 +261,10 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	border-radius: var(--flagship-card-radius);
 	background: var(--cream);
 	box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 7%, transparent);
-	cursor: pointer;
-	/* A brief lift confirms that the complete card, rather than a nested control, is interactive. */
-	transition: border-color .2s var(--ease), box-shadow .2s var(--ease), transform .2s var(--ease);
 }
 
-/* Pointer feedback adds elevation and a green boundary without changing the card's readable surface. */
-.at-flagship__card:hover {
-	border-color: color-mix(in srgb, var(--green) 72%, var(--line));
-	box-shadow: 0 22px 52px color-mix(in srgb, var(--ink) 13%, transparent);
-	transform: translateY(-3px);
-}
-
-/* Keyboard focus surrounds the entire dialog control and remains visible beyond the rounded edge. */
-.at-flagship__card:focus-visible {
+/* Programmatic focus identifies the selected-project destination reached from in-page links. */
+.at-flagship__card:focus {
 	outline: 3px solid var(--green);
 	outline-offset: 4px;
 }
@@ -289,33 +280,72 @@ a.at-sketch:hover .at-sketch__cap { color: var(--ink); }
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	align-items: center;
-	gap: 10px;
 	min-width: 0;
 	padding: var(--flagship-card-padding);
-	text-align: center;
 }
-
-.at-flagship__category {
-	margin: 0;
-	font-size: clamp(.78rem, 1.15vw, .9rem);
-	font-weight: 700;
-	line-height: 1.45;
-}
-
-.at-flagship__category-label { color: var(--muted); }
-.at-flagship__category-value { color: var(--project-accent); }
 
 .at-flagship__name {
-	display: grid;
-	place-items: center;
-	min-height: 2.5em;
 	margin: 0;
 	color: var(--ink);
 	font-size: clamp(1.08rem, 1.7vw, 1.45rem);
 	font-weight: 700;
 	line-height: 1.25;
 	text-wrap: balance;
+}
+
+.at-flagship__meta {
+	display: grid;
+	gap: 0;
+	margin: 18px 0 20px;
+	font-size: .84rem;
+	line-height: 1.45;
+}
+
+.at-flagship__meta > div {
+	display: grid;
+	grid-template-columns: minmax(82px, .72fr) minmax(0, 1.28fr);
+	gap: 12px;
+	padding: 8px 0;
+	border-top: 1px solid var(--line);
+}
+
+.at-flagship__meta > div:last-child { border-bottom: 1px solid var(--line); }
+.at-flagship__meta dt { color: var(--muted); }
+.at-flagship__meta dd { min-width: 0; margin: 0; color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+
+.at-flagship__action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: flex-start;
+	gap: 10px;
+	min-width: var(--flagship-control-size);
+	min-height: var(--flagship-control-size);
+	padding: 9px 16px;
+	border: 1.5px solid var(--green);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--green);
+	font-size: .86rem;
+	font-weight: 700;
+	line-height: 1.2;
+	/* A brief response confirms activation without competing with the project imagery. */
+	transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+
+.at-flagship__action-icon { font-size: 1.1em; line-height: 1; }
+
+/* Pointer feedback combines fill and movement so the state is not color-only. */
+.at-flagship__action:hover {
+	background: var(--green);
+	color: var(--paper);
+	transform: translateY(-2px);
+}
+
+/* Keyboard focus remains outside the pill so it is visible against every card background. */
+.at-flagship__action:focus-visible {
+	outline: 3px solid var(--green);
+	outline-offset: 3px;
 }
 
 .at-home-timeline {
@@ -669,6 +699,8 @@ a.at-contact__val:hover { color: var(--green); }
 	text-align: left;
 }
 .at-footer__slogan span { display: block; white-space: nowrap; }
+/* Closing line carries the green investment accent while the construction line remains ink. */
+.at-footer__slogan span:last-child { color: var(--green); }
 .at-footer__note { margin: 0; font-size: .9rem; color: var(--muted); }
 .at-footer__totop { display: inline-flex; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; align-items: center; justify-content: center; color: var(--green); transition: background .25s, color .25s; }
 .at-footer__totop-icon { transform: rotate(-90deg); width: 20px; height: 20px; }
@@ -1524,7 +1556,7 @@ dialog.at-selected-projects[data-lightbox-open] > .at-dialog__body {
 	.at-tl-progress,
 	.at-tl-control,
 	.at-tlpanel,
-	.at-flagship__card,
+	.at-flagship__action,
 	.at-whatsapp-fab a { transition: none !important; }
 	.at-faq__item summary::after,
 	.at-lightbox__close,

@@ -14,12 +14,12 @@
 	const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 	const TOUCH_POINTER_QUERY = "(hover: none)";
 	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-	const FLAGSHIP_PROJECT_CARD_SELECTOR = '.at-flagship__card[role="button"][data-project]';
+	const FLAGSHIP_PROJECT_ACTION_SELECTOR = "button.at-flagship__action[data-project]";
 	const TIMELINE_PROJECT_LAUNCHER_SELECTOR = (
 		"button.at-timeline-project-launcher[data-project]"
 	);
 	const PROJECT_DIALOG_LAUNCHER_SELECTOR = (
-		`${TIMELINE_PROJECT_LAUNCHER_SELECTOR}, ${FLAGSHIP_PROJECT_CARD_SELECTOR}`
+		`${TIMELINE_PROJECT_LAUNCHER_SELECTOR}, ${FLAGSHIP_PROJECT_ACTION_SELECTOR}`
 	);
 
 	/**
@@ -537,7 +537,7 @@
 	}
 
 	/**
-	 * Resolves a selected-project card or timeline full-surface button.
+	 * Resolves a selected-project action or timeline full-surface button.
 	 *
 	 * @param {Event} event - The delegated document pointer or keyboard event.
 	 * @returns {HTMLElement|null} The project dialog launcher associated with the event.
@@ -773,20 +773,6 @@
 				return;
 			}
 
-			state.lastProjectLauncher = launcher;
-			openGalleryProject(state, launcher);
-		});
-		document.addEventListener("keydown", function openKeyedSelectedProject(event) {
-			const launcher = resolveProjectDialogLauncher(event);
-			if (
-				!launcher?.matches(FLAGSHIP_PROJECT_CARD_SELECTOR)
-				|| (event.key !== "Enter" && event.key !== " ")
-			) {
-				return;
-			}
-
-			// A non-native role-button needs explicit Enter and Space activation parity.
-			event.preventDefault();
 			state.lastProjectLauncher = launcher;
 			openGalleryProject(state, launcher);
 		});

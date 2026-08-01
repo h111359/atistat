@@ -170,30 +170,37 @@
 	<!--
 	  Flagship fixture
 	  Design intent: exercise equal three/two/one-column wrapping from desktop to small screens.
-	  Accessibility: Role-button cards support click, Enter, and Space while preserving dialog focus restoration.
+	  Accessibility: Native action buttons support click, Enter, and Space while preserving dialog focus restoration.
 	-->
 	<section class="at-flagship" aria-labelledby="fixture-flagship-title">
 		<h3 class="at-flagship__title" id="fixture-flagship-title">Flagship projects</h3>
 		<div class="at-flagship__grid">
-			<!-- This complete card is the named fixture dialog control; Enter and Space are supplied by the shared script. -->
-			<article class="at-flagship__card" data-project="fixture" role="button" tabindex="0" aria-labelledby="fixture-flagship-card-1" aria-haspopup="dialog" aria-controls="selected-projects-dialog">
+			<article class="at-flagship__card" data-project="fixture" tabindex="-1" aria-labelledby="fixture-flagship-card-1">
 				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%23538135'/%3E%3C/svg%3E" alt="Fixture flagship one">
 				<div class="at-flagship__body">
-					<p class="at-flagship__category"><span class="at-flagship__category-label">Category:</span> <span class="at-flagship__category-value">Fixture category</span></p>
 					<h4 class="at-flagship__name" id="fixture-flagship-card-1">Expanded Fixture Project One</h4>
+					<dl class="at-flagship__meta">
+						<div><dt>Building type</dt><dd>Fixture building</dd></div>
+						<div><dt>Activity</dt><dd>Fixture activity</dd></div>
+						<div><dt>Status</dt><dd>Completed</dd></div>
+						<div><dt>Year</dt><dd>2026</dd></div>
+						<div><dt>Experience</dt><dd>with Fixture</dd></div>
+					</dl>
+					<!-- Native button supports keyboard activation and exposes the controlled dialog to assistive technology. -->
+					<button type="button" class="at-flagship__action" data-project="fixture" aria-haspopup="dialog" aria-controls="selected-projects-dialog" aria-label="Details and gallery: Expanded Fixture Project One">
+						<span>Details and gallery</span><span class="at-flagship__action-icon" aria-hidden="true">→</span>
+					</button>
 				</div>
 			</article>
-			<article class="at-flagship__card" aria-labelledby="fixture-flagship-card-2">
+			<article class="at-flagship__card" tabindex="-1" aria-labelledby="fixture-flagship-card-2">
 				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 8'%3E%3Crect width='5' height='8' fill='%23f4f1e9'/%3E%3C/svg%3E" alt="Fixture flagship two">
 				<div class="at-flagship__body">
-					<p class="at-flagship__category"><span class="at-flagship__category-label">Category:</span> <span class="at-flagship__category-value">Fixture category</span></p>
 					<h4 class="at-flagship__name" id="fixture-flagship-card-2">Expanded Fixture Project Two</h4>
 				</div>
 			</article>
-			<article class="at-flagship__card" aria-labelledby="fixture-flagship-card-3">
+			<article class="at-flagship__card" tabindex="-1" aria-labelledby="fixture-flagship-card-3">
 				<img class="at-flagship__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%2330372c'/%3E%3C/svg%3E" alt="Fixture flagship three">
 				<div class="at-flagship__body">
-					<p class="at-flagship__category"><span class="at-flagship__category-label">Category:</span> <span class="at-flagship__category-value">Fixture category</span></p>
 					<h4 class="at-flagship__name" id="fixture-flagship-card-3">Expanded Fixture Project Three</h4>
 				</div>
 			</article>
@@ -345,7 +352,7 @@
 			const flagshipCards = Array.from(document.querySelectorAll(".at-flagship__card"));
 			const flagshipImages = Array.from(document.querySelectorAll(".at-flagship__image"));
 			const flagshipTrigger = document.querySelector(
-				".at-flagship__card[role='button'][data-project='fixture']"
+				"button.at-flagship__action[data-project='fixture']"
 			);
 			const isResponsiveViewport = window.matchMedia("(max-width: 860px)").matches;
 			const timelineStyle = getComputedStyle(timeline);
@@ -410,6 +417,10 @@
 			verify(
 				flagshipTargetRectangle.width >= 44 && flagshipTargetRectangle.height >= 44,
 				`flagship target=${flagshipTargetRectangle.width}x${flagshipTargetRectangle.height}`
+			);
+			verify(
+				flagshipTrigger instanceof HTMLButtonElement && flagshipTrigger.tabIndex === 0,
+				"flagship action is not a native keyboard-focusable button"
 			);
 
 			if (!isResponsiveViewport) {
@@ -726,26 +737,6 @@
 				document.activeElement === flagshipTrigger,
 				"flagship gallery trigger did not regain focus"
 			);
-
-			flagshipTrigger.dispatchEvent(
-				new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true })
-			);
-			verify(gallery.open, "Enter did not open the flagship gallery");
-			galleryClose.click();
-			await new Promise(function waitForEnterFocusRestoration(resolve) {
-				window.setTimeout(resolve, 10);
-			});
-			verify(document.activeElement === flagshipTrigger, "Enter trigger did not regain focus");
-
-			flagshipTrigger.dispatchEvent(
-				new KeyboardEvent("keydown", { key: " ", bubbles: true, cancelable: true })
-			);
-			verify(gallery.open, "Space did not open the flagship gallery");
-			galleryClose.click();
-			await new Promise(function waitForSpaceFocusRestoration(resolve) {
-				window.setTimeout(resolve, 10);
-			});
-			verify(document.activeElement === flagshipTrigger, "Space trigger did not regain focus");
 
 			result.dataset.status = failures.length ? "failed" : "passed";
 			result.dataset.viewport = String(window.innerWidth);
