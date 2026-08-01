@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--
+  analysis.html: Editable EUR analysis, scenarios, risk, confidence, exports, and human review.
+  Component: Analysis Page — demonstrates inspectable calculations without claiming approved formulas.
+-->
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Интерактивна EUR демонстрация за придобиване, ремонт, финансиране, ROI, NPV, риск и чувствителност.">
+    <title>Анализ · ATISTAT инвестиционен прототип</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/demo-data.js" defer></script>
+    <script src="assets/js/calculations.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body data-page="analysis" data-role="analyst">
+    <!-- Skip link: Enter bypasses repeated navigation and focuses the main content destination. -->
+    <a class="skip-link" href="#main-content">Към основното съдържание</a>
+
+    <!--
+      Header and navigation
+      Design intent: Consistent four-route Analyst frame; Analysis is the active destination.
+      Keyboard: Tab and optional Arrow/Home/End navigation with aria-current state.
+    -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="index.html" aria-label="ATISTAT инвестиционен прототип — табло">
+                <img src="assets/images/atistat-logo-outlined.svg" alt="ATISTAT">
+                <span>Инвестиционен инструмент<small>Локална демонстрация · EUR</small></span>
+            </a>
+            <nav class="primary-nav" aria-label="Основна навигация">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="index.html">Табло</a></li>
+                    <li><a class="nav-link" href="offers.html">Оферти</a></li>
+                    <li><a class="nav-link" href="analysis.html" aria-current="page">Анализ</a></li>
+                    <li><a class="nav-link" href="requirements.html">Задание</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions"><span class="analyst-chip">Изглед: Анализатор</span></div>
+        </div>
+    </header>
+
+    <!-- Experimental boundary: the same warning remains visible before financial outputs. -->
+    <div class="boundary-banner">
+        <div class="boundary-inner">Вътрешен експериментален прототип. Формулите и праговете не са продукционно одобрени.</div>
+    </div>
+
+    <!--
+      Analysis workspace
+      Design intent: Editable assumptions remain beside a result-first evidence stream.
+      Target: Sticky desktop input rail; linear mobile reading order with results after inputs.
+    -->
+    <main class="page-main" id="main-content">
+        <header class="page-heading">
+            <div>
+                <p class="eyebrow">analysis-offer-001-v1 / core-demo-1.0</p>
+                <h1>Всяко число има вход. Всеки извод има предупреждение.</h1>
+                <p class="lead">Променете EUR допусканията и проследете придобиване, ремонт, финансиране, наем, препродажба, ROI, NPV и чувствителност без скрито закръгляване.</p>
+            </div>
+            <aside class="page-meta">
+                <span class="status status--warning">Чака човешки преглед</span>
+                <p>Оферта offer-001<br>Модел core-demo-1.0<br>Версия на анализа 1</p>
+            </aside>
+        </header>
+
+        <div class="notice notice--warning">
+            <div>
+                <strong>Неодобрена демонстрационна методика.</strong>
+                <p>Това не е инвестиционен, кредитен, правен, данъчен или оценителски съвет. Отрицателните резултати не се скриват, а невалидните входове се обясняват.</p>
+            </div>
+        </div>
+
+        <section class="analysis-layout section-block" aria-label="Допускания и резултати">
+            <!-- Assumptions form: labels name units; input updates are announced through a polite live region. -->
+            <form class="card assumptions-panel" id="analysis-form" novalidate>
+                <div class="card-header">
+                    <div>
+                        <p class="eyebrow">Редактируеми входове</p>
+                        <h2>Допускания · EUR</h2>
+                    </div>
+                    <span class="badge">Синтетични</span>
+                </div>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="analysis-price">Покупна цена (EUR)</label>
+                        <input id="analysis-price" name="priceEur" data-assumption type="number" min="1" step="100" value="168000" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="analysis-tax">Местен данък (дял)</label>
+                        <input id="analysis-tax" name="transactionTaxRate" data-assumption type="number" min="0" max="1" step="0.001" value="0.03" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="analysis-notary">Нотариални разходи (EUR)</label>
+                        <input id="analysis-notary" name="notaryEur" data-assumption type="number" min="0" step="10" value="1100" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="analysis-registration">Вписване (EUR)</label>
+                        <input id="analysis-registration" name="registrationEur" data-assumption type="number" min="0" step="1" value="168" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="analysis-broker">Брокерска ставка (дял)</label>
+                        <input id="analysis-broker" name="brokerRate" data-assumption type="number" min="0" max="1" step="0.001" value="0.024" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="analysis-bank-fees">Банкови разходи (EUR)</label>
+                        <input id="analysis-bank-fees" name="bankFeesEur" data-assumption type="number" min="0" step="10" value="900" inputmode="decimal">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Ремонт и държане</h3>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="analysis-repair">Ремонт с резерв (EUR)</label>
+                            <input id="analysis-repair" name="repairEur" data-assumption type="number" min="0" step="100" value="22000" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-holding">Държане (EUR)</label>
+                            <input id="analysis-holding" name="holdingEur" data-assumption type="number" min="0" step="100" value="6000" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-financing-cost">Финансиране (EUR)</label>
+                            <input id="analysis-financing-cost" name="financingEur" data-assumption type="number" min="0" step="100" value="4500" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-equity">Начален собствен капитал (EUR)</label>
+                            <input id="analysis-equity" name="equityEur" data-assumption type="number" min="1" step="100" value="91740" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Кредит и наем</h3>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="analysis-principal">Главница (EUR)</label>
+                            <input id="analysis-principal" name="loanPrincipalEur" data-assumption type="number" min="1" step="100" value="120000" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-interest">Годишна лихва (%)</label>
+                            <input id="analysis-interest" name="annualRate" data-assumption type="number" min="0" step="0.01" value="2.4" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-months">Срок (месеци)</label>
+                            <input id="analysis-months" name="loanMonths" data-assumption type="number" min="1" step="1" value="240" inputmode="numeric">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-rent">Месечен наем (EUR)</label>
+                            <input id="analysis-rent" name="monthlyRentEur" data-assumption type="number" min="0" step="10" value="1100" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-vacancy">Незаетост (дял)</label>
+                            <input id="analysis-vacancy" name="vacancyRate" data-assumption type="number" min="0" max="1" step="0.01" value="0.08" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-operating">Месечни разходи (EUR)</label>
+                            <input id="analysis-operating" name="monthlyOperatingEur" data-assumption type="number" min="0" step="10" value="180" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Изход и дисконтиране</h3>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="analysis-resale">Продажна цена (EUR)</label>
+                            <input id="analysis-resale" name="resalePriceEur" data-assumption type="number" min="0" step="100" value="245000" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-sale-cost">Изходни разходи (дял)</label>
+                            <input id="analysis-sale-cost" name="saleCostRate" data-assumption type="number" min="0" max="1" step="0.001" value="0.03" inputmode="decimal">
+                        </div>
+                        <div class="field">
+                            <label for="analysis-discount">Периодичен дисконт (дял)</label>
+                            <input id="analysis-discount" name="periodicDiscountRate" data-assumption type="number" min="-0.99" step="0.0001" value="0.006434" inputmode="decimal">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validation/live result: aria-live reports invalid inputs and successful recalculation summaries. -->
+                <p class="live-region" id="calculation-status" role="status" aria-live="polite">Готово за преизчисляване.</p>
+            </form>
+
+            <!-- Results stream: summaries precede supporting details and human-review choice. -->
+            <div class="stack">
+                <section class="result-hero" aria-label="Ключови резултати">
+                    <div>
+                        <span class="metric-label">Нетна печалба · препродажба</span>
+                        <strong class="metric-value" id="analysis-profit">—</strong>
+                        <span>преди професионална данъчна проверка</span>
+                    </div>
+                    <div>
+                        <span class="metric-label">ROI</span>
+                        <strong class="metric-value" id="analysis-roi">—</strong>
+                        <span>видима база на инвестицията</span>
+                    </div>
+                    <div>
+                        <span class="metric-label">NPV</span>
+                        <strong class="metric-value" id="analysis-npv">—</strong>
+                        <span>периодичен демонстрационен дисконт</span>
+                    </div>
+                </section>
+
+                <!-- Acquisition, financing, and rent metrics update from pure calculation functions. -->
+                <section class="metric-grid" aria-label="Разбивка на изчисленията">
+                    <article class="card">
+                        <span class="metric-label">Придобиване + ремонт</span>
+                        <strong class="metric-value" id="analysis-acquisition">—</strong>
+                        <p class="muted">Цена, такси, брокер, банка и ремонт.</p>
+                    </article>
+                    <article class="card">
+                        <span class="metric-label">Анюитетно плащане</span>
+                        <strong class="metric-value" id="analysis-payment">—</strong>
+                        <p class="muted">Нулевата лихва има отделна коректна формула.</p>
+                    </article>
+                    <article class="card">
+                        <span class="metric-label">Месечен наемен поток</span>
+                        <strong class="metric-value" id="analysis-cashflow">—</strong>
+                        <p class="muted">Може да е отрицателен; не се заменя с нула.</p>
+                    </article>
+                </section>
+
+                <!-- Repair breakdown: fixed representative categories expose the example allowance. -->
+                <section class="card" aria-labelledby="repair-title">
+                    <div class="card-header">
+                        <div><p class="eyebrow">Ремонт</p><h2 id="repair-title">Бюджет с видим резерв</h2></div>
+                        <span class="status status--warning">Нужен реален оглед</span>
+                    </div>
+                    <table>
+                        <thead><tr><th scope="col">Позиция</th><th scope="col">EUR</th><th scope="col">Статус</th></tr></thead>
+                        <tbody>
+                            <tr><td>Подови настилки и боядисване</td><td class="numeric">7 200</td><td>Примерна</td></tr>
+                            <tr><td>Кухня и уреди</td><td class="numeric">8 600</td><td>Примерна</td></tr>
+                            <tr><td>Баня и инсталации</td><td class="numeric">4 200</td><td>Примерна</td></tr>
+                            <tr><td>Резерв</td><td class="numeric">2 000</td><td>10% демонстрационен</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Scenario cards: names and explanations ensure risk is not represented by color alone. -->
+                <section aria-labelledby="scenarios-title">
+                    <div class="section-heading">
+                        <div><p class="eyebrow">Три сценария</p><h2 id="scenarios-title">Какво се променя и защо</h2></div>
+                        <p>Всяка посока има изрично основание, не произволен етикет.</p>
+                    </div>
+                    <div class="scenario-grid">
+                        <article class="card scenario-card">
+                            <span class="status status--danger">Песимистичен</span>
+                            <strong class="metric-value">5 738 EUR</strong>
+                            <p>По-ниска изходна цена, 10% ремонтен преразход и по-дълго държане.</p>
+                        </article>
+                        <article class="card scenario-card">
+                            <span class="status status--info">Базов</span>
+                            <strong class="metric-value">25 910 EUR</strong>
+                            <p>Най-добре обоснованите текущи демонстрационни допускания.</p>
+                        </article>
+                        <article class="card scenario-card">
+                            <span class="status status--success">Оптимистичен</span>
+                            <strong class="metric-value">47 022 EUR</strong>
+                            <p>По-висока изходна цена, ограничена икономия и по-кратко държане.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Cash-flow chart: visible signed labels make positive and negative periods non-color dependent. -->
+                <section class="card" aria-labelledby="cash-flow-title">
+                    <div class="card-header">
+                        <div><p class="eyebrow">Периодичен поток</p><h2 id="cash-flow-title">Нито един отрицателен период не е скрит</h2></div>
+                        <span class="badge">EUR</span>
+                    </div>
+                    <div class="cash-flow-bars" role="img" aria-label="Примерни парични потоци: шест отрицателни периода и положителен изход">
+                        <div class="cash-flow-bar cash-flow-bar--negative">−91 740</div>
+                        <div class="cash-flow-bar cash-flow-bar--negative">−11 000</div>
+                        <div class="cash-flow-bar cash-flow-bar--negative">−11 000</div>
+                        <div class="cash-flow-bar cash-flow-bar--negative">−1 500</div>
+                        <div class="cash-flow-bar cash-flow-bar--negative">−1 500</div>
+                        <div class="cash-flow-bar cash-flow-bar--negative">−1 500</div>
+                        <div class="cash-flow-bar">+117 650</div>
+                    </div>
+                </section>
+
+                <!-- Sensitivity: table is recalculated from ±8% resale-price changes. -->
+                <section class="card" aria-labelledby="sensitivity-title">
+                    <div class="card-header">
+                        <div><p class="eyebrow">Еднофакторна чувствителност</p><h2 id="sensitivity-title">Изходна цена ±8%</h2></div>
+                        <span class="status status--info">Преизчислява се</span>
+                    </div>
+                    <div class="comparison-wrap" tabindex="0" role="region" aria-label="Таблица за чувствителност, превърта се при нужда">
+                        <table class="sensitivity-table">
+                            <thead>
+                                <tr><th scope="col">Промяна</th><th scope="col">Продажна цена</th><th scope="col">Нетна печалба</th><th scope="col">ROI</th><th scope="col">Промяна на препоръката</th></tr>
+                            </thead>
+                            <tbody id="sensitivity-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Risk and confidence: scores, bands, components, and caveats are all textual. -->
+                <section class="dashboard-grid" aria-label="Риск и увереност">
+                    <article class="card span-6">
+                        <p class="eyebrow">Прозрачен композитен риск</p>
+                        <h2>34 / 100 · среден</h2>
+                        <div class="progress progress--risk" aria-label="Риск 34 от 100"><span></span></div>
+                        <p>Данни 18 × 30% · Пазар 48 × 40% · Изпълнение 36 × 30%.</p>
+                        <p class="muted">Теглата и праговете са демонстрационни и неодобрени.</p>
+                    </article>
+                    <article class="card span-6">
+                        <p class="eyebrow">Увереност</p>
+                        <h2>78 / 100 · средна</h2>
+                        <div class="progress progress--confidence" aria-label="Увереност 78 от 100"><span></span></div>
+                        <p>Пълният синтетичен запис повишава увереността; липсата на реални доказателства я ограничава.</p>
+                    </article>
+                </section>
+
+                <!-- Source versions: immutable identifiers keep the example explainable. -->
+                <section class="card" aria-labelledby="sources-title">
+                    <p class="eyebrow">Версии на входа</p>
+                    <h2 id="sources-title">Проследимост на примера</h2>
+                    <ul class="mono">
+                        <li>synthetic-sofia-offers@1.0.0 / offer-001-v1</li>
+                        <li>market-indicators-demo@1.0.0</li>
+                        <li>source-registry-demo@1.0.0</li>
+                        <li>location-context-demo@1.0.0 · metadata-only</li>
+                        <li>core-demo-1.0 · experimental-unapproved</li>
+                    </ul>
+                </section>
+
+                <!-- Human review: native radios use Arrow keys within the group; no choice triggers external action. -->
+                <fieldset class="card">
+                    <legend><span class="eyebrow">Задължителен човешки преглед</span></legend>
+                    <h2>Чернова на решение</h2>
+                    <p>Изборът се пази само локално и не представлява одобрение или изпълнение.</p>
+                    <div class="decision-options">
+                        <label class="decision-option"><input type="radio" name="humanDecision" value="Продължи към проверка"> <span><strong>Продължи към проверка</strong><br><span class="muted">Събери реални документи и професионални проверки.</span></span></label>
+                        <label class="decision-option"><input type="radio" name="humanDecision" value="Върни за корекция"> <span><strong>Върни за корекция</strong><br><span class="muted">Изискай липсващи или по-добре обосновани входове.</span></span></label>
+                        <label class="decision-option"><input type="radio" name="humanDecision" value="Отхвърли"> <span><strong>Отхвърли</strong><br><span class="muted">Запази причината, без автоматично финансово действие.</span></span></label>
+                    </div>
+                    <!-- Live status: politely announces the saved draft choice without implying approval. -->
+                    <p class="live-region" id="decision-status" role="status" aria-live="polite">Няма избрана чернова.</p>
+                </fieldset>
+
+                <!-- Warnings: retained in screen, machine export, and printable report. -->
+                <section class="notice notice--danger" aria-labelledby="warnings-title">
+                    <div>
+                        <strong id="warnings-title">Предупреждения и ограничения</strong>
+                        <ul>
+                            <li>Офертата и всички входове са синтетични.</li>
+                            <li>Официалните агрегати не доказват цена на имот.</li>
+                            <li>Лихвеният ориентир не е банкова оферта.</li>
+                            <li>Нужни са правна, техническа, данъчна и пазарна проверка.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Export controls: Enter/Space creates local JSON/CSV blobs or follows the standalone report link. -->
+                <section class="card" id="analysis-actions" aria-labelledby="exports-title">
+                    <p class="eyebrow">Локален експорт</p>
+                    <h2 id="exports-title">Преносими примерни резултати</h2>
+                    <p>Изтеглянията са локални, запазват EUR числата, версията, произхода, предупрежденията и синтетичния етикет.</p>
+                    <div class="cluster">
+                        <button class="button" type="button" data-action="download-analysis">Изтегли текущ JSON</button>
+                        <button class="button button--secondary" type="button" data-action="download-comparison">Изтегли текущ CSV</button>
+                        <a class="button button--quiet" href="print-report.html">Отвори печатния отчет</a>
+                    </div>
+                    <p class="muted">Готови файлови примери: <a href="exports/sample-analysis.json" download>sample-analysis.json</a> · <a href="exports/sample-comparison.csv" download>sample-comparison.csv</a></p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer: explicit experimental status plus reset of local-only state. -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p><strong>ATISTAT · Вътрешен експериментален прототип</strong><br>Формулите са инспектируеми, но не са одобрена продукционна методика.</p>
+            <button class="button button--quiet button--small" type="button" data-action="reset-prototype">Нулирай локалното състояние</button>
+        </div>
+    </footer>
+
+    <!-- Live status: aria-live announces automatic memory fallback for persistence. -->
+    <div class="notice notice--warning storage-notice" id="storage-notice" role="status" aria-live="polite" hidden>
+        <p data-storage-message>Използва се временна памет.</p>
+    </div>
+</body>
+</html>

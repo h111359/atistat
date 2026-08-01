@@ -1,0 +1,364 @@
+{
+  "datasetId": "analysis-demonstrator",
+  "version": "1.0.0",
+  "modelVersion": "core-demo-1.0",
+  "status": "experimental-unapproved",
+  "currency": "EUR",
+  "noticeBg": "Формулите, праговете и резултатите са демонстрационни, не са одобрена методика и не са инвестиционен, правен или данъчен съвет.",
+  "representativeAnalysis": {
+    "id": "analysis-offer-001-v1",
+    "version": 1,
+    "offerId": "offer-001",
+    "offerRecordVersion": "offer-001-v1",
+    "profile": "analyst-demo-profile-v1",
+    "strategy": "repair-and-resale",
+    "status": "awaiting-human-review",
+    "assumptions": {
+      "priceEur": 168000,
+      "transactionTaxRate": 0.03,
+      "notaryEur": 1100,
+      "registrationEur": 168,
+      "brokerRate": 0.024,
+      "bankFeesEur": 900,
+      "repairEur": 22000,
+      "repairContingencyRate": 0.1,
+      "loanPrincipalEur": 120000,
+      "annualInterestRate": 2.4,
+      "loanMonths": 240,
+      "monthlyRentEur": 1100,
+      "vacancyRate": 0.08,
+      "monthlyOperatingEur": 180,
+      "holdingEur": 6000,
+      "financingEur": 4500,
+      "resalePriceEur": 245000,
+      "saleCostRate": 0.03,
+      "monthlyDiscountRate": 0.006434
+    },
+    "acquisition": {
+      "priceEur": 168000,
+      "transactionTaxEur": 5040,
+      "notaryEur": 1100,
+      "registrationEur": 168,
+      "brokerEur": 4032,
+      "bankFeesEur": 900,
+      "repairEur": 22000,
+      "totalEur": 201240
+    },
+    "repair": {
+      "subtotalEur": 20000,
+      "contingencyEur": 2000,
+      "totalEur": 22000,
+      "items": [
+        {
+          "nameBg": "Подови настилки и боядисване",
+          "amountEur": 7200
+        },
+        {
+          "nameBg": "Кухня и уреди",
+          "amountEur": 8600
+        },
+        {
+          "nameBg": "Баня и инсталации",
+          "amountEur": 4200
+        }
+      ]
+    },
+    "financing": {
+      "principalEur": 120000,
+      "annualInterestRate": 2.4,
+      "months": 240,
+      "monthlyPaymentEur": 630.0536926827068,
+      "formula": "annuity",
+      "approvedOffer": false
+    },
+    "rentalCashFlow": {
+      "effectiveRentEur": 1012,
+      "operatingEur": 180,
+      "debtPaymentEur": 630.0536926827068,
+      "monthlyCashFlowEur": 201.9463073172932
+    },
+    "resale": {
+      "grossResaleEur": 245000,
+      "exitCostsEur": 7350,
+      "netResaleEur": 237650,
+      "investmentBaseEur": 211740,
+      "netProfitEur": 25910,
+      "roiPercent": 12.23670539340699
+    },
+    "npv": {
+      "period": "month",
+      "discountRate": 0.006434,
+      "cashFlowsEur": [
+        -91740,
+        -11000,
+        -11000,
+        -1500,
+        -1500,
+        -1500,
+        117650
+      ],
+      "npvEur": -2567.34,
+      "displayStatus": "negative"
+    },
+    "scenarios": [
+      {
+        "id": "pessimistic",
+        "nameBg": "Песимистичен",
+        "resalePriceEur": 225400,
+        "repairEur": 24200,
+        "holdingEur": 7200,
+        "netProfitEur": 5738,
+        "reasonBg": "По-ниска изходна цена, 10% ремонтен преразход и по-дълго държане."
+      },
+      {
+        "id": "base",
+        "nameBg": "Базов",
+        "resalePriceEur": 245000,
+        "repairEur": 22000,
+        "holdingEur": 6000,
+        "netProfitEur": 25910,
+        "reasonBg": "Най-добре обоснованите демонстрационни допускания."
+      },
+      {
+        "id": "optimistic",
+        "nameBg": "Оптимистичен",
+        "resalePriceEur": 264600,
+        "repairEur": 20900,
+        "holdingEur": 5000,
+        "netProfitEur": 47022,
+        "reasonBg": "По-висока изходна цена, ограничена икономия и по-кратко държане."
+      }
+    ],
+    "sensitivity": {
+      "input": "resalePriceEur",
+      "changesPercent": [
+        -8,
+        0,
+        8
+      ],
+      "netProfitEur": [
+        6898,
+        25910,
+        44922
+      ],
+      "recommendationChanges": [
+        true,
+        false,
+        false
+      ]
+    },
+    "risk": {
+      "modelVersion": "risk-demo-1.0",
+      "score": 34,
+      "band": "среден",
+      "weights": {
+        "data": 0.3,
+        "market": 0.4,
+        "execution": 0.3
+      },
+      "components": {
+        "data": 18,
+        "market": 48,
+        "execution": 36
+      },
+      "explanationBg": "Прозрачен претеглен демонстрационен резултат; праговете не са одобрени."
+    },
+    "confidence": {
+      "score": 78,
+      "band": "средна",
+      "explanationBg": "Увереността отразява пълнотата на синтетичния запис, а не реално доказателство."
+    },
+    "sourceVersions": [
+      "synthetic-sofia-offers@1.0.0",
+      "market-indicators-demo@1.0.0",
+      "source-registry-demo@1.0.0",
+      "location-context-demo@1.0.0"
+    ],
+    "warningsBg": [
+      "Офертата и всички входове са синтетични.",
+      "Официалните агрегати не доказват цена на имот.",
+      "Лихвеният ориентир не е банкова оферта.",
+      "Нужни са правна, техническа, данъчна и пазарна проверка."
+    ],
+    "humanReview": {
+      "required": true,
+      "status": "pending",
+      "decision": null,
+      "options": [
+        "Продължи към проверка",
+        "Върни за корекция",
+        "Отхвърли"
+      ]
+    }
+  },
+  "calculatorFixtures": [
+    {
+      "id": "acquisition-standard",
+      "operation": "acquisition",
+      "input": {
+        "priceEur": 165000,
+        "transactionTaxRate": 0.03,
+        "notaryEur": 1100,
+        "registrationEur": 165,
+        "brokerRate": 0.024,
+        "repairEur": 22000,
+        "bankFeesEur": 900
+      },
+      "expected": {
+        "totalEur": 198075
+      }
+    },
+    {
+      "id": "repair-with-contingency",
+      "operation": "repair",
+      "input": {
+        "items": [
+          {
+            "quantity": 45,
+            "unitCostEur": 180
+          },
+          {
+            "quantity": 1,
+            "unitCostEur": 8500
+          },
+          {
+            "quantity": 12,
+            "unitCostEur": 210
+          }
+        ],
+        "contingencyRate": 0.1
+      },
+      "expected": {
+        "totalEur": 21032
+      }
+    },
+    {
+      "id": "annuity-standard",
+      "operation": "loan",
+      "input": {
+        "principalEur": 120000,
+        "annualRate": 2.4,
+        "months": 240
+      },
+      "expected": {
+        "monthlyPaymentEur": 630.0536926827068
+      }
+    },
+    {
+      "id": "annuity-zero-interest",
+      "operation": "loan",
+      "input": {
+        "principalEur": 120000,
+        "annualRate": 0,
+        "months": 240
+      },
+      "expected": {
+        "monthlyPaymentEur": 500
+      }
+    },
+    {
+      "id": "rent-monthly-cash-flow",
+      "operation": "rentMonthlyCashFlow",
+      "input": {
+        "monthlyRentEur": 1000,
+        "vacancyRate": 0.08,
+        "monthlyOperatingEur": 160,
+        "monthlyDebtPaymentEur": 620
+      },
+      "expected": {
+        "cashFlowEur": 140
+      }
+    },
+    {
+      "id": "flip-base",
+      "operation": "flip",
+      "input": {
+        "acquisitionEur": 175000,
+        "repairEur": 24000,
+        "holdingEur": 6000,
+        "financingEur": 4500,
+        "resalePriceEur": 245000,
+        "saleCostRate": 0.03
+      },
+      "expected": {
+        "netProfitEur": 28150,
+        "roiPercent": 13.436754176610978
+      }
+    },
+    {
+      "id": "npv-periodic",
+      "operation": "npv",
+      "input": {
+        "cashFlowsEur": [
+          -50000,
+          14000,
+          16000,
+          18000,
+          20000
+        ],
+        "periodicDiscountRate": 0.08
+      },
+      "expected": {
+        "npvEur": 5669.961482083612
+      }
+    },
+    {
+      "id": "flip-resale-sensitivity",
+      "operation": "flipSensitivity",
+      "input": {
+        "baseInput": {
+          "acquisitionEur": 175000,
+          "repairEur": 24000,
+          "holdingEur": 6000,
+          "financingEur": 4500,
+          "resalePriceEur": 245000,
+          "saleCostRate": 0.03
+        },
+        "resaleChanges": [
+          -0.08,
+          0,
+          0.08
+        ]
+      },
+      "expected": {
+        "netProfitEur": [
+          9138,
+          28150,
+          47162
+        ]
+      }
+    }
+  ],
+  "invalidStateFixtures": [
+    {
+      "id": "roi-zero-base",
+      "operation": "roi",
+      "input": {
+        "netProfitEur": 1000,
+        "investmentBaseEur": 0
+      },
+      "expectedErrorContainsBg": "по-голяма от нула"
+    },
+    {
+      "id": "loan-missing-months",
+      "operation": "loan",
+      "input": {
+        "principalEur": 100000,
+        "annualRate": 2.4
+      },
+      "expectedErrorContainsBg": "Липсва"
+    },
+    {
+      "id": "npv-invalid-rate",
+      "operation": "npv",
+      "input": {
+        "cashFlowsEur": [
+          -1000,
+          1200
+        ],
+        "periodicDiscountRate": -1
+      },
+      "expectedErrorContainsBg": "по-голям"
+    }
+  ]
+}

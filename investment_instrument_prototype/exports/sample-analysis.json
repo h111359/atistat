@@ -1,0 +1,127 @@
+{
+  "exportVersion": "1.0.0",
+  "exportType": "sample-analysis",
+  "analysisId": "analysis-offer-001-v1",
+  "analysisVersion": 1,
+  "modelVersion": "core-demo-1.0",
+  "riskModelVersion": "risk-demo-1.0",
+  "classification": "synthetic",
+  "synthetic": true,
+  "syntheticLabelBg": "СИНТЕТИЧЕН ПРИМЕР — не е реална оферта.",
+  "currency": "EUR",
+  "offer": {
+    "id": "offer-001",
+    "recordVersion": "offer-001-v1",
+    "neighborhood": "Лозенец",
+    "priceEur": 168000,
+    "areaSqm": 67,
+    "classification": "synthetic"
+  },
+  "assumptions": {
+    "priceEur": 168000,
+    "transactionTaxRate": 0.03,
+    "notaryEur": 1100,
+    "registrationEur": 168,
+    "brokerRate": 0.024,
+    "bankFeesEur": 900,
+    "repairEur": 22000,
+    "loanPrincipalEur": 120000,
+    "annualInterestRate": 2.4,
+    "loanMonths": 240,
+    "monthlyRentEur": 1100,
+    "vacancyRate": 0.08,
+    "monthlyOperatingEur": 180,
+    "holdingEur": 6000,
+    "financingEur": 4500,
+    "resalePriceEur": 245000,
+    "saleCostRate": 0.03,
+    "monthlyDiscountRate": 0.006434
+  },
+  "calculations": {
+    "acquisitionTotalEur": 201240,
+    "repairTotalEur": 22000,
+    "monthlyPaymentEur": 630.0536926827068,
+    "monthlyRentalCashFlowEur": 201.9463073172932,
+    "netResaleEur": 237650,
+    "investmentBaseEur": 211740,
+    "flipNetProfitEur": 25910,
+    "roiPercent": 12.23670539340699,
+    "npvEur": -2567.34
+  },
+  "scenarios": [
+    {
+      "id": "pessimistic",
+      "resalePriceEur": 225400,
+      "repairEur": 24200,
+      "holdingEur": 7200,
+      "netProfitEur": 5738
+    },
+    {
+      "id": "base",
+      "resalePriceEur": 245000,
+      "repairEur": 22000,
+      "holdingEur": 6000,
+      "netProfitEur": 25910
+    },
+    {
+      "id": "optimistic",
+      "resalePriceEur": 264600,
+      "repairEur": 20900,
+      "holdingEur": 5000,
+      "netProfitEur": 47022
+    }
+  ],
+  "sensitivity": {
+    "input": "resalePriceEur",
+    "changesPercent": [
+      -8,
+      0,
+      8
+    ],
+    "netProfitEur": [
+      6898,
+      25910,
+      44922
+    ]
+  },
+  "risk": {
+    "score": 34,
+    "band": "среден",
+    "components": {
+      "data": 18,
+      "market": 48,
+      "execution": 36
+    }
+  },
+  "confidence": {
+    "score": 78,
+    "band": "средна"
+  },
+  "provenance": {
+    "generatedAt": "2026-07-31",
+    "datasetVersions": [
+      "synthetic-sofia-offers@1.0.0",
+      "market-indicators-demo@1.0.0",
+      "source-registry-demo@1.0.0",
+      "location-context-demo@1.0.0"
+    ],
+    "officialAggregatesAreOfferEvidence": false
+  },
+  "warningBg": "Демонстрационен резултат; не е инвестиционен, кредитен, правен, данъчен или оценителски съвет.",
+  "warningsBg": [
+    "Офертата и входовете са синтетични.",
+    "Официалните агрегати не доказват цена на конкретен имот.",
+    "Лихвеният ориентир не е индивидуална банкова оферта.",
+    "Формулите и праговете не са продукционно одобрени."
+  ],
+  "limitationsBg": [
+    "Няма реален оглед или документална проверка.",
+    "Няма копирана или фабрикувана геометрия.",
+    "Резултатът изисква компетентен човешки преглед."
+  ],
+  "humanReview": {
+    "required": true,
+    "status": "pending",
+    "decision": null
+  }
+}

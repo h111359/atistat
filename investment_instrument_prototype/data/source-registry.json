@@ -1,0 +1,63 @@
+{
+  "registryId": "source-registry-demo",
+  "version": "1.0.0",
+  "status": "non-production",
+  "policyBg": "Публичната наличност никога не представлява продукционно одобрение. Всеки източник изисква правна, качествена и техническа проверка.",
+  "sources": [
+    {
+      "id": "source-nsi-hpi",
+      "name": "НСИ — статистика на цените на жилищата",
+      "type": "official-aggregate",
+      "owner": "Национален статистически институт",
+      "freshness": "quarterly-observation",
+      "legalReuseState": "candidate-review-required",
+      "evidenceScope": "Агрегиран пазарен контекст",
+      "propertyEvidence": false,
+      "demonstrationStatus": "bounded-snapshot"
+    },
+    {
+      "id": "source-bnb-interest",
+      "name": "БНБ — лихвена статистика",
+      "type": "official-aggregate",
+      "owner": "Българска народна банка",
+      "freshness": "monthly-observation",
+      "legalReuseState": "candidate-review-required",
+      "evidenceScope": "Ориентир за средни лихвени условия",
+      "propertyEvidence": false,
+      "demonstrationStatus": "bounded-snapshot"
+    },
+    {
+      "id": "source-eurostat-hpi",
+      "name": "Eurostat — House Price Index",
+      "type": "official-aggregate",
+      "owner": "Eurostat",
+      "freshness": "quarterly-observation",
+      "legalReuseState": "eu-reuse-notice-review",
+      "evidenceScope": "Национален и европейски агрегат",
+      "propertyEvidence": false,
+      "demonstrationStatus": "bounded-snapshot"
+    },
+    {
+      "id": "source-sofiaplan-location",
+      "name": "ОП Софияплан — каталог за градски данни",
+      "type": "official-metadata",
+      "owner": "ОП Софияплан",
+      "freshness": "metadata-reviewed-2026-07-31",
+      "legalReuseState": "blocked-pending-documented-rights",
+      "evidenceScope": "Метаданни за бъдеща пространствена проверка",
+      "propertyEvidence": false,
+      "demonstrationStatus": "metadata-only-no-geometry"
+    },
+    {
+      "id": "source-synthetic-offers-v1",
+      "name": "Генератор на синтетични оферти за прототипа",
+      "type": "synthetic-generator",
+      "owner": "ATISTAT prototype",
+      "freshness": "fixed-version-1.0.0",
+      "legalReuseState": "locally-created-demonstration-data",
+      "evidenceScope": "Само демонстрация на интерфейс и формули",
+      "propertyEvidence": false,
+      "demonstrationStatus": "synthetic-only"
+    }
+  ]
+}

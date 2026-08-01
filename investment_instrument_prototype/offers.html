@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!--
+  offers.html: Combined filtering, offer detail, comparison, provenance, and location-rights route.
+  Component: Offers Page — renders all twelve synthetic records across eight Sofia neighborhoods.
+-->
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Сравнение на 12 синтетични жилищни оферти в експерименталния прототип на ATISTAT.">
+    <title>Оферти · ATISTAT инвестиционен прототип</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/demo-data.js" defer></script>
+    <script src="assets/js/calculations.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body data-page="offers" data-role="analyst">
+    <!-- Skip link: Enter moves keyboard users past repeated navigation. -->
+    <a class="skip-link" href="#main-content">Към основното съдържание</a>
+
+    <!--
+      Header and navigation
+      Design intent: Same four-route Analyst shell on every primary page.
+      Keyboard: Tab and optional Arrow/Home/End navigation; aria-current identifies Offers.
+    -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="index.html" aria-label="ATISTAT инвестиционен прототип — табло">
+                <img src="assets/images/atistat-logo-outlined.svg" alt="ATISTAT">
+                <span>Инвестиционен инструмент<small>Локална демонстрация · EUR</small></span>
+            </a>
+            <nav class="primary-nav" aria-label="Основна навигация">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="index.html">Табло</a></li>
+                    <li><a class="nav-link" href="offers.html" aria-current="page">Оферти</a></li>
+                    <li><a class="nav-link" href="analysis.html">Анализ</a></li>
+                    <li><a class="nav-link" href="requirements.html">Задание</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions"><span class="analyst-chip">Изглед: Анализатор</span></div>
+        </div>
+    </header>
+
+    <!-- Experimental boundary: persistent plain-language non-production warning. -->
+    <div class="boundary-banner">
+        <div class="boundary-inner">Вътрешен експериментален прототип. Всички оферти са синтетични и в EUR.</div>
+    </div>
+
+    <!--
+      Offers workspace
+      Design intent: Filters and records lead; synchronized detail remains visible beside the working list.
+      Target: Two-up desktop cards, one-up mobile cards, no substitute map.
+    -->
+    <main class="page-main" id="main-content">
+        <header class="page-heading">
+            <div>
+                <p class="eyebrow">Откриване / сравнение</p>
+                <h1>Дванадесет примера. Нито една реална обява.</h1>
+                <p class="lead">Филтрирайте, отворете детайл и сравнете до пет оферти. Произходът, свежестта, липсите, дубликатите и изключенията остават видими.</p>
+            </div>
+            <aside class="page-meta">
+                <span class="status status--info">Набор 1.0.0</span>
+                <p>8 квартала<br>12 синтетични записа<br>Само EUR</p>
+            </aside>
+        </header>
+
+        <!-- Filter controls: all inputs have labels; native controls support keyboard and screen readers. -->
+        <form class="toolbar" id="offer-filters" aria-label="Филтри за синтетични оферти">
+            <div class="field">
+                <label for="offer-search">Търсене</label>
+                <input id="offer-search" name="search" type="search" placeholder="Име, квартал или offer-001" autocomplete="off">
+            </div>
+            <div class="field">
+                <label for="neighborhood-filter">Квартал</label>
+                <select id="neighborhood-filter" name="neighborhood">
+                    <option value="all">Всички 8 квартала</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="risk-filter">Рискова група</label>
+                <select id="risk-filter" name="risk">
+                    <option value="all">Всички нива</option>
+                    <option value="нисък">Нисък риск</option>
+                    <option value="среден">Среден риск</option>
+                    <option value="висок">Висок риск</option>
+                </select>
+            </div>
+            <!-- Button: Enter/Space returns native controls to their initial values after a normal form reset. -->
+            <button class="button button--quiet" type="reset">Изчисти</button>
+        </form>
+
+        <!-- Count feedback: aria-live politely announces result count after filter changes. -->
+        <p class="live-region" id="offer-count" role="status" aria-live="polite">12 от 12 синтетични оферти</p>
+
+        <!-- Offer list and selected detail: card buttons use Enter/Space; comparison uses native checkboxes. -->
+        <section class="offers-layout" aria-label="Оферти и избран детайл">
+            <div class="offer-grid" id="offers-grid">
+                <noscript><div class="notice notice--warning"><p>JavaScript е нужен за филтриране. Пълният набор е в data/offers.json.</p></div></noscript>
+            </div>
+            <!-- Region: tabindex allows scripted focus after selection; heading is generated from canonical data. -->
+            <aside class="card detail-panel" id="offer-detail" tabindex="-1" aria-live="polite"></aside>
+        </section>
+
+        <!-- Comparison: horizontal overflow preserves all five native table columns on narrow screens. -->
+        <section class="section-block" aria-labelledby="comparison-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Синхронизирано сравнение</p>
+                    <h2 id="comparison-title">До пет активни записа</h2>
+                </div>
+                <p class="live-region" id="comparison-status" role="status" aria-live="polite">5 от максимум 5 оферти.</p>
+            </div>
+            <div class="comparison-wrap" tabindex="0" role="region" aria-label="Таблица за сравнение, превърта се хоризонтално при нужда">
+                <table class="comparison-table">
+                    <thead id="comparison-head"></thead>
+                    <tbody id="comparison-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Geography rights gate: deliberately no SVG, canvas, coordinates, polygons, or substitute map. -->
+        <section class="section-block" aria-labelledby="locations-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Контекст на местоположението</p>
+                    <h2 id="locations-title">Осем квартала, без измислена геометрия</h2>
+                </div>
+                <span class="status status--warning">Блокирано до документирани права</span>
+            </div>
+            <div class="blocked-geometry">
+                <div>
+                    <strong>Географският слой не е зареден</strong>
+                    <p>Страницата на избрания кандидат-набор не доказва достатъчни конкретни права за планираното копиране. Няма копирани или фабрикувани координати, полигони или GeoJSON.</p>
+                </div>
+            </div>
+            <ul class="neighborhood-grid" aria-label="Квартали в синтетичния набор">
+                <li id="neighborhood-lozenets"><strong>Лозенец</strong><br><span class="muted">2 оферти</span></li>
+                <li id="neighborhood-mladost-1"><strong>Младост 1</strong><br><span class="muted">2 оферти</span></li>
+                <li id="neighborhood-manastirski-livadi"><strong>Манастирски ливади</strong><br><span class="muted">2 оферти</span></li>
+                <li id="neighborhood-krastova-vada"><strong>Кръстова вада</strong><br><span class="muted">2 оферти</span></li>
+                <li id="neighborhood-oborishte"><strong>Оборище</strong><br><span class="muted">1 оферта</span></li>
+                <li id="neighborhood-iztok"><strong>Изток</strong><br><span class="muted">1 оферта</span></li>
+                <li id="neighborhood-studentski-grad"><strong>Студентски град</strong><br><span class="muted">1 оферта</span></li>
+                <li id="neighborhood-ovcha-kupel"><strong>Овча купел</strong><br><span class="muted">1 оферта</span></li>
+            </ul>
+        </section>
+
+        <!-- Provenance reminder: makes synthetic classification and official aggregate separation explicit. -->
+        <section class="section-block">
+            <div class="notice notice--warning">
+                <div>
+                    <strong>Проверете доказателствата извън този прототип.</strong>
+                    <p>Синтетичният генератор няма външен първоизточник. Официалните агрегати не се приписват на никоя оферта. Freshness е фиксирана демонстрационна дата, не наблюдение на пазарна обява.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer: local reset remains visible and affects only the prototype state. -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p><strong>ATISTAT · Вътрешен експериментален прототип</strong><br>Синтетични данни, демонстрационни прагове, задължителна човешка проверка.</p>
+            <button class="button button--quiet button--small" type="button" data-action="reset-prototype">Нулирай локалното състояние</button>
+        </div>
+    </footer>
+
+    <!-- Live status: aria-live announces automatic in-memory fallback. -->
+    <div class="notice notice--warning storage-notice" id="storage-notice" role="status" aria-live="polite" hidden>
+        <p data-storage-message>Използва се временна памет.</p>
+    </div>
+</body>
+</html>

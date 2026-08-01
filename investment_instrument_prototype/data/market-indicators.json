@@ -1,0 +1,73 @@
+{
+  "datasetId": "market-indicators-demo",
+  "version": "1.0.0",
+  "status": "non-production",
+  "retrievalDate": "2026-07-31",
+  "noticeBg": "Официалните агрегати са само пазарен контекст и никога не са доказателство за конкретна оферта.",
+  "records": [
+    {
+      "id": "nsi-sofia-hpi-qoq-2026-q1",
+      "publisher": "Национален статистически институт",
+      "publisherCode": "NSI",
+      "sourceUrl": "https://www.nsi.bg/index.php/file/36369/statistika_na_cenite_na_jilishta-q1-2026.pdf",
+      "observationDate": "2026-Q1",
+      "retrievalDate": "2026-07-31",
+      "value": 5.8,
+      "unit": "percent-quarter-over-quarter",
+      "scope": "Град София, промяна на цените на жилищата спрямо 2025-Q4",
+      "preliminary": false,
+      "licenseReuseNote": "Публична статистическа публикация; условията за повторна употреба се проверяват преди продукционна интеграция.",
+      "transformationNote": "Една публикувана процентна стойност е преписана без сезонна корекция.",
+      "limitations": "Не е ценова оценка за квартал, имот или оферта и не доказва офертна цена.",
+      "aggregateNotOfferEvidence": true
+    },
+    {
+      "id": "bnb-housing-loan-rate-2026-06",
+      "publisher": "Българска народна банка",
+      "publisherCode": "BNB",
+      "sourceUrl": "https://www.bnb.bg/bnbweb/groups/public/documents/bnb_download/202606_s_irs_press_a1_bg.pdf",
+      "observationDate": "2026-06",
+      "retrievalDate": "2026-07-31",
+      "value": 2.41,
+      "unit": "percent-per-year",
+      "scope": "Среден лихвен процент по нов бизнес за жилищни кредити на домакинства",
+      "preliminary": false,
+      "licenseReuseNote": "Публична лихвена статистика; правата и методологията се потвърждават за продукционна употреба.",
+      "transformationNote": "Стойността е пренесена като ориентир, без да се превръща в кредитна оферта.",
+      "limitations": "Не е индивидуална банкова оферта, ГПР или обещание за финансиране.",
+      "aggregateNotOfferEvidence": true
+    },
+    {
+      "id": "eurostat-bg-hpi-yoy-2026-q1",
+      "publisher": "Eurostat",
+      "publisherCode": "EUROSTAT",
+      "sourceUrl": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-02072026-bp",
+      "observationDate": "2026-Q1",
+      "retrievalDate": "2026-07-31",
+      "value": 14.8,
+      "unit": "percent-year-over-year",
+      "scope": "България, индекс на цените на жилищата спрямо 2025-Q1",
+      "preliminary": false,
+      "licenseReuseNote": "Официална публикация на ЕС; повторната употреба следва приложимото правно известие.",
+      "transformationNote": "Националната годишна промяна е извлечена от таблицата за Q1 2026.",
+      "limitations": "Не е специфична за София или квартал и не е доказателство за конкретна оферта.",
+      "aggregateNotOfferEvidence": true
+    },
+    {
+      "id": "sofiaplan-open-data-metadata-2026-07",
+      "publisher": "ОП Софияплан",
+      "publisherCode": "SOFIAPLAN",
+      "sourceUrl": "https://sofiaplan.bg/api/",
+      "observationDate": "2026-07-31",
+      "retrievalDate": "2026-07-31",
+      "value": null,
+      "unit": "metadata-only",
+      "scope": "Каталог на градски набори; в прототипа не е копирана геометрия",
+      "preliminary": false,
+      "licenseReuseNote": "Избраният запис не посочва достатъчни конкретни лицензионни права за планираното копиране; нужно е документирано одобрение.",
+      "transformationNote": "Съхранени са само издател, каталог и статус на проверката.",
+      "limitations": "Няма координати, полигони или GeoJSON и не е доказателство за местоположение на оферта.",
+      "aggregateNotOfferEvidence": true
+    }
+  ]
+}

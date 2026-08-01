@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+  index.html: Analyst dashboard for the offline residential-investment demonstrator.
+  Component: Dashboard Page — frames tasks, synthetic examples, official context, and product boundaries.
+-->
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Вътрешен експериментален прототип на ATISTAT за анализ на синтетични жилищни оферти.">
+    <title>Табло · ATISTAT инвестиционен прототип</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/demo-data.js" defer></script>
+    <script src="assets/js/calculations.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body data-page="dashboard" data-role="analyst">
+    <!-- Skip link: keyboard users press Enter to move directly to the main landmark. -->
+    <a class="skip-link" href="#main-content">Към основното съдържание</a>
+
+    <!--
+      Header and navigation
+      Design intent: Persistent dark-green application frame with exactly four Analyst destinations.
+      Keyboard: Tab reaches each link; Left/Right/Home/End provide optional accelerated navigation.
+    -->
+    <header class="site-header">
+        <div class="header-inner">
+            <!-- Link: Enter returns to the dashboard; the logo alt names the ATISTAT destination. -->
+            <a class="brand" href="index.html" aria-label="ATISTAT инвестиционен прототип — табло">
+                <img src="assets/images/atistat-logo-outlined.svg" alt="ATISTAT">
+                <span>
+                    Инвестиционен инструмент
+                    <small>Локална демонстрация · EUR</small>
+                </span>
+            </a>
+            <!-- Navigation: aria-label names the primary set; aria-current exposes the active route. -->
+            <nav class="primary-nav" aria-label="Основна навигация">
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="index.html" aria-current="page">Табло</a></li>
+                    <li><a class="nav-link" href="offers.html">Оферти</a></li>
+                    <li><a class="nav-link" href="analysis.html">Анализ</a></li>
+                    <li><a class="nav-link" href="requirements.html">Задание</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <span class="analyst-chip">Изглед: Анализатор</span>
+                <!-- Button: Enter/Space opens a native modal; Escape closes and restores focus. -->
+                <button class="icon-button" type="button" data-action="open-dialog" data-dialog-target="#prototype-dialog" aria-label="Отвори информация за прототипа">?</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Experimental boundary: visible text, icon, and contrast state the non-production status. -->
+    <div class="boundary-banner">
+        <div class="boundary-inner">Вътрешен експериментален прототип. Синтетични данни · Не е инвестиционен съвет.</div>
+    </div>
+
+    <!--
+      Main dashboard
+      Design intent: Editorial hero first, then an Analyst task queue and evidence hierarchy.
+      Target: Two-column desktop presentation that preserves reading order when stacked.
+    -->
+    <main class="page-main" id="main-content">
+        <!-- Hero: primary message and bounded portfolio metrics for the active Analyst view. -->
+        <section class="hero-grid" aria-labelledby="dashboard-title">
+            <div class="hero-copy">
+                <p class="eyebrow">Работно пространство / 31.07.2026</p>
+                <h1 id="dashboard-title">По-малко шум. Повече видими допускания.</h1>
+                <p>Прегледайте синтетични жилищни примери, сравнете до пет записа и проследете как всяка промяна влияе върху паричния поток, риска и увереността.</p>
+                <div class="cluster">
+                    <!-- Link: Enter starts the main Analyst journey on the combined offers route. -->
+                    <a class="button" href="offers.html">Преглед на 12 оферти</a>
+                    <!-- Link: Enter opens the full local product specification. -->
+                    <a class="button button--secondary" href="requirements.html">Отвори заданието</a>
+                </div>
+            </div>
+            <aside class="hero-side" aria-label="Обобщение на демонстрационния набор">
+                <div class="hero-kpis">
+                    <div>
+                        <span class="metric-label">Синтетични оферти</span>
+                        <strong class="metric-value">12</strong>
+                        <span>точно осем квартала</span>
+                    </div>
+                    <div>
+                        <span class="metric-label">За човешки преглед</span>
+                        <strong class="metric-value">7</strong>
+                        <span>липси, риск или дубликат</span>
+                    </div>
+                    <div>
+                        <span class="metric-label">Валута</span>
+                        <strong class="metric-value">EUR</strong>
+                        <span>без смесване на стойности</span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Analyst tasks: the first operational block keeps next actions explicit. -->
+        <section class="section-block" aria-labelledby="tasks-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Днес</p>
+                    <h2 id="tasks-title">Задачи на Анализатора</h2>
+                </div>
+                <p>Това са демонстрационни стъпки. Нито една не извършва правно, финансово или одобрително действие.</p>
+            </div>
+            <div class="dashboard-grid">
+                <article class="card span-7">
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="task-number">1</span>
+                            <span><strong>Провери изключенията</strong><br><span class="muted">2 записа не покриват твърдите примерни ограничения.</span></span>
+                            <a class="button button--quiet button--small" href="offers.html">Към офертите</a>
+                        </li>
+                        <li class="task-item">
+                            <span class="task-number">2</span>
+                            <span><strong>Разгледай възможния дубликат</strong><br><span class="muted">Сигналът е обясним и чака човешко решение.</span></span>
+                            <a class="button button--quiet button--small" href="offers.html#offer-002">Провери</a>
+                        </li>
+                        <li class="task-item">
+                            <span class="task-number">3</span>
+                            <span><strong>Промени базовия сценарий</strong><br><span class="muted">Виж ефекта върху печалба, ROI, NPV и чувствителност.</span></span>
+                            <a class="button button--quiet button--small" href="analysis.html">Към анализа</a>
+                        </li>
+                    </ul>
+                </article>
+                <aside class="card card--lime span-5">
+                    <p class="eyebrow">Критична граница</p>
+                    <h2>Агрегатът не е доказателство.</h2>
+                    <p>НСИ, БНБ и Eurostat дават контекст. Те не потвърждават цена, наем, кредит или качество на конкретен имот.</p>
+                    <span class="status status--warning">Задължителна проверка от човек</span>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Highlighted offers: JavaScript renders exactly three canonical records without fetch(). -->
+        <section class="section-block" aria-labelledby="highlights-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Фиксиран набор v1.0.0</p>
+                    <h2 id="highlights-title">Три примера за първи преглед</h2>
+                </div>
+                <p>Картите идват от същите локални стойности като JSON файловете.</p>
+            </div>
+            <div class="mini-offers" id="highlighted-offers">
+                <noscript>
+                    <div class="notice notice--warning"><p>За интерактивните карти е нужен JavaScript. Отворете data/offers.json за пълния локален набор.</p></div>
+                </noscript>
+            </div>
+        </section>
+
+        <!-- Official indicators: bounded values are visually separated from the synthetic offer workflow. -->
+        <section class="section-block dashboard-grid" aria-labelledby="indicators-title">
+            <article class="card span-8">
+                <div class="card-header">
+                    <div>
+                        <p class="eyebrow">Официален контекст</p>
+                        <h2 id="indicators-title">Снимки, не входове за оферта</h2>
+                    </div>
+                    <span class="status status--info">Изтеглено 31.07.2026</span>
+                </div>
+                <div class="indicator-grid">
+                    <div class="indicator">
+                        <span class="metric-label">НСИ · София · Q1 2026</span>
+                        <strong class="metric-value">+5,8%</strong>
+                        <span>спрямо предходното тримесечие</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="metric-label">БНБ · юни 2026</span>
+                        <strong class="metric-value">2,41%</strong>
+                        <span>средна лихва, нов жилищен бизнес</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="metric-label">Eurostat · България · Q1</span>
+                        <strong class="metric-value">+14,8%</strong>
+                        <span>годишна промяна на HPI</span>
+                    </div>
+                    <div class="indicator">
+                        <span class="metric-label">Софияплан</span>
+                        <strong class="metric-value">Метаданни</strong>
+                        <span>геометрията е блокирана до права</span>
+                    </div>
+                </div>
+            </article>
+            <aside class="card span-4">
+                <p class="eyebrow">Качество на данните</p>
+                <h2>Видими ограничения</h2>
+                <ul>
+                    <li>12/12 записа са синтетични</li>
+                    <li>2 твърдо изключени примера</li>
+                    <li>2 сигнала за възможен дубликат</li>
+                    <li>0 копирани геометрии</li>
+                    <li>4 официални ограничени снимки</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- Governance overview: describes inactive responsibilities without role switching or authorization simulation. -->
+        <section class="section-block" aria-labelledby="governance-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Отговорности, не активни роли</p>
+                    <h2 id="governance-title">Какво остава извън този изглед</h2>
+                </div>
+                <p>Прототипът е само за Анализатор и не симулира вход, права или одобрение.</p>
+            </div>
+            <div class="dashboard-grid">
+                <article class="card span-6">
+                    <h3>Администратор</h3>
+                    <p>В бъдещ продукт управлява източници, версии, потребители, справочници и качество. Тук няма административни контроли.</p>
+                    <span class="status status--warning">Описано, но неактивно</span>
+                </article>
+                <article class="card span-6">
+                    <h3>Одобряващ</h3>
+                    <p>В бъдещ продукт преглежда заключени анализи, предупреждения и доказателства. Тук решението остава необвързваща чернова.</p>
+                    <span class="status status--warning">Описано, но неактивно</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- Offline guidance: short operational instructions support direct file-protocol use. -->
+        <section class="section-block">
+            <div class="notice">
+                <div>
+                    <strong>Работи директно от папката.</strong>
+                    <p>Всички данни, шрифт, лого, стилове и изчисления са локални. Не е нужен сървър, инсталация или мрежова заявка.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer: repeats the prototype boundary and offers a visible local reset. -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p><strong>ATISTAT · Вътрешен експериментален прототип</strong><br>Само за демонстрация на концепция. Човешката проверка е задължителна.</p>
+            <!-- Button: Enter/Space clears only versioned local prototype preferences, then reloads. -->
+            <button class="button button--quiet button--small" type="button" data-action="reset-prototype">Нулирай локалното състояние</button>
+        </div>
+    </footer>
+
+    <!-- Dialog: native modal; Escape closes, backdrop click closes, and focus returns to the trigger. -->
+    <dialog id="prototype-dialog" aria-labelledby="prototype-dialog-title">
+        <div class="dialog-body">
+            <p class="eyebrow">Граница на демонстрацията</p>
+            <h2 id="prototype-dialog-title">Това не е продукционна система.</h2>
+            <p>Записите са синтетични. Формулите и праговете са инспектируеми, но неодобрени. Няма автоматични правни, финансови или одобрителни действия.</p>
+            <ul>
+                <li>Активен е само изглед „Анализатор“.</li>
+                <li>Състоянието се пази локално, когато браузърът позволява.</li>
+                <li>Официалните данни са ограничени справочни снимки.</li>
+            </ul>
+        </div>
+        <div class="dialog-actions">
+            <!-- Button: Enter/Space closes the dialog and restores focus to the invoking help control. -->
+            <button class="button" type="button" data-action="close-dialog">Разбирам</button>
+        </div>
+    </dialog>
+
+    <!-- Live status: aria-live politely announces automatic fallback without interrupting current work. -->
+    <div class="notice notice--warning storage-notice" id="storage-notice" role="status" aria-live="polite" hidden>
+        <p data-storage-message>Използва се временна памет.</p>
+    </div>
+</body>
+</html>

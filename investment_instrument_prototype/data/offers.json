@@ -1,0 +1,793 @@
+{
+  "datasetId": "synthetic-sofia-offers",
+  "version": "1.0.0",
+  "generatedAt": "2026-07-31",
+  "currency": "EUR",
+  "classification": "synthetic",
+  "noticeBg": "Всички 12 записа са изрично синтетични и не са реални оферти, оценки или препоръки.",
+  "offers": [
+    {
+      "id": "offer-001",
+      "title": "Двустаен близо до градски транспорт",
+      "neighborhood": "Лозенец",
+      "neighborhoodId": "lozenets",
+      "priceEur": 168000,
+      "areaSqm": 67,
+      "rooms": 2,
+      "floor": 4,
+      "buildYear": 2008,
+      "conditionBg": "За частичен ремонт",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-001-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 92,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.98
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 34,
+        "band": "среден",
+        "components": {
+          "data": 18,
+          "market": 48,
+          "execution": 36
+        }
+      },
+      "confidence": {
+        "score": 78,
+        "band": "средна",
+        "reasonsBg": [
+          "Попълнени ключови демонстрационни полета",
+          "Няма проверка на реален документ"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": true,
+        "rank": 1,
+        "pricePerSqmEur": 2507.46,
+        "estimatedRepairEur": 22000,
+        "baseFlipProfitEur": 28150
+      }
+    },
+    {
+      "id": "offer-002",
+      "title": "Тристаен с южно изложение",
+      "neighborhood": "Лозенец",
+      "neighborhoodId": "lozenets",
+      "priceEur": 238000,
+      "areaSqm": 101,
+      "rooms": 3,
+      "floor": 3,
+      "buildYear": 1998,
+      "conditionBg": "Поддържан",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-002-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 88,
+        "status": "review",
+        "missingFields": [
+          "такса управление"
+        ]
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "possible",
+        "groupId": "duplicate-demo-a",
+        "confidence": 0.64
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 41,
+        "band": "среден",
+        "components": {
+          "data": 34,
+          "market": 52,
+          "execution": 38
+        }
+      },
+      "confidence": {
+        "score": 69,
+        "band": "средна",
+        "reasonsBg": [
+          "Липсва един разход",
+          "Възможен дубликат"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": false,
+        "rank": 7,
+        "pricePerSqmEur": 2356.44,
+        "estimatedRepairEur": 16000,
+        "baseFlipProfitEur": 17400
+      }
+    },
+    {
+      "id": "offer-003",
+      "title": "Компактен двустаен до метро",
+      "neighborhood": "Младост 1",
+      "neighborhoodId": "mladost-1",
+      "priceEur": 132000,
+      "areaSqm": 61,
+      "rooms": 2,
+      "floor": 6,
+      "buildYear": 2012,
+      "conditionBg": "Готов за отдаване",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-003-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 95,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.99
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 26,
+        "band": "нисък",
+        "components": {
+          "data": 14,
+          "market": 34,
+          "execution": 28
+        }
+      },
+      "confidence": {
+        "score": 84,
+        "band": "висока",
+        "reasonsBg": [
+          "Пълни демонстрационни полета",
+          "Стабилен базов сценарий"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": true,
+        "rank": 2,
+        "pricePerSqmEur": 2163.93,
+        "estimatedRepairEur": 9000,
+        "baseFlipProfitEur": 24700
+      }
+    },
+    {
+      "id": "offer-004",
+      "title": "Тристаен за обновяване",
+      "neighborhood": "Младост 1",
+      "neighborhoodId": "mladost-1",
+      "priceEur": 154000,
+      "areaSqm": 82,
+      "rooms": 3,
+      "floor": 2,
+      "buildYear": 1986,
+      "conditionBg": "За основен ремонт",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-004-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 82,
+        "status": "review",
+        "missingFields": [
+          "състояние на общи части"
+        ]
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.93
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 49,
+        "band": "среден",
+        "components": {
+          "data": 31,
+          "market": 42,
+          "execution": 66
+        }
+      },
+      "confidence": {
+        "score": 63,
+        "band": "средна",
+        "reasonsBg": [
+          "Ремонтният обхват изисква оглед",
+          "Частична липса на данни"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": false,
+        "rank": 5,
+        "pricePerSqmEur": 1878.05,
+        "estimatedRepairEur": 31500,
+        "baseFlipProfitEur": 21800
+      }
+    },
+    {
+      "id": "offer-005",
+      "title": "Нов двустаен с тераса",
+      "neighborhood": "Манастирски ливади",
+      "neighborhoodId": "manastirski-livadi",
+      "priceEur": 145000,
+      "areaSqm": 72,
+      "rooms": 2,
+      "floor": 5,
+      "buildYear": 2023,
+      "conditionBg": "На шпакловка и замазка",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-005-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 90,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.96
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 38,
+        "band": "среден",
+        "components": {
+          "data": 20,
+          "market": 43,
+          "execution": 52
+        }
+      },
+      "confidence": {
+        "score": 76,
+        "band": "средна",
+        "reasonsBg": [
+          "Пълни структурирани полета",
+          "Довършването остава допускане"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": true,
+        "rank": 3,
+        "pricePerSqmEur": 2013.89,
+        "estimatedRepairEur": 27000,
+        "baseFlipProfitEur": 26500
+      }
+    },
+    {
+      "id": "offer-006",
+      "title": "Семеен тристаен с паркомясто",
+      "neighborhood": "Манастирски ливади",
+      "neighborhoodId": "manastirski-livadi",
+      "priceEur": 192000,
+      "areaSqm": 96,
+      "rooms": 3,
+      "floor": 7,
+      "buildYear": 2021,
+      "conditionBg": "Завършен",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-006-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 86,
+        "status": "review",
+        "missingFields": [
+          "отделна цена на паркомясто"
+        ]
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "possible",
+        "groupId": "duplicate-demo-a",
+        "confidence": 0.58
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 44,
+        "band": "среден",
+        "components": {
+          "data": 36,
+          "market": 49,
+          "execution": 45
+        }
+      },
+      "confidence": {
+        "score": 67,
+        "band": "средна",
+        "reasonsBg": [
+          "Комбинирана цена",
+          "Нужна е проверка за дубликат"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": false,
+        "rank": 8,
+        "pricePerSqmEur": 2000,
+        "estimatedRepairEur": 12000,
+        "baseFlipProfitEur": 12800
+      }
+    },
+    {
+      "id": "offer-007",
+      "title": "Двустаен в нова сграда",
+      "neighborhood": "Кръстова вада",
+      "neighborhoodId": "krastova-vada",
+      "priceEur": 158000,
+      "areaSqm": 69,
+      "rooms": 2,
+      "floor": 3,
+      "buildYear": 2025,
+      "conditionBg": "За довършване",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-007-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 89,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.95
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 39,
+        "band": "среден",
+        "components": {
+          "data": 21,
+          "market": 46,
+          "execution": 51
+        }
+      },
+      "confidence": {
+        "score": 74,
+        "band": "средна",
+        "reasonsBg": [
+          "Пълни демонстрационни данни",
+          "Довършването изисква количествена сметка"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": true,
+        "rank": 4,
+        "pricePerSqmEur": 2289.86,
+        "estimatedRepairEur": 24500,
+        "baseFlipProfitEur": 23100
+      }
+    },
+    {
+      "id": "offer-008",
+      "title": "Тристаен с гледка към Витоша",
+      "neighborhood": "Кръстова вада",
+      "neighborhoodId": "krastova-vada",
+      "priceEur": 224000,
+      "areaSqm": 108,
+      "rooms": 3,
+      "floor": 8,
+      "buildYear": 2024,
+      "conditionBg": "Завършен",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-008-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 91,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.97
+      },
+      "hardConstraintExcluded": true,
+      "exclusionReasonsBg": [
+        "Цена над демонстрационния лимит 210 000 EUR"
+      ],
+      "risk": {
+        "score": 47,
+        "band": "среден",
+        "components": {
+          "data": 19,
+          "market": 68,
+          "execution": 38
+        }
+      },
+      "confidence": {
+        "score": 72,
+        "band": "средна",
+        "reasonsBg": [
+          "Добро качество на записа",
+          "Не покрива твърдото ценово ограничение"
+        ]
+      },
+      "comparison": {
+        "eligible": false,
+        "selectedByDefault": false,
+        "rank": null,
+        "pricePerSqmEur": 2074.07,
+        "estimatedRepairEur": 11000,
+        "baseFlipProfitEur": 9600
+      }
+    },
+    {
+      "id": "offer-009",
+      "title": "Класически апартамент за обновяване",
+      "neighborhood": "Оборище",
+      "neighborhoodId": "oborishte",
+      "priceEur": 206000,
+      "areaSqm": 88,
+      "rooms": 3,
+      "floor": 2,
+      "buildYear": 1942,
+      "conditionBg": "За основен ремонт",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-009-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 76,
+        "status": "warning",
+        "missingFields": [
+          "конструктивно обследване",
+          "статут на преустройства"
+        ]
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.9
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 67,
+        "band": "висок",
+        "components": {
+          "data": 62,
+          "market": 47,
+          "execution": 82
+        }
+      },
+      "confidence": {
+        "score": 48,
+        "band": "ниска",
+        "reasonsBg": [
+          "Липсват две ключови проверки",
+          "Висока ремонтна неопределеност"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": false,
+        "rank": 10,
+        "pricePerSqmEur": 2340.91,
+        "estimatedRepairEur": 48000,
+        "baseFlipProfitEur": 6200
+      }
+    },
+    {
+      "id": "offer-010",
+      "title": "Светъл двустаен в поддържана сграда",
+      "neighborhood": "Изток",
+      "neighborhoodId": "iztok",
+      "priceEur": 179000,
+      "areaSqm": 74,
+      "rooms": 2,
+      "floor": 5,
+      "buildYear": 2004,
+      "conditionBg": "Частично обновен",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-010-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 93,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.98
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 31,
+        "band": "нисък",
+        "components": {
+          "data": 16,
+          "market": 45,
+          "execution": 29
+        }
+      },
+      "confidence": {
+        "score": 81,
+        "band": "висока",
+        "reasonsBg": [
+          "Пълни демонстрационни данни",
+          "Умерен ремонтен обхват"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": true,
+        "rank": 6,
+        "pricePerSqmEur": 2418.92,
+        "estimatedRepairEur": 17000,
+        "baseFlipProfitEur": 19600
+      }
+    },
+    {
+      "id": "offer-011",
+      "title": "Студио с потенциал за наем",
+      "neighborhood": "Студентски град",
+      "neighborhoodId": "studentski-grad",
+      "priceEur": 96000,
+      "areaSqm": 43,
+      "rooms": 1,
+      "floor": 6,
+      "buildYear": 2018,
+      "conditionBg": "Обзаведен",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-011-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 87,
+        "status": "review",
+        "missingFields": [
+          "история на заетостта"
+        ]
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.96
+      },
+      "hardConstraintExcluded": true,
+      "exclusionReasonsBg": [
+        "Площ под демонстрационния минимум 50 m²"
+      ],
+      "risk": {
+        "score": 43,
+        "band": "среден",
+        "components": {
+          "data": 35,
+          "market": 54,
+          "execution": 37
+        }
+      },
+      "confidence": {
+        "score": 66,
+        "band": "средна",
+        "reasonsBg": [
+          "Липсва история на заетост",
+          "Не покрива твърдото площно ограничение"
+        ]
+      },
+      "comparison": {
+        "eligible": false,
+        "selectedByDefault": false,
+        "rank": null,
+        "pricePerSqmEur": 2232.56,
+        "estimatedRepairEur": 7000,
+        "baseFlipProfitEur": 14200
+      }
+    },
+    {
+      "id": "offer-012",
+      "title": "Двустаен в развиваща се зона",
+      "neighborhood": "Овча купел",
+      "neighborhoodId": "ovcha-kupel",
+      "priceEur": 118000,
+      "areaSqm": 64,
+      "rooms": 2,
+      "floor": 4,
+      "buildYear": 2020,
+      "conditionBg": "Завършен",
+      "classification": "synthetic",
+      "synthetic": true,
+      "syntheticNoticeBg": "СИНТЕТИЧНА ОФЕРТА — не е реална обява.",
+      "provenance": {
+        "sourceId": "source-synthetic-offers-v1",
+        "recordVersion": "offer-012-v1",
+        "createdAt": "2026-07-31",
+        "transformation": "Фиксиран демонстрационен запис без външен първоизточник."
+      },
+      "version": 1,
+      "quality": {
+        "score": 91,
+        "status": "complete",
+        "missingFields": []
+      },
+      "freshness": {
+        "status": "fixed-demo-snapshot",
+        "observedAt": "2026-07-31",
+        "ageDays": 0
+      },
+      "duplicate": {
+        "status": "unique",
+        "groupId": null,
+        "confidence": 0.97
+      },
+      "hardConstraintExcluded": false,
+      "exclusionReasonsBg": [],
+      "risk": {
+        "score": 29,
+        "band": "нисък",
+        "components": {
+          "data": 17,
+          "market": 38,
+          "execution": 30
+        }
+      },
+      "confidence": {
+        "score": 80,
+        "band": "висока",
+        "reasonsBg": [
+          "Пълни демонстрационни данни",
+          "Покрива твърдите ограничения"
+        ]
+      },
+      "comparison": {
+        "eligible": true,
+        "selectedByDefault": false,
+        "rank": 5,
+        "pricePerSqmEur": 1843.75,
+        "estimatedRepairEur": 10500,
+        "baseFlipProfitEur": 22900
+      }
+    }
+  ]
+}

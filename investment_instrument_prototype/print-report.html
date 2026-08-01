@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+  print-report.html: Standalone browser-printable example analysis report.
+  Component: Printable Report — preserves synthetic labels, sources, calculations, warnings, and human decision.
+-->
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Печатен примерен отчет от експерименталния инвестиционен прототип на ATISTAT.">
+    <title>Печатен отчет · analysis-offer-001-v1</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body data-page="print-report" data-role="analyst">
+    <!--
+      Print controls
+      Design intent: Keep browser “Save as PDF” guidance immediately available without entering primary navigation.
+      Keyboard: Enter follows Back; Enter/Space invokes print; the entire control bar is hidden on paper.
+    -->
+    <nav class="print-controls" aria-label="Контроли за печатния отчет">
+        <a class="button button--quiet button--small" href="analysis.html">← Обратно към анализа</a>
+        <button class="button button--small" type="button" data-action="print">Печат / Save as PDF</button>
+    </nav>
+
+    <!-- Experimental boundary: remains visible in the saved PDF and on paper. -->
+    <div class="boundary-banner">
+        <div class="boundary-inner">Вътрешен експериментален прототип · ПРИМЕРНИ синтетични данни · Не е инвестиционен съвет</div>
+    </div>
+
+    <!--
+      Report document
+      Design intent: A restrained A4-friendly evidence record with warnings before detailed calculations.
+      Target: Browser print and “Save as PDF”; interactive controls are excluded from the printed result.
+    -->
+    <main class="report-shell" id="report-content">
+        <!-- Report header: identity, synthetic status, immutable identifiers, and model version. -->
+        <header class="report-header">
+            <div>
+                <p class="eyebrow">Примерен инвестиционен анализ</p>
+                <h1>Двустаен близо до градски транспорт</h1>
+                <p><span class="status status--danger">Не е реална оферта</span> <span class="status status--warning">Чака човешки преглед</span></p>
+            </div>
+            <img src="assets/images/atistat-logo-outlined.svg" alt="ATISTAT">
+        </header>
+
+        <section class="report-meta" aria-label="Идентификатори на отчета">
+            <div class="card card--flat"><span class="metric-label">Анализ</span><strong class="mono">analysis-offer-001-v1</strong></div>
+            <div class="card card--flat"><span class="metric-label">Версия</span><strong>1</strong></div>
+            <div class="card card--flat"><span class="metric-label">Модел</span><strong class="mono">core-demo-1.0</strong></div>
+        </section>
+
+        <!-- Print guidance: visible on screen but retained as useful opening guidance if included in PDF. -->
+        <section class="notice report-section" aria-labelledby="pdf-guidance-title">
+            <div>
+                <strong id="pdf-guidance-title">Как да запазите PDF</strong>
+                <p>Изберете „Печат / Save as PDF“, после изберете системната опция “Save as PDF”. Няма вграден генератор на PDF.</p>
+            </div>
+        </section>
+
+        <!-- Warnings: placed early and never hidden by print styles. -->
+        <section class="notice notice--danger report-section" aria-labelledby="report-warning-title">
+            <div>
+                <strong id="report-warning-title">Задължителни предупреждения</strong>
+                <ul>
+                    <li>Офертата, входовете и резултатите са синтетични и ПРИМЕРНИ.</li>
+                    <li>Формулите и праговете са експериментални и неодобрени.</li>
+                    <li>Официалните агрегати не доказват цена или качество на имот.</li>
+                    <li>Отчетът не е инвестиционен, кредитен, правен, данъчен или оценителски съвет.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Offer and assumptions: all monetary values are numeric EUR. -->
+        <section class="report-section" aria-labelledby="report-offer-title">
+            <p class="eyebrow">Синтетична оферта</p>
+            <h2 id="report-offer-title">offer-001 · Лозенец</h2>
+            <table>
+                <tbody>
+                    <tr><th scope="row">Класификация</th><td>synthetic · Не е реална оферта</td></tr>
+                    <tr><th scope="row">Запис</th><td class="mono">offer-001-v1</td></tr>
+                    <tr><th scope="row">Цена</th><td class="numeric">168 000 EUR</td></tr>
+                    <tr><th scope="row">Площ</th><td class="numeric">67 m²</td></tr>
+                    <tr><th scope="row">Състояние</th><td>За частичен ремонт</td></tr>
+                    <tr><th scope="row">Свежест</th><td>Фиксирана демонстрационна снимка · 31.07.2026</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Acquisition details: visible rates and EUR components support recalculation review. -->
+        <section class="report-section" aria-labelledby="report-acquisition-title">
+            <p class="eyebrow">Допускания и придобиване</p>
+            <h2 id="report-acquisition-title">Начална стойност</h2>
+            <table>
+                <thead><tr><th scope="col">Компонент</th><th scope="col">Вход</th><th scope="col">Резултат EUR</th></tr></thead>
+                <tbody>
+                    <tr><td>Покупна цена</td><td>168 000 EUR</td><td class="numeric">168 000</td></tr>
+                    <tr><td>Местен данък</td><td>0,03</td><td class="numeric">5 040</td></tr>
+                    <tr><td>Нотариални разходи</td><td>1 100 EUR</td><td class="numeric">1 100</td></tr>
+                    <tr><td>Вписване</td><td>168 EUR</td><td class="numeric">168</td></tr>
+                    <tr><td>Брокер</td><td>0,024</td><td class="numeric">4 032</td></tr>
+                    <tr><td>Банкови разходи</td><td>900 EUR</td><td class="numeric">900</td></tr>
+                    <tr><td>Ремонт</td><td>22 000 EUR</td><td class="numeric">22 000</td></tr>
+                    <tr><th scope="row">Общо</th><td></td><th class="numeric">201 240 EUR</th></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Repair plan: itemized subtotal and contingency keep uncertainty explicit. -->
+        <section class="report-section" aria-labelledby="report-repair-title">
+            <p class="eyebrow">Ремонт</p>
+            <h2 id="report-repair-title">Примерен бюджет с резерв</h2>
+            <table>
+                <tbody>
+                    <tr><th scope="row">Подови настилки и боядисване</th><td class="numeric">7 200 EUR</td></tr>
+                    <tr><th scope="row">Кухня и уреди</th><td class="numeric">8 600 EUR</td></tr>
+                    <tr><th scope="row">Баня и инсталации</th><td class="numeric">4 200 EUR</td></tr>
+                    <tr><th scope="row">Резерв</th><td class="numeric">2 000 EUR</td></tr>
+                    <tr><th scope="row">Общо</th><th class="numeric">22 000 EUR</th></tr>
+                </tbody>
+            </table>
+            <p>Ограничение: количествата не са потвърдени с оглед или количествено-стойностна сметка.</p>
+        </section>
+
+        <!-- Financing: annuity result is an illustration, not a bank offer. -->
+        <section class="report-section" aria-labelledby="report-financing-title">
+            <p class="eyebrow">Финансиране</p>
+            <h2 id="report-financing-title">Анюитетен пример</h2>
+            <table>
+                <tbody>
+                    <tr><th scope="row">Главница</th><td class="numeric">120 000 EUR</td></tr>
+                    <tr><th scope="row">Годишна лихва</th><td class="numeric">2,40%</td></tr>
+                    <tr><th scope="row">Срок</th><td class="numeric">240 месеца</td></tr>
+                    <tr><th scope="row">Месечно плащане</th><td class="numeric">630,05 EUR</td></tr>
+                    <tr><th scope="row">Статус</th><td>Демонстрация; не е банкова оферта или ГПР</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Cash flows and indicators: signed periods and final metrics are shown together. -->
+        <section class="report-section" aria-labelledby="report-cashflow-title">
+            <p class="eyebrow">Парични потоци и показатели</p>
+            <h2 id="report-cashflow-title">Базов пример</h2>
+            <table>
+                <thead><tr><th scope="col">Период</th><th scope="col">Категория</th><th scope="col">Поток EUR</th></tr></thead>
+                <tbody>
+                    <tr><td>0</td><td>Собствен капитал</td><td class="numeric">−91 740</td></tr>
+                    <tr><td>1</td><td>Ремонт</td><td class="numeric">−11 000</td></tr>
+                    <tr><td>2</td><td>Ремонт</td><td class="numeric">−11 000</td></tr>
+                    <tr><td>3–5</td><td>Държане и финансиране</td><td class="numeric">−4 500</td></tr>
+                    <tr><td>6</td><td>Нетен изход след погасяване</td><td class="numeric">+117 650</td></tr>
+                </tbody>
+            </table>
+            <div class="report-meta">
+                <div class="card card--flat"><span class="metric-label">Нетна печалба</span><strong>25 910 EUR</strong></div>
+                <div class="card card--flat"><span class="metric-label">ROI</span><strong>12,24%</strong></div>
+                <div class="card card--flat"><span class="metric-label">NPV</span><strong>−2 567,34 EUR</strong></div>
+            </div>
+        </section>
+
+        <!-- Scenarios: all three named outcomes and their assumptions remain visible. -->
+        <section class="report-section" aria-labelledby="report-scenarios-title">
+            <p class="eyebrow">Сценарии</p>
+            <h2 id="report-scenarios-title">Песимистичен · базов · оптимистичен</h2>
+            <table>
+                <thead><tr><th scope="col">Сценарий</th><th scope="col">Продажна цена EUR</th><th scope="col">Ремонт EUR</th><th scope="col">Нетна печалба EUR</th><th scope="col">Основание</th></tr></thead>
+                <tbody>
+                    <tr><td>Песимистичен</td><td class="numeric">225 400</td><td class="numeric">24 200</td><td class="numeric">5 738</td><td>По-ниска цена, преразход, по-дълго държане</td></tr>
+                    <tr><td>Базов</td><td class="numeric">245 000</td><td class="numeric">22 000</td><td class="numeric">25 910</td><td>Текущи демонстрационни допускания</td></tr>
+                    <tr><td>Оптимистичен</td><td class="numeric">264 600</td><td class="numeric">20 900</td><td class="numeric">47 022</td><td>По-висока цена, икономия, по-кратко държане</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sensitivity: price changes and decision-change signal are preserved in print. -->
+        <section class="report-section" aria-labelledby="report-sensitivity-title">
+            <p class="eyebrow">Чувствителност</p>
+            <h2 id="report-sensitivity-title">Изходна цена ±8%</h2>
+            <table>
+                <thead><tr><th scope="col">Промяна</th><th scope="col">Продажна цена EUR</th><th scope="col">Нетна печалба EUR</th><th scope="col">Изисква преглед</th></tr></thead>
+                <tbody>
+                    <tr><td>−8%</td><td class="numeric">225 400</td><td class="numeric">6 898</td><td>Да</td></tr>
+                    <tr><td>0%</td><td class="numeric">245 000</td><td class="numeric">25 910</td><td>Не</td></tr>
+                    <tr><td>+8%</td><td class="numeric">264 600</td><td class="numeric">44 922</td><td>Не</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Risk and confidence: components and unapproved thresholds prevent opaque scoring. -->
+        <section class="report-section" aria-labelledby="report-risk-title">
+            <p class="eyebrow">Риск и увереност</p>
+            <h2 id="report-risk-title">Прозрачни демонстрационни оценки</h2>
+            <table>
+                <tbody>
+                    <tr><th scope="row">Риск</th><td>34 / 100 · среден</td><td>Данни 18 × 30%; Пазар 48 × 40%; Изпълнение 36 × 30%</td></tr>
+                    <tr><th scope="row">Увереност</th><td>78 / 100 · средна</td><td>Пълен синтетичен запис, без реални доказателства</td></tr>
+                    <tr><th scope="row">Прагове</th><td colspan="2">Експериментални и неодобрени</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Official indicators: bounded aggregate context remains separate from offer evidence. -->
+        <section class="report-section" aria-labelledby="report-indicators-title">
+            <p class="eyebrow">Официален контекст</p>
+            <h2 id="report-indicators-title">Агрегати, които не доказват офертата</h2>
+            <table>
+                <thead><tr><th scope="col">Издател</th><th scope="col">Наблюдение</th><th scope="col">Стойност</th><th scope="col">Ограничение</th></tr></thead>
+                <tbody>
+                    <tr><td>НСИ</td><td>София · Q1 2026 / Q4 2025</td><td>+5,8%</td><td>Не е оценка на квартал или имот</td></tr>
+                    <tr><td>БНБ</td><td>Нов жилищен бизнес · юни 2026</td><td>2,41%</td><td>Не е индивидуална кредитна оферта</td></tr>
+                    <tr><td>Eurostat</td><td>България · Q1 2026 / Q1 2025</td><td>+14,8%</td><td>Национален, не софийски агрегат</td></tr>
+                    <tr><td>Софияплан</td><td>Метаданни</td><td>Без геометрия</td><td>Блокирано до документирани права</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Provenance: dataset and model versions identify the exact example composition. -->
+        <section class="report-section" aria-labelledby="report-provenance-title">
+            <p class="eyebrow">Произход и версии</p>
+            <h2 id="report-provenance-title">Заключена композиция на примера</h2>
+            <ul class="mono">
+                <li>synthetic-sofia-offers@1.0.0 / offer-001-v1</li>
+                <li>market-indicators-demo@1.0.0</li>
+                <li>source-registry-demo@1.0.0</li>
+                <li>location-context-demo@1.0.0 · blocked-pending-rights</li>
+                <li>risk-demo-1.0 / core-demo-1.0</li>
+            </ul>
+        </section>
+
+        <!-- Human decision: preserves the required approval boundary without simulating authorization. -->
+        <section class="report-section" aria-labelledby="report-decision-title">
+            <p class="eyebrow">Човешко решение</p>
+            <h2 id="report-decision-title">Статус: чака преглед</h2>
+            <p><strong>Решение:</strong> няма избрано финално решение.</p>
+            <p><strong>Следваща допустима стъпка:</strong> реални правни, технически, пазарни, данъчни и финансови проверки от компетентни лица.</p>
+        </section>
+
+        <!-- Final limitations: print-safe closing statement keeps product boundary attached to the report. -->
+        <footer class="report-section">
+            <p><strong>Вътрешен експериментален прототип.</strong> Този документ е примерен HTML експорт за браузър “Save as PDF”. Не представлява нативно генериран PDF, одобрена методика или препоръка за сделка.</p>
+        </footer>
+    </main>
+
+    <!-- Live status: used only if browser file-protocol persistence falls back while this page is open. -->
+    <div class="notice notice--warning storage-notice" id="storage-notice" role="status" aria-live="polite" hidden>
+        <p data-storage-message>Използва се временна памет.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "datasetId": "location-context-demo",
+  "version": "1.0.0",
+  "status": "blocked-pending-rights",
+  "noticeBg": "Географските граници са блокирани до документиране на права. Не са копирани или измислени координати, полигони и GeoJSON.",
+  "source": {
+    "publisher": "ОП Софияплан",
+    "catalogUrl": "https://sofiaplan.bg/api/",
+    "datasetDescription": "Кандидат-данни за градски единици и квартален контекст",
+    "metadataReviewedAt": "2026-07-31",
+    "licenseRightsSpecifiedForSelectedCopy": false,
+    "geometryReuseDecision": "blocked-pending-documented-rights"
+  },
+  "neighborhoods": [
+    {
+      "id": "lozenets",
+      "nameBg": "Лозенец"
+    },
+    {
+      "id": "mladost-1",
+      "nameBg": "Младост 1"
+    },
+    {
+      "id": "manastirski-livadi",
+      "nameBg": "Манастирски ливади"
+    },
+    {
+      "id": "krastova-vada",
+      "nameBg": "Кръстова вада"
+    },
+    {
+      "id": "oborishte",
+      "nameBg": "Оборище"
+    },
+    {
+      "id": "iztok",
+      "nameBg": "Изток"
+    },
+    {
+      "id": "studentski-grad",
+      "nameBg": "Студентски град"
+    },
+    {
+      "id": "ovcha-kupel",
+      "nameBg": "Овча купел"
+    }
+  ]
+}
