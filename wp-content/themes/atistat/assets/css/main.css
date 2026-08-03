@@ -17,7 +17,7 @@
 	--green-d: #456a2c;
 	--ink: #30372c;
 	--muted: #6a6f61;
-	/* Deep project orange — category emphasis with 5.45:1 contrast on the cream card surface. */
+	/* Deep project orange — building-type emphasis with 5.45:1 contrast on the cream card surface. */
 	--project-accent: #a24600;
 	--cream: #f4f1e9;
 	--paper: #faf8f2;
@@ -1502,7 +1502,7 @@ dialog.at-selected-projects[data-lightbox-open] > .at-dialog__body {
 	.at-partners__list {
 		gap: 20px;
 	}
-	/* Stacked facts preserve the category-first reading order within narrow dialogs. */
+	/* Stacked facts preserve the four-field reading order within narrow dialogs. */
 	.at-gallery-project__facts {
 		grid-template-columns: 1fr;
 	}

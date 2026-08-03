@@ -415,6 +415,170 @@ TIMELINE_ONLY_PROJECT_COPY = {
         },
     },
 }
+PROJECT_DIALOG_COPY = {
+    "bg": {
+        "labels": ("Вид сграда", "Година", "Дейност", "Опит"),
+        "projects": {
+            "eos-matrix": (
+                "Офис сграда",
+                "2007",
+                "Управление и контрол на строително-инвестиционен проект",
+                "с Корект Проект",
+            ),
+            "montekanal": (
+                "Жилищна сграда",
+                "2011",
+                "Довършителни работи",
+                "с Инженерни Системи",
+            ),
+            "ema": (
+                "Логистична сграда",
+                "2015",
+                "Строителство",
+                "с Инженерни Системи",
+            ),
+            "elemag": (
+                "Жилищна сграда",
+                "2021",
+                "Строителство",
+                "с Инженерни Системи",
+            ),
+            "louis-ayer": (
+                "Апартамент",
+                "2024",
+                "Довършителни работи",
+                "с АТИСТАТ",
+            ),
+            "ubb-interlease": (
+                "Офис сграда",
+                "2025",
+                "Довършителни работи",
+                "с Инженерни Системи",
+            ),
+            "arcadia": (
+                "Апартамент",
+                "2025",
+                "Довършителни работи",
+                "с АТИСТАТ",
+            ),
+            "bebelan": (
+                "Офисно-складова сграда",
+                "2025",
+                "Довършителни работи",
+                "с Инженерни Системи",
+            ),
+            "power-properties": (
+                "Офисно-складова сграда",
+                "2025",
+                "Довършителни работи",
+                "с Инженерни Системи",
+            ),
+            "british-school-sofia": (
+                "Училищна сграда",
+                "2026",
+                "Строителство",
+                "с Инженерни Системи",
+            ),
+        },
+    },
+    "en": {
+        "labels": ("Building type", "Year", "Activity", "Experience"),
+        "projects": {
+            "eos-matrix": (
+                "Office building",
+                "2007",
+                "Construction and investment project management and supervision",
+                "with Correct Project",
+            ),
+            "montekanal": (
+                "Residential building",
+                "2011",
+                "Fit-out works",
+                "with Engineering Systems",
+            ),
+            "ema": (
+                "Logistics building",
+                "2015",
+                "Construction",
+                "with Engineering Systems",
+            ),
+            "elemag": (
+                "Residential building",
+                "2021",
+                "Construction",
+                "with Engineering Systems",
+            ),
+            "louis-ayer": (
+                "Apartment",
+                "2024",
+                "Fit-out works",
+                "with ATISTAT",
+            ),
+            "ubb-interlease": (
+                "Office building",
+                "2025",
+                "Fit-out works",
+                "with Engineering Systems",
+            ),
+            "arcadia": (
+                "Apartment",
+                "2025",
+                "Fit-out works",
+                "with ATISTAT",
+            ),
+            "bebelan": (
+                "Office and warehouse building",
+                "2025",
+                "Fit-out works",
+                "with Engineering Systems",
+            ),
+            "power-properties": (
+                "Office and warehouse building",
+                "2025",
+                "Fit-out works",
+                "with Engineering Systems",
+            ),
+            "british-school-sofia": (
+                "School building",
+                "2026",
+                "Construction",
+                "with Engineering Systems",
+            ),
+        },
+    },
+}
+FINAL_ELEMAG_DESCRIPTIONS = {
+    "bg": (
+        "Съвременната жилищна сграда Елемаг е проектирана и изпълнена с мисъл "
+        "за дълготрайност и комфорт за поколения напред. Отличава се с модерна "
+        "окачена фасада с плочи от ламинам и високоефективна топлоизолация, както "
+        "и с три подземни нива за гаражи, реализирани със специализирано укрепване "
+        "по границите на парцела. Прецизната организация на строителните процеси "
+        "и стриктният контрол на изпълнението осигуряват високо качество и "
+        "завършване на обекта в определения срок."
+    ),
+    "en": (
+        "The contemporary Elemag residential building was designed and built with "
+        "durability and comfort for generations to come in mind. It features a "
+        "modern curtain wall façade with Laminam slabs and high-efficiency thermal "
+        "insulation, as well as three underground garage levels constructed using "
+        "specialized shoring along the plot boundaries. Precise organization of the "
+        "construction processes and strict execution control ensure high quality "
+        "and completion of the project within the scheduled timeframe."
+    ),
+}
+FINAL_PROVEN_EXPERIENCE_COPY = {
+    "bg": (
+        "26 години в бранша, много реализирани проекти от различен мащаб и тип - "
+        "жилищни сгради, офиси, логистика, образование. Знаем как изглежда всеки "
+        "тип предизвикателство."
+    ),
+    "en": (
+        "With 26 years in the industry and many completed projects of different "
+        "scales and types - residential buildings, offices, logistics, and "
+        "education - we understand every kind of challenge."
+    ),
+}
 FULL_RESOLUTION_GALLERY_FILES = {
     "arcadia": tuple(
         f"Снимка {sequence} , интериор Аркадия.png"
@@ -1443,6 +1607,41 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     if description_match:
                         self.assertGreaterEqual(len(description_match.group(1)), 180)
 
+    def test_elemag_description_matches_final_localized_copy(self) -> None:
+        """Require the approved Elemag technical description without bold markup."""
+        for route, (language, _) in TIMELINE_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                project_start = content.index('data-project="elemag" data-name=')
+                project_end = content.index(
+                    '<div class="at-gallery-project"',
+                    project_start + 1,
+                )
+                project_markup = content[project_start:project_end]
+                expected = FINAL_ELEMAG_DESCRIPTIONS[language]
+                self.assertIn(
+                    f'<p class="at-gallery-project__description">{expected}</p>',
+                    project_markup,
+                )
+                self.assertNotRegex(
+                    project_markup,
+                    r"<(?:b|strong)>[^<]*(?:лам|Laminam)",
+                )
+
+    def test_proven_experience_matches_final_localized_copy(self) -> None:
+        """Require the approved many-projects claim without bold markup."""
+        for route, language in FAQ_ROUTES.items():
+            with self.subTest(route=route):
+                content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
+                expected = FINAL_PROVEN_EXPERIENCE_COPY[language]
+                self.assertIn(f"<p>{expected}</p>", content)
+                self.assertNotIn("над 8 реализирани проекта", content)
+                self.assertNotIn("more than 8 completed projects", content)
+                self.assertNotRegex(
+                    content,
+                    r"<(?:b|strong)>\s*(?:много реализирани проекти|many completed projects)",
+                )
+
     def test_timeline_project_cards_open_complete_localized_dialog_records(self) -> None:
         """Require ten full-card launchers and factual single-image records."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
@@ -1493,6 +1692,7 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                 localized_copy = TIMELINE_ONLY_PROJECT_COPY[language]
                 for project in TIMELINE_ONLY_PROJECTS:
                     expected = localized_copy["projects"][project]
+                    dialog_copy = PROJECT_DIALOG_COPY[language]
                     filename, dimensions = TIMELINE_ONLY_PROJECT_MEDIA[project]
                     project_match = re.search(
                         (
@@ -1506,15 +1706,16 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     )
                     self.assertIsNotNone(project_match, project)
                     project_markup = project_match.group(1) if project_match else ""
-                    for label, value in (
-                        (localized_copy["category_label"], expected["category"]),
-                        (localized_copy["year_label"], expected["year"]),
-                        (localized_copy["activity_label"], expected["activity"]),
+                    for label, value in zip(
+                        dialog_copy["labels"],
+                        dialog_copy["projects"][project],
                     ):
                         self.assertIn(
                             f"<div><dt>{label}</dt><dd>{value}</dd></div>",
                             project_markup,
                         )
+                    self.assertEqual(4, project_markup.count("<dt>"))
+                    self.assertEqual(4, project_markup.count("<dd>"))
                     self.assertIn('class="at-gallery-project__description"', project_markup)
                     self.assertNotIn('class="at-gallery-grid"', project_markup)
                     self.assertEqual(1, project_markup.count('class="at-project-image"'))
@@ -1792,9 +1993,20 @@ class StaticSiteIntegrityTests(unittest.TestCase):
         self.assertIn("dialog.at-selected-projects:not([open])", stylesheet)
 
     def test_gallery_dialog_uses_one_dynamic_project_heading(self) -> None:
-        """Keep expanded titles dynamic and category/year facts first in the body."""
+        """Keep dynamic titles and exact four-field project facts in reading order."""
         javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
+        stylesheet = SHARED_ASSET_PAIRS[1][0].read_text(encoding="utf-8")
         self.assertIn("activeContainer.dataset.name?.trim()", javascript)
+        self.assertIn(
+            "grid-template-columns: repeat(2, minmax(0, 1fr));",
+            stylesheet,
+        )
+        self.assertIn(
+            "/* Stacked facts preserve the four-field reading order within "
+            "narrow dialogs. */\n\t.at-gallery-project__facts {\n"
+            "\t\tgrid-template-columns: 1fr;",
+            stylesheet,
+        )
         for route, (language, _) in TIMELINE_ROUTES.items():
             with self.subTest(route=route):
                 content = (WORKSPACE_ROOT / route).read_text(encoding="utf-8")
@@ -1807,20 +2019,14 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     dialog_markup.count('class="at-gallery-project"'),
                 )
                 self.assertNotIn("<h3>", dialog_markup)
-                localized_copy = SELECTED_PROJECT_COPY[language]
-                for project in SELECTED_PROJECTS:
-                    expected = localized_copy["projects"][project]
-                    ordered_facts = (
-                        '<dl class="at-gallery-project__facts">\n'
-                        f'\t\t\t\t\t<div><dt>{localized_copy["category_label"]}</dt>'
-                        f'<dd>{expected["category"]}</dd></div>\n'
-                        f'\t\t\t\t\t<div><dt>{localized_copy["year_label"]}</dt>'
-                        f'<dd>{expected["year"]}</dd></div>\n'
-                        "\t\t\t\t</dl>"
-                    )
+                self.assertNotRegex(
+                    dialog_markup,
+                    r"<dt>(?:Категория|Category|Статус|Status)</dt>",
+                )
+                localized_copy = PROJECT_DIALOG_COPY[language]
+                for project in TIMELINE_PROJECTS:
                     project_start = dialog_markup.index(
                         f'data-project="{project}" '
-                        f'data-name="{expected["title"]}">'
                     )
                     project_end = dialog_markup.find(
                         '<div class="at-gallery-project"',
@@ -1829,15 +2035,30 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                     if project_end < 0:
                         project_end = len(dialog_markup)
                     project_markup = dialog_markup[project_start:project_end]
+                    ordered_rows = "\n".join(
+                        f"\t\t\t\t\t<div><dt>{label}</dt><dd>{value}</dd></div>"
+                        for label, value in zip(
+                            localized_copy["labels"],
+                            localized_copy["projects"][project],
+                        )
+                    )
+                    ordered_facts = (
+                        '<dl class="at-gallery-project__facts">\n'
+                        f"{ordered_rows}\n"
+                        "\t\t\t\t</dl>"
+                    )
                     self.assertIn(ordered_facts, project_markup)
+                    self.assertEqual(4, project_markup.count("<dt>"))
+                    self.assertEqual(4, project_markup.count("<dd>"))
                     self.assertLess(
                         project_markup.index("at-gallery-project__facts"),
                         project_markup.index("at-gallery-project__description"),
                     )
-                    self.assertLess(
-                        project_markup.index("at-gallery-project__description"),
-                        project_markup.index("at-gallery-grid"),
-                    )
+                    if project in SELECTED_PROJECTS:
+                        self.assertLess(
+                            project_markup.index("at-gallery-project__description"),
+                            project_markup.index("at-gallery-grid"),
+                        )
 
     def test_stakeholder_simplifications_and_project_links_are_consistent(self) -> None:
         """Require simplified contact/navigation UI without timeline-to-section links."""

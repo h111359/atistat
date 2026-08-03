@@ -14,9 +14,9 @@
 - Founder Hristin Haralanov's professional path anchors company experience and connects ATISTAT with Correct Project and Engineering Systems. 
 - Project records pair a project name with a service classification, featured image, static route, and WordPress project identifier.
 - Localization model uses Bulgarian and English static page variants linked by visible BG and EN controls. 
-- Homepage trust model uses experience duration, project count, project portfolio evidence, ЗАЩО АТИСТАТ differentiation, service process steps, and FAQ responses.
 - Direct-contact model offers phone, email, office map, WhatsApp, Viber, and Facebook/LinkedIn footer links without an on-site submission form.
 - Portfolio timeline merges thirteen milestones: three company records (Корект Проект 2006, Инженерни Системи 2008, ATISTAT 2024) and ten projects (EOS Matrix 2007, Montekanal 2011, EMA 2015, Elemag 2021, Apartment Louis Ayer 2024, UBB Interlease 2025, Apartment Arcadia 2025, Bebelan 2025, Power Properties 2025, and British School of Sofia 2026).
+- Homepage trust model uses experience duration, breadth of completed projects, project portfolio evidence, ЗАЩО АТИСТАТ differentiation, service process steps, and FAQ responses.
 
 ## Requirements
 
@@ -29,6 +29,7 @@
 - MUST NOT: Require third-party JavaScript libraries or a build pipeline for core front-end interactions. 
 - OPTIONAL: Outbound integrations may connect visitors to a map, messaging, social profiles, and related-company sites. 
 - MUST: Expose real-project timeline panels and responsive cards as keyboard-operable controls that open localized project information.
+- MUST: Keep shared project dialog free of Category and Status taxonomy while presenting localized building type, year, activity, and experience for every timeline project.
 
 ## Solution
 
@@ -56,7 +57,9 @@
 - Timeline interaction classifies ten real projects as full-surface native dialog controls, Correct Project and Engineering Systems as external links, and ATISTAT as selectable navigation content without a destination action.
 - Gallery-eligible projects (Elemag, Montekanal, UBB Interlease, Apartment Arcadia, Apartment Louis Ayer, Bebelan, Power Properties) retain noninteractive four-image mosaic previews from bounded 160x160 WebP assets in desktop panels and responsive cards; full-surface native project controls open the reusable filtered dialog with original project-scoped image sets and restore focus after close.
 - opit/index.html is synchronized with the English homepage timeline and dialog content, including thirteen milestones, ten project launchers, and ten localized project records.
-- Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized image-led cards in approved order; fixed-crop imagery pairs with five localized project facts and internal native dialog actions, while card articles remain programmatic in-page targets; shared native dialog retains ten localized project records, with EOS Matrix, EMA, and British School of Sofia available only from the timeline.
+- Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized image-led cards in approved order; fixed-crop imagery pairs with five localized card facts and internal native dialog actions, while shared dialog exposes ten records with building type, year, activity, and experience in responsive four-field grids; EOS Matrix, EMA, and British School of Sofia remain timeline-only launchers.
+- Homepage Proven Experience copy describes many completed projects without a fixed project-count claim across BG and EN routes.
+- Elemag dialog narrative identifies curtain-wall Laminam slabs and scheduled completion in synchronized BG and EN copy.
 
 ## File Structure
 
