@@ -30,6 +30,8 @@
 - OPTIONAL: Outbound integrations may connect visitors to a map, messaging, social profiles, and related-company sites. 
 - MUST: Expose real-project timeline panels and responsive cards as keyboard-operable controls that open localized project information.
 - MUST: Keep shared project dialog free of Category and Status taxonomy while presenting localized building type, year, activity, and experience for every timeline project.
+- MUST: Keep public English copy natural and consistent with American English across visible content, metadata, structured data, and accessibility text.
+- MUST NOT: Use accented facade spelling or em dashes in public English copy.
 
 ## Solution
 
@@ -60,6 +62,7 @@
 - Across index.html, index-bg.html, index-en.html, query-style BG and EN documents, and opit/index.html, Selected Projects presents seven localized image-led cards in approved order; fixed-crop imagery pairs with five localized card facts and internal native dialog actions, while shared dialog exposes ten records with building type, year, activity, and experience in responsive four-field grids; EOS Matrix, EMA, and British School of Sofia remain timeline-only launchers.
 - Homepage Proven Experience copy describes many completed projects without a fixed project-count claim across BG and EN routes.
 - Elemag dialog narrative identifies curtain-wall Laminam slabs and scheduled completion in synchronized BG and EN copy.
+- English homepage, experience, and standalone project copies share standardized American English terminology, established English project names, and localized service classifications.
 
 ## File Structure
 
@@ -94,7 +97,6 @@ Summary: Defines current public-facing Bulgarian company narrative, conversion s
 
 - Default fade styling hides marked content when JavaScript is unavailable or fails before reveal initialization. Source: main.css sets fade opacity to zero globally while main.js performs reveal activation.
 - Six project page families expose only project name and service classification without project narrative, facts, galleries, or outcome evidence. Source: proekti page content and exported project records remain minimal.
-- English project pages localize navigation and footer labels but retain Bulgarian project titles and service descriptions. Source: proekti project index-en.html variants contain Bulgarian main content.
 - Header and footer inline logos repeat the same eight HTML identifiers within the primary homepage. Source: index.html contains two occurrences each of svg1, namedview1, defs1, layer3, g1, layer2, text1, and text2.
 - index-bg.html diverges from index.html by approximately 400 lines because index.html carries an inline CSS block and additional sections not replicated in index-bg.html; each implementation pass widens this divergence further. Source: diff between index.html and index-bg.html.
 - Viber viber:// URI scheme produces no action on desktop browsers where Viber is not installed; all Viber link elements must include a descriptive title or aria-label to inform desktop users. Source: Viber URI scheme behavior.
