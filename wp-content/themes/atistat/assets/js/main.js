@@ -13,7 +13,6 @@
 	const TIMELINE_SCROLL_EDGE_TOLERANCE = 2;
 	const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 	const TOUCH_POINTER_QUERY = "(hover: none)";
-	const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 	const FLAGSHIP_PROJECT_ACTION_SELECTOR = "button.at-flagship__action[data-project]";
 	const TIMELINE_PROJECT_LAUNCHER_SELECTOR = (
 		"button.at-timeline-project-launcher[data-project]"
@@ -553,6 +552,19 @@
 	}
 
 	/**
+	 * Shows the project dialog with its sticky close control focused and body at the top.
+	 *
+	 * @param {Object} state - The initialized project dialog and focus state.
+	 * @returns {void}
+	 */
+	function showProjectDialogAtTop(state) {
+		state.dialog.showModal();
+		state.dialogCloseButton.focus({ preventScroll: true });
+		// Reset after focus so browser focus scrolling cannot move the real scroll owner.
+		state.dialogBody.scrollTop = 0;
+	}
+
+	/**
 	 * Filters and opens the native dialog for one project.
 	 *
 	 * @param {Object} state - The initialized project dialog and focus state.
@@ -575,8 +587,7 @@
 		if (!activeContainer) {
 			console.warn("Gallery project not found: " + projectId);
 			state.dialog.setAttribute("aria-label", state.defaultLabel);
-			state.dialog.showModal();
-			state.dialogCloseButton.focus();
+			showProjectDialogAtTop(state);
 			return;
 		}
 
@@ -584,10 +595,7 @@
 		const projectName = activeContainer.dataset.name?.trim() || state.defaultLabel;
 		state.dialog.setAttribute("aria-label", projectName);
 		state.dialogTitle.textContent = projectName;
-		activeContainer.scrollTop = 0;
-		state.dialog.showModal();
-		const firstFocusable = activeContainer.querySelector(FOCUSABLE_SELECTOR);
-		(firstFocusable || state.dialogCloseButton).focus();
+		showProjectDialogAtTop(state);
 	}
 
 	/**

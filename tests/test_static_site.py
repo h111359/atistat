@@ -2060,6 +2060,17 @@ class StaticSiteIntegrityTests(unittest.TestCase):
                             project_markup.index("at-gallery-grid"),
                         )
 
+    def test_project_dialog_opens_at_top_with_header_focus(self) -> None:
+        """Keep the scroll owner at zero and focus the sticky close control on open."""
+        javascript = SHARED_ASSET_PAIRS[0][0].read_text(encoding="utf-8")
+        self.assertIn("state.dialogBody.scrollTop = 0;", javascript)
+        self.assertIn(
+            "state.dialogCloseButton.focus({ preventScroll: true });",
+            javascript,
+        )
+        self.assertNotIn("activeContainer.scrollTop = 0;", javascript)
+        self.assertNotIn("activeContainer.querySelector(FOCUSABLE_SELECTOR)", javascript)
+
     def test_stakeholder_simplifications_and_project_links_are_consistent(self) -> None:
         """Require simplified contact/navigation UI without timeline-to-section links."""
         for route, (language, asset_prefix) in TIMELINE_ROUTES.items():
@@ -2191,6 +2202,7 @@ class BrowserSmokeTests(unittest.TestCase):
                 (768, 900),
                 (860, 900),
                 (861, 900),
+                (1024, 600),
                 (1024, 900),
                 (1440, 900),
             )

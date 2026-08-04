@@ -32,6 +32,7 @@
 - MUST: Keep shared project dialog free of Category and Status taxonomy while presenting localized building type, year, activity, and experience for every timeline project.
 - MUST: Keep public English copy natural and consistent with American English across visible content, metadata, structured data, and accessibility text.
 - MUST NOT: Use accented facade spelling or em dashes in public English copy.
+- MUST: Open every shared project dialog at top of content with initial focus on visible sticky close control, including reopenings after scrolling or large-image use.
 
 ## Solution
 
@@ -63,6 +64,8 @@
 - Homepage Proven Experience copy describes many completed projects without a fixed project-count claim across BG and EN routes.
 - Elemag dialog narrative identifies curtain-wall Laminam slabs and scheduled completion in synchronized BG and EN copy.
 - English homepage, experience, and standalone project copies share standardized American English terminology, established English project names, and localized service classifications.
+- Client-facing PDF report summarizes the English homepage editorial update with Bulgarian narrative, categorized examples, and complete before-and-after register.
+- Shared project-dialog opening is centralized across Selected Projects and desktop and responsive timeline launchers, with top-position initialization and launcher-focus restoration.
 
 ## File Structure
 
